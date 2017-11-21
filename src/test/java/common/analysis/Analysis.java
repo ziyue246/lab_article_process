@@ -42,4 +42,31 @@ public class Analysis {
 
         System.out.println(EnAnalysis.getSimilarity(a, b));
     }
+    @Test
+    public void test1() {
+        String a = "复杂系统管理与智能控制国家重点实验室";
+        String b = "复杂系统管理与控制国家重点实验室";
+
+        System.out.println(ZhAnalysis.getSimilarity(a, b));
+
+        a = "北京大学";
+        b = "北京科技大学";
+
+        System.out.println(ZhAnalysis.getSimilarity(a, b));
+
+        a = "北京大学";
+        b = "北京大学医学院";
+
+        System.out.println(ZhAnalysis.getSimilarity(a, b));
+
+        a = "北京大学";
+        b = "北京大学院";
+
+        System.out.println(ZhAnalysis.getSimilarity(a, b));
+
+        a = "北京大学";
+        b = "北京大学北京大学北京大学北京大学";
+
+        System.out.println(ZhAnalysis.getSimilarity(a, b));
+    }
 }

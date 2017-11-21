@@ -38,7 +38,6 @@ public class PaperService {
         return paperMapper.findAllDatas(inquireInfoData);
     }
 
-
     public List<PaperData> getDatasByPeriod(InquireInfoData inquireInfoData){
         return paperMapper.findDatasByPeriod(inquireInfoData);
     }

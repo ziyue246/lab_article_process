@@ -38,4 +38,40 @@
 
 
 
+
+    <resultMap id="BaseMergeResultMap" type="common.pojo.InstitutionData" >
+        <id column="id" 		        property="id" 			    jdbcType="INTEGER" />
+
+        <result column="id"				property="id"			    jdbcType="INTEGER" />
+        <result column="name_zh"		property="name_zh"			jdbcType="VARCHAR" />
+        <result column="name_en"		property="name_en"			jdbcType="VARCHAR" />
+        <result column="introduction"	property="introduction"		jdbcType="VARCHAR" />
+        <result column="insert_time"	property="insertTime"		jdbcType="TIMESTAMP" />
+
+    </resultMap>
+
+
+
+
+    <select id="findAllMergeDatas" parameterType="common.pojo.InquireInfoData" resultMap="BaseMergeResultMap">
+        select * from ${tableName}
+    </select>
+
+
+    <insert id="insertMerge" parameterType="common.pojo.InquireInfoData" >
+
+        INSERT INTO ${tableName}
+        ( name_zh,
+        name_en,
+        introduction,
+        insert_time)
+
+        VALUES
+        ( #{institutionData.nameZh,jdbcType=VARCHAR},
+        #{institutionData.nameEn,jdbcType=NUMERIC},
+        #{institutionData.introduction,jdbcType=VARCHAR},
+        #{authorData.insertTime,jdbcType=TIMESTAMP})
+
+    </insert>
+
 </mapper>

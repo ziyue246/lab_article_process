@@ -1,17 +1,14 @@
 package common.process.institution;
 
 import common.analysis.EnAnalysis;
-import common.pojo.InquireInfoData;
 import common.pojo.InstitutionData;
 import common.pojo.PaperData;
 import common.system.FileOperation;
-import common.system.Systemconfig;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -137,7 +134,7 @@ public class InstitutionProcess {
         return sb.toString();
     }
 
-    public void extractAndSave(List<PaperData> paperDataList,String tableName){
+    public HashMap<String,InstitutionData>  extractMerge(List<PaperData> paperDataList){
 
 
         //粗合并，名称相同即合并
@@ -192,17 +189,7 @@ public class InstitutionProcess {
             }
         }
         processTwo(paperDataList,institutionDataHashMap);
-        //保存数据库
-        Set<String> instiNameKeySet=institutionDataHashMap.keySet();
-        logger.info("tatol institution datas size:"+instiNameKeySet.size());
-        for(String instiName:instiNameKeySet){
-            if(institutionDataHashMap.get(instiName).getStatus()==-1)continue;
-            InquireInfoData inquireInfoData = new InquireInfoData();
-            inquireInfoData.setTableName(tableName);
-            inquireInfoData.setInstitutionData(institutionDataHashMap.get(instiName));
-            //Systemconfig.institutionService.save(inquireInfoData);
-        }
-        logger.info("all institution datas save sucessful");
+        return institutionDataHashMap;
     }
 
 

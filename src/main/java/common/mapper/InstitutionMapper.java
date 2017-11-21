@@ -11,8 +11,9 @@ import java.util.List;
 
 public interface InstitutionMapper {
 
-
+    public List<InstitutionData> findAllMergeDatas(InquireInfoData inquireInfoData);
     public List<InstitutionData> findAllDatas(InquireInfoData inquireInfoData);
     public void insert(InquireInfoData inquireInfoData);
+    public void insertMerge(InquireInfoData inquireInfoData);
 
 }

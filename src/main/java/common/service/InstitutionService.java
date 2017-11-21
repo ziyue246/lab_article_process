@@ -39,6 +39,9 @@ public class InstitutionService {
         return institutionMapper.findAllDatas(inquireInfoData);
     }
 
+    public List<InstitutionData> getAllMergeDatas(InquireInfoData inquireInfoData){
+        return institutionMapper.findAllMergeDatas(inquireInfoData);
+    }
 
 
 }
