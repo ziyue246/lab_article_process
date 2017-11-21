@@ -24,7 +24,7 @@ public class InstitutionMergeProcess extends InstitutionProcess {
 
 
 
-    public void sigleProcessAllOriginInstitution() {
+    public void process() {
 
         InquireInfoData inquireInfoData = new InquireInfoData();
 
@@ -45,6 +45,12 @@ public class InstitutionMergeProcess extends InstitutionProcess {
             reMoveFromSet(nameEn,sciInstitutionSet,"EN");
 
         }
+
+
+
+
+
+
 
 
     }
