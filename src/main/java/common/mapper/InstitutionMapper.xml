@@ -43,8 +43,8 @@
         <id column="id" 		        property="id" 			    jdbcType="INTEGER" />
 
         <result column="id"				property="id"			    jdbcType="INTEGER" />
-        <result column="name_zh"		property="name_zh"			jdbcType="VARCHAR" />
-        <result column="name_en"		property="name_en"			jdbcType="VARCHAR" />
+        <result column="name_zh"		property="nameZh"			jdbcType="VARCHAR" />
+        <result column="name_en"		property="nameEn"			jdbcType="VARCHAR" />
         <result column="introduction"	property="introduction"		jdbcType="VARCHAR" />
         <result column="insert_time"	property="insertTime"		jdbcType="TIMESTAMP" />
 
@@ -70,7 +70,7 @@
         ( #{institutionData.nameZh,jdbcType=VARCHAR},
         #{institutionData.nameEn,jdbcType=NUMERIC},
         #{institutionData.introduction,jdbcType=VARCHAR},
-        #{authorData.insertTime,jdbcType=TIMESTAMP})
+        now())
 
     </insert>
 

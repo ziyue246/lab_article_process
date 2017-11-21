@@ -23,14 +23,16 @@ public class InstitutionMergeProcess extends InstitutionProcess {
     private final static List<String> cityPinyinList = new ArrayList<String>();
 
 
+    /**
+     *
+     */
 
     public void process() {
 
         InquireInfoData inquireInfoData = new InquireInfoData();
 
-
         Set<String>  eiInstitutionSet   = getIeInstitutionNameSet();
-        Set<String>  sciInstitutionSet  = getCnkiInstitutionNameSet();
+        Set<String>  sciInstitutionSet  = getSciInstitutionNameSet();
         Set<String>  cnkiInstitutionSet = getCnkiInstitutionNameSet();
 
         //从数据库获取mergetable数据
@@ -40,30 +42,77 @@ public class InstitutionMergeProcess extends InstitutionProcess {
         for(InstitutionData institutionData:originMergePaperDataList){
             String nameZh = institutionData.getNameZh();
             String nameEn = institutionData.getNameEn();
-
-            reMoveFromSet(nameZh,eiInstitutionSet,"ZH");
-            reMoveFromSet(nameEn,sciInstitutionSet,"EN");
-
+            removeFromSet(nameEn,eiInstitutionSet  ,"EN");
+            removeFromSet(nameEn,sciInstitutionSet ,"EN");
+            removeFromSet(nameZh,cnkiInstitutionSet,"ZH");
         }
+        List<InstitutionData> mergePaperDataList = new ArrayList<InstitutionData>();
 
+        for(String eiInstiName:eiInstitutionSet){
+            for(Iterator<String> it = sciInstitutionSet.iterator(); it.hasNext(); ){
+                String name_tmp = it.next();
+                if (isEnInstiAbbFullMerge(name_tmp, eiInstiName)) {
+                    it.remove();
+                }
+            }
+        }
+        addMergePaperDataList(mergePaperDataList,eiInstitutionSet  ,"EN");
+        addMergePaperDataList(mergePaperDataList,sciInstitutionSet ,"EN");
+        addMergePaperDataList(mergePaperDataList,cnkiInstitutionSet,"ZH");
 
-
-
-
-
-
+        save(mergePaperDataList,"institution");
 
     }
 
+    private void save(List<InstitutionData> list,String tableName){
 
-    private void reMoveFromSet(String name,Set<String> set,String mark){
+        logger.info("tatol merge institution datas size:"+list.size());
+        for(InstitutionData institutionData:list){
+            InquireInfoData inquireInfoData = new InquireInfoData();
+            inquireInfoData.setTableName(tableName);
+            inquireInfoData.setInstitutionData(institutionData);
+            Systemconfig.institutionService.saveMerge(inquireInfoData);
+        }
+        logger.info("all merge institution datas save sucessful");
+    }
+
+    /**
+     *
+     * @param list
+     * @param set
+     * @param mark
+     */
+    private void addMergePaperDataList(List<InstitutionData> list,Set<String> set,String mark){
+
+        for(String instiName:set){
+            InstitutionData institutionData = new InstitutionData();
+            if(mark.equals("EN")) {
+                institutionData.setNameEn(instiName);
+                list.add(institutionData);
+            }else if(mark.equals("ZH")){
+                institutionData.setNameZh(instiName);
+                list.add(institutionData);
+            }
+
+        }
+
+    }
+
+    /**
+     *
+     * @param name
+     * @param set
+     * @param mark
+     */
+    private void removeFromSet(String name,Set<String> set,String mark){
+        if(name==null||name.length()==0)return ;
         for(Iterator<String> it = set.iterator(); it.hasNext(); ){
             String name_tmp = it.next();
             if(mark.equals("EN")) {
                 if (EnAnalysis.getSimilarity(name, name_tmp) > 0.95) {
                     it.remove();
                 }
-            }else if(mark.equals("EN")){
+            }else if(mark.equals("ZH")){
                 if (ZhAnalysis.getSimilarity(name, name_tmp) > 0.95) {
                     it.remove();
                 }

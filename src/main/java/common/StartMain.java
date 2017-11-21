@@ -1,5 +1,6 @@
 package common;
 
+import common.process.institution.merge.InstitutionMergeProcess;
 import common.system.AppContext;
 import org.apache.log4j.Logger;
 
@@ -13,6 +14,8 @@ public class StartMain {
         AppContext.initial();
 
 
+        InstitutionMergeProcess instiMergeProcess = new InstitutionMergeProcess();
+        instiMergeProcess.process();
 
 
 //        InquireInfoData inquireInfoData = new InquireInfoData();

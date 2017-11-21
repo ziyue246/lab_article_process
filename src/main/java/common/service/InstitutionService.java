@@ -34,7 +34,9 @@ public class InstitutionService {
     public void save(InquireInfoData inquireInfoData){
         institutionMapper.insert(inquireInfoData);
     }
-
+    public void saveMerge(InquireInfoData inquireInfoData){
+        institutionMapper.insertMerge(inquireInfoData);
+    }
     public List<InstitutionData> getAllDatas(InquireInfoData inquireInfoData){
         return institutionMapper.findAllDatas(inquireInfoData);
     }
