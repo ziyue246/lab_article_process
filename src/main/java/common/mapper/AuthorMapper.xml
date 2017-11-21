@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common.mapper.AuthorMapper">
+
+
+    <resultMap id="BaseResultMap" type="common.pojo.AuthorData" >
+        <id column="id" 		        property="id" 			    jdbcType="INTEGER" />
+
+        <result column="id"				property="id"			    jdbcType="INTEGER" />
+        <result column="name"			property="name"			    jdbcType="VARCHAR" />
+        <result column="institution"	property="institution"			jdbcType="VARCHAR" />
+        <result column="weight"			property="weight"			jdbcType="VARCHAR" />
+        <result column="titles"			property="titles"			jdbcType="VARCHAR" />
+        <result column="origin_ids"		property="originIds"		jdbcType="VARCHAR" />
+
+
+    </resultMap>
+
+
+
+    <select id="findAllDatas" parameterType="common.pojo.InquireInfoData" resultMap="BaseResultMap">
+        select * from ${tableName}
+    </select>
+
+
+
+    <insert id="insert" parameterType="common.pojo.InquireInfoData" >
+
+        INSERT INTO ${tableName}
+        ( name,
+          institution,
+          weight,
+          titles,
+          origin_ids)
+
+        VALUES
+        ( #{authorData.name,jdbcType=VARCHAR},
+          #{authorData.institution,jdbcType=VARCHAR},
+          #{authorData.weight,jdbcType=NUMERIC},
+          #{authorData.titles,jdbcType=VARCHAR},
+          #{authorData.originIds,jdbcType=VARCHAR})
+
+    </insert>
+
+
+
+
+
+
+
+</mapper>

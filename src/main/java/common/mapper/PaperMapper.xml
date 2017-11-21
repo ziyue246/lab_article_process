@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common.mapper.PaperMapper">
+    <resultMap id="BaseResultMap" type="common.pojo.PaperData" >
+        <id column="id" 				            property="id" 			    jdbcType="INTEGER" />
+
+        <result column="id"				            property="id"			    jdbcType="INTEGER" />
+        <result column="url"				        property="url"			    jdbcType="VARCHAR" />
+        <result column="title"				        property="title"			jdbcType="VARCHAR" />
+        <result column="author"				        property="author"			jdbcType="VARCHAR" />
+        <result column="address"				    property="address"			jdbcType="VARCHAR" />
+        <result column="pubtime"				    property="pubtime"			jdbcType="VARCHAR" />
+        <result column="pubdate"				    property="pubdate"			jdbcType="VARCHAR" />
+        <result column="publisher"				    property="publisher"		jdbcType="VARCHAR" />
+        <result column="insert_time"				property="insertTime"		jdbcType="TIMESTAMP" />
+        <result column="brief"				        property="brief"			jdbcType="VARCHAR" />
+        <result column="journal"				    property="journal"			jdbcType="VARCHAR" />
+        <result column="keywords"				    property="keywords"			jdbcType="VARCHAR" />
+        <result column="refer_url"				    property="referUrl"		    jdbcType="VARCHAR" />
+        <result column="md5"				        property="md5"			    jdbcType="VARCHAR" />
+        <result column="cite_url"				    property="citeUrl"			jdbcType="VARCHAR" />
+        <result column="refer_num"				    property="referNum"		    jdbcType="INTEGER" />
+        <result column="cite_num"				    property="citeNum"			jdbcType="INTEGER" />
+        <result column="fund"				        property="fund"			    jdbcType="VARCHAR" />
+        <result column="category"				    property="category"			jdbcType="VARCHAR" />
+        <result column="down_url"				    property="downUrl"			jdbcType="VARCHAR" />
+        <result column="down_num"				    property="downNum"			jdbcType="INTEGER" />
+        <result column="lab_category"				property="labCategory"		jdbcType="VARCHAR" />
+        <result column="volume"				        property="volume"			jdbcType="VARCHAR" />
+        <result column="issue"				        property="issue"			jdbcType="VARCHAR" />
+        <result column="page_code"				    property="pageCode"			jdbcType="VARCHAR" />
+        <result column="doi"				        property="doi"			    jdbcType="VARCHAR" />
+        <result column="impact_factor_2year"		property="impactFactor2year"			jdbcType="FLOAT" />
+        <result column="impact_factor_5year"		property="impactFactor5year"			jdbcType="FLOAT" />
+        <result column="jcr"				        property="jcr"			    jdbcType="VARCHAR" />
+        <result column="source_title"				property="sourceTitle"		jdbcType="VARCHAR" />
+        <result column="conference_date"			property="conferenceDate"			jdbcType="VARCHAR" />
+        <result column="conference_location"		property="conferenceLocation"		jdbcType="VARCHAR" />
+        <result column="category_code"				property="categoryCode"			jdbcType="VARCHAR" />
+
+
+    </resultMap>
+
+    <select id="findDataById" parameterType="common.pojo.InquireInfoData" resultMap="BaseResultMap">
+        select * from ${tableName}
+        where id = #{searchId}
+    </select>
+
+
+    <select id="findAllDatas" parameterType="common.pojo.InquireInfoData" resultMap="BaseResultMap">
+        select * from ${tableName}
+    </select>
+
+    <select id="findDatasByPeriod" parameterType="common.pojo.InquireInfoData" resultMap="BaseResultMap">
+        select * from ${tableName}
+        where pubdate>=#{start} and  #{end}>=pubdate
+    </select>
+
+    <select id="findDatasByStartId" parameterType="common.pojo.InquireInfoData" resultMap="BaseResultMap">
+        SELECT  *  FROM  ${tableName}
+        WHERE id>#{startId} AND (#{startId}+#{lenth})>id
+    </select>
+
+    <select id="findMaxId" parameterType="common.pojo.InquireInfoData" resultType="int">
+        SELECT  max(id) FROM  ${tableName}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
