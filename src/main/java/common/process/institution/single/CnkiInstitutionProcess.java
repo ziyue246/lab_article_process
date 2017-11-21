@@ -58,16 +58,6 @@ public class CnkiInstitutionProcess extends InstitutionProcess {
         String []inss= institution.split(splitMark);
 
 
-        //截取机构部分；
-
-
-//        清华信息科学与技术国家实验室(筹),清华大学自动化系
-//        中国科学院自动化研究所复杂系统管理与控制国家重点实验室
-//                中国科学院大学
-//        英国克兰菲尔德大学驾驶员认知与自动驾驶实验室;
-//       青岛智能产业技术研究院
-//                西安交通大学人工智能与机器人研究所
-//        国防科技大学军事计算实验与平行系统技术中心
         String result=inss[0];
         for(String ins:inss){
             if(ins.contains("大学")){
