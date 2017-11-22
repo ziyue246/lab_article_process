@@ -12,7 +12,7 @@
         <result column="id"				property="id"			    jdbcType="INTEGER" />
         <result column="name"			property="name"			    jdbcType="VARCHAR" />
         <result column="institution"	property="institution"			jdbcType="VARCHAR" />
-        <result column="weight"			property="weight"			jdbcType="VARCHAR" />
+        <result column="weight"			property="weight"			jdbcType="INTEGER" />
         <result column="titles"			property="titles"			jdbcType="VARCHAR" />
         <result column="origin_ids"		property="originIds"		jdbcType="VARCHAR" />
 
@@ -47,8 +47,56 @@
 
 
 
+    <resultMap id="BaseMergeResultMap" type="common.pojo.AuthorData" >
+        <id column="id" 		             property="id" 			        jdbcType="INTEGER" />
+        <result column="id"				     property="id"			        jdbcType="INTEGER" />
+        <result column="name"			     property="name"			    jdbcType="VARCHAR" />
+        <result column="avatar"	             property="avatar"		        jdbcType="VARCHAR" />
+        <result column="zh_last_name"		 property="zhLastName"		    jdbcType="VARCHAR" />
+        <result column="zh_first_name"		 property="zhFirstName"		    jdbcType="VARCHAR" />
+        <result column="en_first_name"		 property="enFirstName"		    jdbcType="VARCHAR" />
+        <result column="en_first_name_short" property="enFirstNameShort"	jdbcType="VARCHAR" />
+        <result column="alias_name"			 property="aliasName"		    jdbcType="VARCHAR" />
+        <result column="email"			     property="email"			    jdbcType="VARCHAR" />
+        <result column="introduction"		 property="introduction"		jdbcType="VARCHAR" />
+        <result column="insert_time"	     property="insertTime"		    jdbcType="TIMESTAMP" />
+    </resultMap>
 
 
 
+
+    <select id="findAllMergeDatas" parameterType="common.pojo.InquireInfoData" resultMap="BaseMergeResultMap">
+        select * from ${tableName}
+    </select>
+
+    <insert id="insert" parameterType="common.pojo.InquireInfoData" >
+
+        INSERT INTO ${tableName}
+        (
+            avatar,
+            name,
+            zh_last_name,
+            zh_first_name,
+            en_last_name,
+            en_first_name,
+            en_first_name_short,
+            alias_name,
+            email,
+            introduction,
+            insert_time)
+        VALUES
+        (   #{authorData.avatar,    jdbcType=VARCHAR},
+            #{authorData.name,      jdbcType=VARCHAR},
+            #{authorData.zh_last_name,  jdbcType=VARCHAR},
+            #{authorData.zh_first_name, jdbcType=VARCHAR},
+            #{authorData.en_last_name,  jdbcType=VARCHAR},
+            #{authorData.en_first_name, jdbcType=VARCHAR},
+            #{authorData.en_first_name_short, jdbcType=VARCHAR},
+            #{authorData.alias_name,    jdbcType=VARCHAR},
+            #{authorData.email,         jdbcType=VARCHAR},
+            #{authorData.introduction,  jdbcType=VARCHAR},
+            now())
+
+    </insert>
 
 </mapper>

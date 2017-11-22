@@ -24,7 +24,13 @@ public class AuthorService {
     }
 
     public List<AuthorData> getAllDatas(InquireInfoData inquireInfoData){
-        return authorMapper.findAllDatas(inquireInfoData);
+        return authorMapper.findAllMergeDatas(inquireInfoData);
     }
 
+    public void saveMerge(InquireInfoData inquireInfoData){
+        authorMapper.insert(inquireInfoData);
+    }
+    public List<AuthorData> getAllMergeDatas(InquireInfoData inquireInfoData){
+        return authorMapper.findAllMergeDatas(inquireInfoData);
+    }
 }

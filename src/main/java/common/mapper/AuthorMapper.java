@@ -14,5 +14,6 @@ public interface AuthorMapper {
 
     public List<AuthorData> findAllDatas(InquireInfoData inquireInfoData);
     public void insert(InquireInfoData inquireInfoData);
-
+    public List<AuthorData> findAllMergeDatas(InquireInfoData inquireInfoData);
+    public void insertMerge(InquireInfoData inquireInfoData);
 }

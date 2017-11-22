@@ -10,6 +10,101 @@ public class AuthorData {
     private int status;//1:正常未修改，-1：不存入数据库
     private String originIds;//在原始表中的ids
 
+
+
+
+    private String avatar;
+    private String zhLastName;
+    private String zhFirstName;
+    private String enLastName;
+    private String enFirstName;
+    private String enFirstNameShort;
+    private String aliasName;
+    private String email;
+    private String introduction;
+    private String insertTime;
+
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getZhLastName() {
+        return zhLastName;
+    }
+
+    public void setZhLastName(String zhLastName) {
+        this.zhLastName = zhLastName;
+    }
+
+    public String getZhFirstName() {
+        return zhFirstName;
+    }
+
+    public void setZhFirstName(String zhFirstName) {
+        this.zhFirstName = zhFirstName;
+    }
+
+    public String getEnLastName() {
+        return enLastName;
+    }
+
+    public void setEnLastName(String enLastName) {
+        this.enLastName = enLastName;
+    }
+
+    public String getEnFirstName() {
+        return enFirstName;
+    }
+
+    public void setEnFirstName(String enFirstName) {
+        this.enFirstName = enFirstName;
+    }
+
+    public String getEnFirstNameShort() {
+        return enFirstNameShort;
+    }
+
+    public void setEnFirstNameShort(String enFirstNameShort) {
+        this.enFirstNameShort = enFirstNameShort;
+    }
+
+    public String getAliasName() {
+        return aliasName;
+    }
+
+    public void setAliasName(String aliasName) {
+        this.aliasName = aliasName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public String getInsertTime() {
+        return insertTime;
+    }
+
+    public void setInsertTime(String insertTime) {
+        this.insertTime = insertTime;
+    }
+
     public String getOriginIds() {
         return originIds;
     }
