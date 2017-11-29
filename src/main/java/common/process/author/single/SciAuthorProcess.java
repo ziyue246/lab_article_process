@@ -31,18 +31,15 @@ public class SciAuthorProcess extends AuthorProcess {
                 String fullName = StringProcess.regex2StrSplitByMark(author,("\\(.*\\)"),(""));
                 fullName=fullName.replace((")"),("")).replace(("("),(""));
 
+
+                if(!fullName.contains(",")&&abbName.contains(",")){
+                    String lastName=abbName.split(",")[0].trim();
+                    fullName = fullName.replace(lastName,(lastName+","));
+                }
                 String fullInsti = StringProcess.regex2StrSplitByMark(author,("\\[.*\\]"),(""));
                 fullInsti = fullInsti.replaceAll((","),("]["));
                 List<Integer> authorInstiList = getBracketNums(fullInsti);
                 AuthorData authorData = new AuthorData();
-                if(authorInstiList!=null&&authorInstiList.size()>0) {
-                    //int maxNum = authorInstiList.get(authorInstiList.size() - 1);
-                    //author = author.split("\\[" + maxNum + "\\]")[1].trim();
-                    for(int num:authorInstiList){
-                        authorData.setInstitution(";"+institutionDataList.get(num-1).getName()+";");
-
-                    }
-                }
                 authorData.setName(fullName);
                 authorData.setAbbName(abbName);
                 authorData.setTitles(";"+paperData.getTitle()+";");

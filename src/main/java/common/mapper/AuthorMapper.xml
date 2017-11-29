@@ -69,7 +69,7 @@
         select * from ${tableName}
     </select>
 
-    <insert id="insert" parameterType="common.pojo.InquireInfoData" >
+    <insert id="insertMerge" parameterType="common.pojo.InquireInfoData" >
 
         INSERT INTO ${tableName}
         (
@@ -87,12 +87,12 @@
         VALUES
         (   #{authorData.avatar,    jdbcType=VARCHAR},
             #{authorData.name,      jdbcType=VARCHAR},
-            #{authorData.zh_last_name,  jdbcType=VARCHAR},
-            #{authorData.zh_first_name, jdbcType=VARCHAR},
-            #{authorData.en_last_name,  jdbcType=VARCHAR},
-            #{authorData.en_first_name, jdbcType=VARCHAR},
-            #{authorData.en_first_name_short, jdbcType=VARCHAR},
-            #{authorData.alias_name,    jdbcType=VARCHAR},
+            #{authorData.zhLastName,  jdbcType=VARCHAR},
+            #{authorData.zhFirstName, jdbcType=VARCHAR},
+            #{authorData.enLastName,  jdbcType=VARCHAR},
+            #{authorData.enFirstName, jdbcType=VARCHAR},
+            #{authorData.enFirstNameShort, jdbcType=VARCHAR},
+            #{authorData.aliasName,    jdbcType=VARCHAR},
             #{authorData.email,         jdbcType=VARCHAR},
             #{authorData.introduction,  jdbcType=VARCHAR},
             now())

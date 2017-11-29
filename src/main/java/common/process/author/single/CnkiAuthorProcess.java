@@ -38,7 +38,7 @@ public class CnkiAuthorProcess {
 
 
 
-    public void extractAndSave(List<PaperData> paperDataList, String tableName) {
+    public HashMap<String,AuthorData> extract(List<PaperData> paperDataList) {
 
         //粗合并，名称相同即合并
         HashMap<String,AuthorData> authorDataHashMap = new HashMap<String, AuthorData>();
@@ -58,16 +58,18 @@ public class CnkiAuthorProcess {
             }
 
         }
-        //保存数据库
-        Set<String> authorNameKeySet=authorDataHashMap.keySet();
-        logger.info("tatol author datas size:"+authorNameKeySet.size());
-        for(String authorName:authorNameKeySet){
-            InquireInfoData inquireInfoData = new InquireInfoData();
-            inquireInfoData.setTableName(tableName);
-            inquireInfoData.setAuthorData(authorDataHashMap.get(authorName));
-            Systemconfig.authorService.save(inquireInfoData);
-        }
-        logger.info("all author datas save sucessful");
+        return authorDataHashMap;
+
+//        //保存数据库
+//        Set<String> authorNameKeySet=authorDataHashMap.keySet();
+//        logger.info("tatol author datas size:"+authorNameKeySet.size());
+//        for(String authorName:authorNameKeySet){
+//            InquireInfoData inquireInfoData = new InquireInfoData();
+//            inquireInfoData.setTableName(tableName);
+//            inquireInfoData.setAuthorData(authorDataHashMap.get(authorName));
+//            Systemconfig.authorService.save(inquireInfoData);
+//        }
+//        logger.info("all author datas save sucessful");
     }
 
     public List<Integer> getBracketNums(String str){

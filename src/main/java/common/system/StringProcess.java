@@ -18,7 +18,11 @@ public class StringProcess {
 
 
     private static Logger logger = Logger.getLogger(StringProcess.class);
-
+    public static String  upCaseFirstLetter(String s){
+        if(s==null)return null;
+        if(s.length()==0)return s;
+        return s.substring(0,1).toUpperCase()+s.substring(1);
+    }
     public static String regex2StrSplitByMark(String content,String pattern,String mark){
         //String line = "http://www11.drugfuture.com/cnpat/SecurePdf.aspx";
         //  String pattern = "http://www(\\d*).drugfuture.com/cnpat/SecurePdf.aspx";

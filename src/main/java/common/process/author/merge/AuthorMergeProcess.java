@@ -12,40 +12,172 @@ import common.system.StringProcess;
 import common.system.Systemconfig;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class AuthorMergeProcess {
 
     private static Logger logger = Logger.getLogger(AuthorMergeProcess.class);
 
-    public void process(List<PaperData> paperDataList, String splitMain){
-        InquireInfoData inquireInfoData = new InquireInfoData();
+    public void process(){
 
+        HashMap<String,AuthorData> eiAuthorMap  = getEiNameSet();
+        HashMap<String,AuthorData> sciAuthorMap  = getSciNameSet();
+        HashMap<String,AuthorData> cnkiAuthorMap = getCnkiNameSet();
+
+
+        List<AuthorData> dbAuthor = getDbAuthorSet();
+
+
+
+        for(String name:sciAuthorMap.keySet()){
+            enAuthorProcess(cnkiAuthorMap.get(name));
+            System.out.print((name));
+            System.out.println(cnkiAuthorMap.get(name).getName());
+        }
+
+    }
+
+    public Set<String> mergeAuthor(List<AuthorData> dbAuthor,Set<String> nameSet){
+
+
+        for(AuthorData authorData:dbAuthor){
+
+            for(Iterator<String> it = nameSet.iterator(); it.hasNext(); ){
+                String name_tmp = it.next();
+                if (isAuthorMergeByName(authorData.getName(), name_tmp)) {
+                    it.remove();
+                }
+            }
+
+        }
+
+        for(String name:nameSet){
+
+        }
+        return nameSet;
+
+    }
+
+    private boolean isAuthorMergeByName(String name1,String name2){
+
+        if(name1.toLowerCase().equals(name2.toLowerCase())) return true;
+        if(EnAnalysis.getSimilarity(name1,name2)>0.95)return true;
+        return false;
+    }
+    private List<AuthorData> getDbAuthorSet(){
+        InquireInfoData inquireInfoData = new InquireInfoData();
+        inquireInfoData.setTableName("author");
+        List<AuthorData> authorDataList = Systemconfig.authorService.getAllMergeDatas(inquireInfoData);
+
+
+        return authorDataList;
+    }
+
+    private HashMap<String,AuthorData> getEiNameSet(){
+        InquireInfoData inquireInfoData = new InquireInfoData();
+        inquireInfoData.setTableName("ei_data");
         List<PaperData> eiPaperDataList = Systemconfig.paperService.getAllDatas(inquireInfoData);
 
-        inquireInfoData.setTableName("ei_data");
         EiAuthorProcess eiAuthorProcess = new EiAuthorProcess();
         eiAuthorProcess.process(eiPaperDataList,";");
-        eiAuthorProcess.extractAndSave(eiPaperDataList,"author_ei");
-
-
-        List<PaperData> sciPaperDataList = Systemconfig.paperService.getAllDatas(inquireInfoData);
-
+        return eiAuthorProcess.extract(eiPaperDataList);
+    }
+    private HashMap<String,AuthorData> getSciNameSet(){
+        InquireInfoData inquireInfoData = new InquireInfoData();
         inquireInfoData.setTableName("sci_data");
+        List<PaperData> sciPaperDataList = Systemconfig.paperService.getAllDatas(inquireInfoData);
 
         SciAuthorProcess sciAuthorProcess = new SciAuthorProcess();
         sciAuthorProcess.process(sciPaperDataList,";");
-        sciAuthorProcess.extractAndSave(sciPaperDataList,"author_sci");
+        return sciAuthorProcess.extract(sciPaperDataList);
+    }
+    private HashMap<String,AuthorData> getCnkiNameSet(){
 
-        List<PaperData> cnkiPaperDataList = Systemconfig.paperService.getAllDatas(inquireInfoData);
-
+        InquireInfoData inquireInfoData = new InquireInfoData();
         inquireInfoData.setTableName("cnki_data");
+        List<PaperData> cnkiPaperDataList = Systemconfig.paperService.getAllDatas(inquireInfoData);
 
         CnkiAuthorProcess cnkiAuthorProcess = new CnkiAuthorProcess();
         cnkiAuthorProcess.process(cnkiPaperDataList,";");
-        cnkiAuthorProcess.extractAndSave(cnkiPaperDataList,"author_cnki");
+        return cnkiAuthorProcess.extract(cnkiPaperDataList);
+
     }
+
+    public AuthorData enNameStr2Author(String name){
+        AuthorData author = new AuthorData();
+
+        String firstName = name.split(",")[1].trim();
+        String lastName = name.split(",")[0].trim();
+
+
+        author.setEnFirstName(firstName);
+        author.setEnLastName(lastName);
+        author.setEnName(firstName+","+lastName);
+        author.setName(firstName+","+lastName);
+
+        return author;
+    }
+
+    public void enAuthorProcess(AuthorData author){
+        if(author==null)return ;
+        String name = author.getName();
+
+        if(name==null||!name.contains(","))return ;
+        String firstName = name.split(",")[1].trim();
+        String lastName = name.split(",")[0].trim();
+        String abbName = author.getAbbName();
+        if(abbName!=null||abbName.contains(",")){
+            String abbFirstName = abbName.split(",")[1];
+            author.setEnFirstNameShort(abbFirstName);
+        }else if(firstName.contains("-")){
+            String []firstNames = firstName.split("-");
+            for(String firstName_tmp : firstNames){
+                if(firstName_tmp!=null&&firstName_tmp.length()>=1)
+                author.setEnFirstNameShort(author.getEnFirstNameShort()+
+                        firstName_tmp.substring(0,1).toUpperCase());
+            }
+            firstName.replace("-","");
+        }
+        author.setEnFirstName(firstName);
+        author.setEnLastName(lastName);
+        author.setEnName(firstName+","+lastName);
+        author.setName(firstName+","+lastName);
+
+    }
+
+    public void zhAuthorProcess(AuthorData author){
+
+        String name = author.getName();
+        String firstName = name.substring(1);
+        String lastName = name.substring(0,1);
+
+
+        int firstNamelen= firstName.length();
+        String abbFirstName="";
+        for(int i=0;i<firstNamelen;++i){
+            abbFirstName+=StringProcess.toHanyuPinyin(
+                    firstName.substring(i,i+1)).substring(0,1).toUpperCase();
+        }
+
+
+        author.setZhName(name);
+        author.setZhFirstName(firstName);
+        author.setZhLastName(lastName);
+
+
+        firstName = StringProcess.toHanyuPinyin(firstName);
+        lastName = StringProcess.toHanyuPinyin(lastName);
+
+        firstName = StringProcess.upCaseFirstLetter(firstName);
+        lastName = StringProcess.upCaseFirstLetter(lastName);
+
+        author.setEnFirstName(firstName);
+        author.setEnLastName(lastName);
+        author.setEnName(firstName+","+lastName);
+        author.setName(firstName+","+lastName);
+        author.setEnFirstNameShort(abbFirstName);
+
+    }
+
+
 }

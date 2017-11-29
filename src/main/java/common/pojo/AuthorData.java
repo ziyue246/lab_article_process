@@ -3,6 +3,8 @@ package common.pojo;
 public class AuthorData {
     private int id;
     private String name;
+    private String zhName;
+    private String enName;
     private String abbName;
     private String institution;
     private int weight;
@@ -24,6 +26,22 @@ public class AuthorData {
     private String introduction;
     private String insertTime;
 
+
+    public String getZhName() {
+        return zhName;
+    }
+
+    public void setZhName(String zhName) {
+        this.zhName = zhName;
+    }
+
+    public String getEnName() {
+        return enName;
+    }
+
+    public void setEnName(String enName) {
+        this.enName = enName;
+    }
 
     public String getAvatar() {
         return avatar;

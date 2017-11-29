@@ -29,13 +29,8 @@ public class AuthorProcess {
                 author=author.replaceAll("\\s+","").trim();
                 List<Integer> authorInstiList = getBracketNums(author);
                 AuthorData authorData = new AuthorData();
-                if(authorInstiList!=null&&authorInstiList.size()>0) {
-                    int maxNum = authorInstiList.get(authorInstiList.size() - 1);
-                    author = author.split("\\[" + maxNum + "\\]")[1].trim();
-                    for(int num:authorInstiList){
-                        authorData.setInstitution(";"+institutionDataList.get(num-1).getName()+";");
-                    }
-                }
+                author = author.replaceAll("\\[\\d+\\]","");
+
                 authorData.setName(author);
                 authorData.setTitles(";"+paperData.getTitle()+";");
                 authorData.setOriginIds(";"+paperData.getId()+";");
@@ -47,7 +42,7 @@ public class AuthorProcess {
 
 
 
-    public void extractAndSave(List<PaperData> paperDataList, String tableName) {
+    public HashMap<String,AuthorData> extract(List<PaperData> paperDataList) {
 
         //粗合并，名称相同即合并
         HashMap<String,AuthorData> authorDataHashMap = new HashMap<String, AuthorData>();
@@ -100,17 +95,19 @@ public class AuthorProcess {
                 }
             }
         }
-        //保存数据库
-        Set<String> authorNameKeySet=authorDataHashMap.keySet();
-        logger.info("tatol author datas size:"+authorNameKeySet.size());
-        for(String authorName:authorNameKeySet){
-            if(authorDataHashMap.get(authorName).getStatus()==-1)continue;
-            InquireInfoData inquireInfoData = new InquireInfoData();
-            inquireInfoData.setTableName(tableName);
-            inquireInfoData.setAuthorData(authorDataHashMap.get(authorName));
-            Systemconfig.authorService.save(inquireInfoData);
-        }
-        logger.info("all author datas save sucessful");
+
+        return authorDataHashMap;
+//        //保存数据库
+//        Set<String> authorNameKeySet=authorDataHashMap.keySet();
+//        logger.info("tatol author datas size:"+authorNameKeySet.size());
+//        for(String authorName:authorNameKeySet){
+//            if(authorDataHashMap.get(authorName).getStatus()==-1)continue;
+//            InquireInfoData inquireInfoData = new InquireInfoData();
+//            inquireInfoData.setTableName(tableName);
+//            inquireInfoData.setAuthorData(authorDataHashMap.get(authorName));
+//            Systemconfig.authorService.save(inquireInfoData);
+//        }
+//        logger.info("all author datas save sucessful");
     }
 
     public List<Integer> getBracketNums(String str){
