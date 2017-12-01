@@ -8,7 +8,9 @@ import common.system.StringProcess;
 import common.system.Systemconfig;
 import org.junit.Test;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Author {
 
@@ -20,17 +22,31 @@ public class Author {
         AppContext.initial();
         String[]names =FileOperation.read("src/main/resources/baseData/author").split("\n");
 
+
+        Set<String> set1 = new HashSet<String>();
+
+
         for(String name:names){
             if(name.startsWith("#"))continue;
+            name = name.trim();
+            set1.add(name);
+        }
 
-            AuthorData authorData = zhNameStr2Author(name);
+        names =FileOperation.read("src/main/resources/baseData/author2").split("\n");
 
-            InquireInfoData inquireInfoData = new InquireInfoData();
-            inquireInfoData.setTableName("author");
-            inquireInfoData.setAuthorData(authorData);
-
-            System.out.println(authorData.getName());
-            Systemconfig.authorService.saveMerge(inquireInfoData);
+        for(String name:names){
+            name=name.trim();
+            if(name.startsWith("#"))continue;
+            if(set1.contains(name))continue;
+            System.out.println(name);
+//            AuthorData authorData = zhNameStr2Author(name);
+//
+//            InquireInfoData inquireInfoData = new InquireInfoData();
+//            inquireInfoData.setTableName("author");
+//            inquireInfoData.setAuthorData(authorData);
+//
+//            System.out.println(authorData.getName());
+//            Systemconfig.authorService.saveMerge(inquireInfoData);
 
         }
 
@@ -64,6 +80,7 @@ public class Author {
 
         author.setEnFirstName(firstName);
         author.setEnLastName(lastName);
+        author.setAbbName(abbFirstName+","+lastName);
         author.setEnName(firstName+","+lastName);
         author.setName(firstName+","+lastName);
         author.setEnFirstNameShort(abbFirstName);
@@ -71,5 +88,25 @@ public class Author {
         return author;
     }
 
+    @Test
+    public void test2(){
 
+
+        AppContext.initial();
+        String[]names =FileOperation.read("src/main/resources/baseData/author").split("\n");
+
+
+
+
+        for(String name:names){
+            if(name.startsWith("#"))continue;
+            name = name.trim();
+            AuthorData author =zhNameStr2Author(name);
+
+            System.out.println(name+":"+author.getEnName()+":"+author.getAbbName());
+        }
+
+
+
+    }
 }
