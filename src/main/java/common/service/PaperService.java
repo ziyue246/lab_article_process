@@ -2,7 +2,9 @@ package common.service;
 
 import common.mapper.PaperMapper;
 import common.pojo.InquireInfoData;
+import common.pojo.PaperAuthorInstiData;
 import common.pojo.PaperData;
+import common.pojo.PaperMergeData;
 
 import java.util.List;
 
@@ -48,4 +50,26 @@ public class PaperService {
         return paperMapper.findMaxId(inquireInfoData);
     }
 
+
+    public List<PaperMergeData> getAllMergeDatas(){
+        return paperMapper.findAllMergeDatas();
+    }
+
+    public void saveMergeData(PaperMergeData paperMergeData){
+        paperMapper.insertMerge(paperMergeData);
+    }
+
+    public void savePaperAuthor(PaperAuthorInstiData paperAuthorInstiData){
+        paperMapper.insertPaperAuthor(paperAuthorInstiData);
+    }
+
+    public void savePaperAuthorInsti(PaperAuthorInstiData paperAuthorInstiData){
+        paperMapper.insertPaperAuthorInsti(paperAuthorInstiData);
+    }
+    public void savePaperInsti(PaperAuthorInstiData paperAuthorInstiData){
+        paperMapper.insertPaperInsti(paperAuthorInstiData);
+    }
+    public void saveAuthorInstiGroup(PaperAuthorInstiData paperAuthorInstiData){
+        paperMapper.insertAuthorInstiGroup(paperAuthorInstiData);
+    }
 }

@@ -68,7 +68,7 @@
 
         VALUES
         ( #{institutionData.nameZh,jdbcType=VARCHAR},
-        #{institutionData.nameEn,jdbcType=NUMERIC},
+        #{institutionData.nameEn,jdbcType=VARCHAR},
         #{institutionData.introduction,jdbcType=VARCHAR},
         now())
 

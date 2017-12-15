@@ -1,6 +1,7 @@
 package common.system;
 
 import common.service.AuthorService;
+import common.service.CommonService;
 import common.service.InstitutionService;
 import common.service.PaperService;
 
@@ -11,7 +12,7 @@ public class Systemconfig {
 
     public static InstitutionService institutionService;
     public static AuthorService authorService;
-
+    public static CommonService commonService;
 
     public void initial(){
 
@@ -41,5 +42,14 @@ public class Systemconfig {
 
     public void setAuthorService(AuthorService authorService) {
         Systemconfig.authorService = authorService;
+    }
+
+
+    public CommonService getCommonService() {
+        return commonService;
+    }
+
+    public void setCommonService(CommonService commonService) {
+        Systemconfig.commonService = commonService;
     }
 }

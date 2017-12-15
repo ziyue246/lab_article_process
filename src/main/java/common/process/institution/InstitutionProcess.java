@@ -83,21 +83,17 @@ public class InstitutionProcess {
                     institution.toLowerCase().contains("casia")||
                     institution.toLowerCase().contains("Inst Automat"))&&
                     institution.contains("State Key")&&
-                    institution.contains("Complex")&&institution.contains("Management")){
-                result="State Key Laboratory of Management and Control for Complex Systems";
+                    institution.contains("Complex")&&institution.contains("Management")) {
+                result = "State Key Laboratory of Management and Control for Complex Systems";
+                break;
+            }//Qingdao Academy of Intelligent Industries
+            if((institution.toLowerCase().contains("qingdao")||
+                    institution.toLowerCase().contains("academy")||
+                    institution.toLowerCase().contains("intelligent")||
+                    institution.toLowerCase().contains("industries"))){
+                result="Qingdao Academy of Intelligent Industries";
                 break;
             }
-//            if(ins.contains("Chinese Academy of Science")){
-//                if(institution.contains("Institute of Automation")&&
-//                    institution.contains("Complex")&&institution.contains("Management")){
-//                    result="State Key Laboratory of Management and Control for Complex Systems";
-//                }
-//
-//                else {
-//                    result= "Chinese Academy of Sciences";
-//                }
-//                break;
-//            }
         }
         //对机构部分进行整理
         result = result.replaceAll("\\(.+\\)","");

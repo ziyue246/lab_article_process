@@ -54,6 +54,7 @@
         <result column="avatar"	             property="avatar"		        jdbcType="VARCHAR" />
         <result column="zh_last_name"		 property="zhLastName"		    jdbcType="VARCHAR" />
         <result column="zh_first_name"		 property="zhFirstName"		    jdbcType="VARCHAR" />
+        <result column="en_last_name"		 property="enLastName"		    jdbcType="VARCHAR" />
         <result column="en_first_name"		 property="enFirstName"		    jdbcType="VARCHAR" />
         <result column="en_first_name_short" property="enFirstNameShort"	jdbcType="VARCHAR" />
         <result column="alias_name"			 property="aliasName"		    jdbcType="VARCHAR" />

@@ -1,8 +1,15 @@
 package common.pojo;
 
+import com.mongodb.client.model.geojson.LineString;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class AuthorData {
     private int id;
     private String name;
+    private int rank;
     private String zhName;
     private String enName;
     private String abbName;
@@ -11,9 +18,9 @@ public class AuthorData {
     private String titles;
     private int status;//1:正常未修改，-1：不存入数据库
     private String originIds;//在原始表中的ids
+    private List<Integer> instiIds;
 
-
-
+    private Map<String,Integer> instiCountMap = new HashMap<String, Integer>();
 
     private String avatar;
     private String zhLastName;
@@ -26,6 +33,30 @@ public class AuthorData {
     private String introduction;
     private String insertTime;
 
+
+    public Map<String, Integer> getInstiCountMap() {
+        return instiCountMap;
+    }
+
+    public void setInstiCountMap(Map<String, Integer> instiCountMap) {
+        this.instiCountMap = instiCountMap;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public List<Integer> getInstiIds() {
+        return instiIds;
+    }
+
+    public void setInstiIds(List<Integer> instiIds) {
+        this.instiIds = instiIds;
+    }
 
     public String getZhName() {
         return zhName;

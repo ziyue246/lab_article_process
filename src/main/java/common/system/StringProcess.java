@@ -79,6 +79,33 @@ public class StringProcess {
         } catch (BadHanyuPinyinOutputFormatCombination e) {
             logger.info("字符不能转成汉语拼音");
         }
+        hanyupinyin = hanyupinyin.replace("u:","v");
         return hanyupinyin;
+    }
+
+    public static int str2Int(String str){
+
+        try {
+            return Integer.parseInt(str);
+        }catch (Exception e){
+
+            logger.info("str :" +str+"\n exception : "+e.getMessage());
+            return 0;
+        }
+
+    }
+    public static boolean isChinese(String str){
+
+        String regEx = "[\\u4e00-\\u9fa5]+";
+
+        Pattern p = Pattern.compile(regEx);
+
+        Matcher m = p.matcher(str);
+
+        if(m.find())
+            return true;
+        else
+            return false;
+
     }
 }

@@ -33,6 +33,13 @@
         <property name="paperMapper" ref="paperMapper"/>
     </bean>
 
+    <bean id="commonMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="common.mapper.CommonMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="commonService" class="common.service.CommonService">
+        <property name="commonMapper" ref="commonMapper"/>
+    </bean>
 
     <bean id="institutionMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="common.mapper.InstitutionMapper"/>

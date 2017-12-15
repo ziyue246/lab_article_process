@@ -7,7 +7,7 @@ public class EnAnalysis {
 
         int[]aStati = statisticsLetters(aStr);
         int[]bStati = statisticsLetters(bStr);
-
+        if(aStati==null||bStati==null)return 0.0;
 
         int diff=0;
         for(int i=0;i<aStati.length;i++){
@@ -23,7 +23,7 @@ public class EnAnalysis {
     }
 
     private static int[] statisticsLetters(String aStr){
-
+        if(aStr==null||aStr.length()==0)return null;
         char[] aChs = aStr.toLowerCase().toCharArray();
 
 

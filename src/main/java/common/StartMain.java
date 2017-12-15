@@ -2,6 +2,8 @@ package common;
 
 import common.process.author.merge.AuthorMergeProcess;
 import common.process.institution.merge.InstitutionMergeProcess;
+import common.process.paper.PaperMergeProcess;
+import common.process.relation.PaperAuthorProcess;
 import common.system.AppContext;
 import org.apache.log4j.Logger;
 
@@ -20,10 +22,15 @@ public class StartMain {
 
 
 
-        AuthorMergeProcess authorMergeProcess = new AuthorMergeProcess();
-        authorMergeProcess.process();
+        //AuthorMergeProcess authorMergeProcess = new AuthorMergeProcess();
+        //authorMergeProcess.process();
+
+//        PaperMergeProcess paperMergeProcess = new PaperMergeProcess();
+//        paperMergeProcess.process();
 
 
+        PaperAuthorProcess paperAuthorProcess = new PaperAuthorProcess();
+        paperAuthorProcess.process();
     }
 
 }

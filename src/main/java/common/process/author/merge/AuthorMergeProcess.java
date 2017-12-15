@@ -27,23 +27,50 @@ public class AuthorMergeProcess {
 
         List<AuthorData> dbAuthor = getDbAuthorSet();
 
-
-
+//        for(String name:sciAuthorMap.keySet()){
+//            enAuthorProcess(sciAuthorMap.get(name));
+//            System.out.println((name));
+//            System.out.println(sciAuthorMap.get(name).getName());
+//        }
+        Set<AuthorData> srcAuthorSet = new HashSet<AuthorData>();
+        for(String name:eiAuthorMap.keySet()){
+            enAuthorProcess(eiAuthorMap.get(name));
+            srcAuthorSet.add(eiAuthorMap.get(name));
+        }
         for(String name:sciAuthorMap.keySet()){
-            enAuthorProcess(cnkiAuthorMap.get(name));
-            System.out.print((name));
-            System.out.println(cnkiAuthorMap.get(name).getName());
+            enAuthorProcess(sciAuthorMap.get(name));
+            srcAuthorSet.add(sciAuthorMap.get(name));
+        }
+        for(String name:cnkiAuthorMap.keySet()){
+            zhAuthorProcess(cnkiAuthorMap.get(name));
+            srcAuthorSet.add(cnkiAuthorMap.get(name));
+        }
+        Set<AuthorData> newAuthorSet = new HashSet<AuthorData>();
+        mergeAuthor(dbAuthor,newAuthorSet,srcAuthorSet);
+
+        for(AuthorData authorData:newAuthorSet){
+            InquireInfoData inquireInfoData = new InquireInfoData();
+            inquireInfoData.setTableName("author");
+            inquireInfoData.setAuthorData(authorData);
+            logger.info(authorData.getName());
+            Systemconfig.authorService.saveMerge(inquireInfoData);
+        }
+    }
+    public void mergeAuthor(List<AuthorData> dbAuthor,Set<AuthorData> newAuthorSet,Set<AuthorData> srcAuthorSet){
+        for(AuthorData authorData:newAuthorSet){
+            for(Iterator<AuthorData> it = srcAuthorSet.iterator(); it.hasNext(); ){
+                AuthorData author_tmp = it.next();
+                String name_tmp = author_tmp.getName();
+                if (isAuthorMergeByName(authorData.getName(), name_tmp)) {
+                    it.remove();
+                }
+            }
         }
 
-    }
-
-    public Set<String> mergeAuthor(List<AuthorData> dbAuthor,Set<String> nameSet){
-
-
         for(AuthorData authorData:dbAuthor){
-
-            for(Iterator<String> it = nameSet.iterator(); it.hasNext(); ){
-                String name_tmp = it.next();
+            for(Iterator<AuthorData> it = srcAuthorSet.iterator(); it.hasNext(); ){
+                AuthorData author_tmp = it.next();
+                String name_tmp = author_tmp.getName();
                 if (isAuthorMergeByName(authorData.getName(), name_tmp)) {
                     it.remove();
                 }
@@ -51,11 +78,9 @@ public class AuthorMergeProcess {
 
         }
 
-        for(String name:nameSet){
-
+        for(AuthorData authorData:srcAuthorSet){
+            newAuthorSet.add(authorData);
         }
-        return nameSet;
-
     }
 
     private boolean isAuthorMergeByName(String name1,String name2){
@@ -64,6 +89,12 @@ public class AuthorMergeProcess {
         if(EnAnalysis.getSimilarity(name1,name2)>0.95)return true;
         return false;
     }
+
+    private boolean isAuthorMergeByChName(String name1,String name2){
+        if(name1.toLowerCase().equals(name2.toLowerCase())) return true;
+        return false;
+    }
+
     private List<AuthorData> getDbAuthorSet(){
         InquireInfoData inquireInfoData = new InquireInfoData();
         inquireInfoData.setTableName("author");
@@ -122,11 +153,13 @@ public class AuthorMergeProcess {
         if(author==null)return ;
         String name = author.getName();
 
-        if(name==null||!name.contains(","))return ;
+        if(name==null||!name.contains(",")|| name.split(",").length<2){
+            return ;
+        }
         String firstName = name.split(",")[1].trim();
         String lastName = name.split(",")[0].trim();
         String abbName = author.getAbbName();
-        if(abbName!=null||abbName.contains(",")){
+        if(abbName!=null&&abbName.contains(",")){
             String abbFirstName = abbName.split(",")[1];
             author.setEnFirstNameShort(abbFirstName);
         }else if(firstName.contains("-")){
@@ -138,10 +171,10 @@ public class AuthorMergeProcess {
             }
             firstName.replace("-","");
         }
-        author.setEnFirstName(firstName);
-        author.setEnLastName(lastName);
-        author.setEnName(firstName+","+lastName);
-        author.setName(firstName+","+lastName);
+        author.setEnFirstName(firstName.replace(".","").replace("-",""));
+        author.setEnLastName(lastName.replace(".","").replace("-",""));
+        author.setEnName(author.getEnFirstName()+","+author.getEnLastName());
+        author.setName(author.getEnName());
 
     }
 

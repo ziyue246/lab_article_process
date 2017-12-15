@@ -6,6 +6,7 @@ public class InstitutionData {
 
     private int id;
     private String name;
+    private int rank;
     private int weight;
     private String titles;
     private String correctName;
@@ -18,6 +19,17 @@ public class InstitutionData {
 
     private String originIds;//在原始表中的ids
 
+    private int originId;
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+
     public String getOriginIds() {
         return originIds;
     }
@@ -26,6 +38,13 @@ public class InstitutionData {
         this.originIds = originIds;
     }
 
+    public int getOriginId() {
+        return originId;
+    }
+
+    public void setOriginId(int originId) {
+        this.originId = originId;
+    }
 
     public int getId() {
         return id;

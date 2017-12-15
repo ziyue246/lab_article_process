@@ -72,6 +72,10 @@ public class CnkiInstitutionProcess extends InstitutionProcess {
                     institution.contains("控制")&&institution.contains("国家重点")){
                 result="复杂系统管理与控制国家重点实验室";
                 break;
+            }//青岛智能产业技术研究院
+            if((institution.contains("青岛智能产业技术研究院"))){
+                result="青岛智能产业技术研究院";
+                break;
             }
         }
         return result;
