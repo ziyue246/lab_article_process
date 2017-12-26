@@ -4,6 +4,7 @@ import common.analysis.EnAnalysis;
 import common.pojo.InquireInfoData;
 import common.pojo.PaperData;
 import common.pojo.PaperMergeData;
+import common.system.OperationExcel;
 import common.system.Systemconfig;
 import org.apache.log4j.Logger;
 
@@ -66,12 +67,18 @@ public class PaperMergeProcess {
                     paperMergeData.setSciDown(paperData.getDownNum());
                     paperMergeData.setSciRefer(paperData.getCiteNum());
                     paperMergeData.setSciDataId(paperData.getId());
+
+
                 }
                 if(type.toLowerCase().contains("ei")) {
                     paperMergeData.setInEi(1);
                     paperMergeData.setEiDown(paperData.getDownNum());
                     paperMergeData.setEiRefer(paperData.getCiteNum());
                     paperMergeData.setEiDataId(paperData.getId());
+                    if(paperMergeData.getInSci()!=1){
+                        String formatStr = OperationExcel.dealEiArticle(paperData,null,null,null,null);
+                        paperMergeData.setFormatStr(formatStr);
+                    }
                 }
                 return;
             }
@@ -109,18 +116,26 @@ public class PaperMergeProcess {
             paperMergeData.setSciDown(paperData.getDownNum()<0?0:paperData.getDownNum());
             paperMergeData.setSciRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setSciDataId(paperData.getId());
+            String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
+            paperMergeData.setFormatStr(formatStr);
         }
         if(type.toLowerCase().contains("ei")) {
             paperMergeData.setInEi(1);
             paperMergeData.setEiDown(paperData.getDownNum()<0?0:paperData.getDownNum());
             paperMergeData.setEiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setEiDataId(paperData.getId());
+            if(paperMergeData.getInSci()!=1){
+                String formatStr = OperationExcel.dealEiArticle(paperData,null,null,null,null);
+                paperMergeData.setFormatStr(formatStr);
+            }
         }
         if(type.toLowerCase().contains("cnki")) {
             paperMergeData.setInCnki(1);
             paperMergeData.setCnkiDown(paperData.getDownNum()<0?0:paperData.getDownNum());
             paperMergeData.setCnkiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setCnkiDataId(paperData.getId());
+            String formatStr = OperationExcel.dealCnkiArticle(paperData,null,null,null,null);
+            paperMergeData.setFormatStr(formatStr);
         }
         return paperMergeData;
     }

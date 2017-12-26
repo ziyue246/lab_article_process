@@ -118,7 +118,7 @@
         <result column="cnki_down"				property="cnkiDown"		    jdbcType="INTEGER" />
         <result column="cnki_refer"				property="cnkiRefer"		jdbcType="INTEGER" />
         <result column="cnki_data_id"			property="cnkiDataId"		jdbcType="INTEGER" />
-
+        <result column="format_str"				property="formatStr"		jdbcType="VARCHAR" />
     </resultMap>
 
 
@@ -165,8 +165,8 @@
             in_cnki,
             cnki_down,
             cnki_refer,
-            cnki_data_id
-
+            cnki_data_id,
+            format_str
         )
 
         VALUES
@@ -205,7 +205,8 @@
             #{inCnki,jdbcType=NUMERIC},
             #{CnkiDown,jdbcType=NUMERIC},
             #{CnkiRefer,jdbcType=NUMERIC},
-            #{CnkiDataId,jdbcType=NUMERIC}
+            #{CnkiDataId,jdbcType=NUMERIC},
+            #{formatStr,jdbcType=VARCHAR}
         )
 
     </insert>

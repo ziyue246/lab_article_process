@@ -45,7 +45,7 @@ public class PaperMergeData {
     private int CnkiDown;
     private int CnkiRefer;
     private int CnkiDataId;
-
+    private String formatStr;
 
 
 
@@ -349,5 +349,14 @@ public class PaperMergeData {
 
     public void setInstitutionDataList(List<InstitutionData> institutionDataList) {
         this.institutionDataList = institutionDataList;
+    }
+
+
+    public String getFormatStr() {
+        return formatStr;
+    }
+
+    public void setFormatStr(String formatStr) {
+        this.formatStr = formatStr;
     }
 }
