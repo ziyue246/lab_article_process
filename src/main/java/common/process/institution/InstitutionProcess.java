@@ -79,17 +79,20 @@ public class InstitutionProcess {
             if(ins.contains("Chinese Academy of Sciences")){
                 result="Chinese Academy of Sciences";
             }
-            if((institution.contains("Institute of Automation")||
+            if((institution.toLowerCase().contains("institute of automation")||
                     institution.toLowerCase().contains("casia")||
-                    institution.toLowerCase().contains("Inst Automat"))&&
+                    institution.toLowerCase().contains("inst automat"))
+                    &&
                     institution.contains("State Key")&&
                     institution.contains("Complex")&&institution.contains("Management")) {
                 result = "State Key Laboratory of Management and Control for Complex Systems";
-                break;
-            }//Qingdao Academy of Intelligent Industries
-            if((institution.toLowerCase().contains("qingdao")||
-                    institution.toLowerCase().contains("academy")||
-                    institution.toLowerCase().contains("intelligent")||
+
+            }
+
+            //Qingdao Academy of Intelligent Industries
+            if((institution.toLowerCase().contains("qingdao")&&
+                    institution.toLowerCase().contains("academy")&&
+                    institution.toLowerCase().contains("intelligent")&&
                     institution.toLowerCase().contains("industries"))){
                 result="Qingdao Academy of Intelligent Industries";
                 break;

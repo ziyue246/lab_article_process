@@ -11,6 +11,10 @@ import sun.plugin.javascript.navig.Array;
 
 import java.util.*;
 
+
+/**
+ * Created by ziyue on 2017/12/15
+ */
 public class PaperAuthorProcess {
 
     private static Logger logger = Logger.getLogger(PaperAuthorProcess.class);
@@ -24,11 +28,17 @@ public class PaperAuthorProcess {
 
 
         List<AuthorData> authorAllDataList = extractAuthorInsti(paperMergeDataList);
+
+        logger.info("get authorInstiCountMap");
         Map<String,Map<String,Integer>> authorInstiCountMap =countAuthorInstitution(authorAllDataList);
 
         List<PaperAuthorInstiData> paperAuthorInstiDataList = new ArrayList<PaperAuthorInstiData>();
-
+        logger.info("get paperAuthorInstiDataList from paperMergeDataList");
         for(PaperMergeData paperMergeData:paperMergeDataList){
+
+
+
+
 
             //zh
             if(paperMergeData.getInCnki()==1){
@@ -207,7 +217,7 @@ public class PaperAuthorProcess {
         }
 
 
-
+        logger.info("savepaperAuthorInstiData");
         savepaperAuthorInstiData(paperAuthorInstiDataList);
 
     }
@@ -288,17 +298,37 @@ public class PaperAuthorProcess {
         }
     }
 
+    /**
+     * save data to paperAuthorDb ,paperAuthorInstiDb,  paperInstiDb
+     * @param paperAuthorInstiDataList
+     */
+
     private void savepaperAuthorInstiData(List<PaperAuthorInstiData> paperAuthorInstiDataList){
+        logger.info("save to paperAuthorDb");
         save2PaperAuthorDb(paperAuthorInstiDataList);
+        logger.info("paperAuthorDb save completed");
+
+
+        logger.info("save to paperAuthorInstiDb");
         save2PaperAuthorInstiDb(paperAuthorInstiDataList);
+        logger.info("paperAuthorInstiDb save completed");
+
+
+        logger.info("save to paperInstiDb");
         save2PaperInstiDb(paperAuthorInstiDataList);
+        logger.info("paperInstiDb save completed");
+
+
+        //logger.info("save to authorInstiGroupDb");
         //save2AuthorInstiGroupDb(paperAuthorInstiDataList);
+        //logger.info("authorInstiGroupDb save completed");
+
     }
 
 
 
     /**
-     *
+     *  extractAuthorInsti include chinese and englist
      * @param paperMergeDataList
      * @return
      */
@@ -306,7 +336,9 @@ public class PaperAuthorProcess {
     private List<AuthorData> extractAuthorInsti(List<PaperMergeData> paperMergeDataList){
         List<AuthorData> authorAllDataList = new ArrayList<AuthorData>();
         for(PaperMergeData paperMergeData:paperMergeDataList){
-
+            if(paperMergeData.getId()==10993){
+                logger.info("10993");
+            }
             //zh
             if(paperMergeData.getInCnki()==1){
                 zhAuthorInstiExtract(paperMergeData);
@@ -346,7 +378,7 @@ public class PaperAuthorProcess {
 
 
     /**
-     * 作者统计
+     * count author
      * @param authorAllDataList
      * @return
      */
@@ -670,20 +702,20 @@ public class PaperAuthorProcess {
                 result= ins.trim();
             }//Chinese Academy of Sciences
 
-            if(ins.contains("Chinese Academy of Sciences")){
+            if(ins.contains("Chinese Academy of Sciences")||ins.contains("Chinese Acad Sci")){
                 result="Chinese Academy of Sciences";
             }
-            if((institution.contains("Institute of Automation")||
+            if((institution.toLowerCase().contains("institute of automation")||
                     institution.toLowerCase().contains("casia")||
-                    institution.toLowerCase().contains("Inst Automat"))&&
+                    institution.toLowerCase().contains("inst automat"))&&
                     institution.contains("State Key")&&
                     institution.contains("Complex")&&institution.contains("Management")){
                 result="State Key Laboratory of Management and Control for Complex Systems";
                 break;
             }//Qingdao Academy of Intelligent Industries
-            if((institution.toLowerCase().contains("qingdao")||
-                    institution.toLowerCase().contains("academy")||
-                    institution.toLowerCase().contains("intelligent")||
+            if((institution.toLowerCase().contains("qingdao")&&
+                    institution.toLowerCase().contains("academy")&&
+                    institution.toLowerCase().contains("intelligent")&&
                     institution.toLowerCase().contains("industries"))){
                 result="Qingdao Academy of Intelligent Industries";
                 break;

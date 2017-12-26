@@ -13,9 +13,8 @@ import org.apache.log4j.Logger;
 
 import java.util.*;
 
-
 /**
- *
+ * Created by ziyue on 2017/12/15
  */
 public class InstitutionMergeProcess extends InstitutionProcess {
 
@@ -24,22 +23,22 @@ public class InstitutionMergeProcess extends InstitutionProcess {
 
 
     /**
-     *
+     *   merge and save to db
      */
 
     public void process() {
 
         InquireInfoData inquireInfoData = new InquireInfoData();
 
-        Set<String>  eiInstitutionSet   = getIeInstitutionNameSet();
+        Set<String>  eiInstitutionSet   = getEiInstitutionNameSet();
         Set<String>  sciInstitutionSet  = getSciInstitutionNameSet();
         Set<String>  cnkiInstitutionSet = getCnkiInstitutionNameSet();
 
         //从数据库获取mergetable数据
         inquireInfoData.setTableName("institution");
-        List<InstitutionData> originMergePaperDataList = Systemconfig.institutionService.getAllMergeDatas(inquireInfoData);
+        List<InstitutionData> dbMergePaperDataList = Systemconfig.institutionService.getAllMergeDatas(inquireInfoData);
 
-        for(InstitutionData institutionData:originMergePaperDataList){
+        for(InstitutionData institutionData:dbMergePaperDataList){
             String nameZh = institutionData.getNameZh();
             String nameEn = institutionData.getNameEn();
             removeFromSet(nameEn,eiInstitutionSet  ,"EN");
@@ -64,6 +63,12 @@ public class InstitutionMergeProcess extends InstitutionProcess {
 
     }
 
+
+    /**
+     *
+     * @param list   List<InstitutionData>
+     * @param tableName db tableName
+     */
     private void save(List<InstitutionData> list,String tableName){
 
         logger.info("tatol merge institution datas size:"+list.size());
@@ -78,9 +83,9 @@ public class InstitutionMergeProcess extends InstitutionProcess {
 
     /**
      *
-     * @param list
-     * @param set
-     * @param mark
+     * @param list   mergeList
+     * @param set    institution name Set
+     * @param mark   mark type EN or ZH
      */
     private void addMergePaperDataList(List<InstitutionData> list,Set<String> set,String mark){
 
@@ -100,9 +105,9 @@ public class InstitutionMergeProcess extends InstitutionProcess {
 
     /**
      *
-     * @param name
-     * @param set
-     * @param mark
+     * @param name instition name
+     * @param set  name set
+     * @param mark type
      */
     private void removeFromSet(String name,Set<String> set,String mark){
         if(name==null||name.length()==0)return ;
@@ -120,6 +125,11 @@ public class InstitutionMergeProcess extends InstitutionProcess {
 
         }
     }
+
+    /**
+     * get cnki institution name Set
+     * @return  Set<String> institution name Set
+     */
     private Set<String> getCnkiInstitutionNameSet(){
         InquireInfoData inquireInfoData = new InquireInfoData();
         //从数据库获取cnki数据
@@ -130,7 +140,10 @@ public class InstitutionMergeProcess extends InstitutionProcess {
         return cnkiInstitution.extractMerge(cnkiPaperDataList).keySet();
 
     }
-
+    /**
+     * get sci institution name Set
+     * @return  Set<String> institution name Set
+     */
     private Set<String> getSciInstitutionNameSet(){
         InquireInfoData inquireInfoData = new InquireInfoData();
 
@@ -145,7 +158,11 @@ public class InstitutionMergeProcess extends InstitutionProcess {
     }
 
 
-    private Set<String> getIeInstitutionNameSet(){
+    /**
+     * get ei institution name Set
+     * @return  Set<String> institution name Set
+     */
+    private Set<String> getEiInstitutionNameSet(){
         InquireInfoData inquireInfoData = new InquireInfoData();
 
         //从数据库获取ei数据
@@ -158,6 +175,12 @@ public class InstitutionMergeProcess extends InstitutionProcess {
         return eiInstitution.extractMerge(eiPaperDataList).keySet();
     }
 
+    /**
+     *  englist institution name merge or not
+     * @param abb
+     * @param full
+     * @return  boolean   merge or not
+     */
     public boolean isEnInstiAbbFullMerge(String abb,String full) {
         String nameabb = abb;
         String namefull = full.replace("of", "")

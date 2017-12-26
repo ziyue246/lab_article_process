@@ -93,4 +93,27 @@ public class Str {
         System.out.println(""+a+b+c);
     }
 
+    @Test
+    public void test5131(){
+
+        String insti="[ 1 ] Chinese Acad Sci, " +
+                "Inst Automat, Intelligent Med Res Ctr, " +
+                "State Key Lab Management and Control Complex Syst, " +
+                "Beijing 100190, Peoples R China";
+
+        String result = "1";
+        if((insti.toLowerCase().contains("institute of automation")||
+                insti.toLowerCase().contains("casia")||
+                insti.toLowerCase().contains("inst automat"))
+
+
+                &&
+                insti.contains("State Key")&&
+                insti.contains("Complex")&&insti.contains("Management")) {
+            result = "State Key Laboratory of Management and Control for Complex Systems";
+
+        }
+
+        System.out.println(result);
+    }
 }

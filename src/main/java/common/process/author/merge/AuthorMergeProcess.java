@@ -14,48 +14,55 @@ import org.apache.log4j.Logger;
 
 import java.util.*;
 
+
+/**
+ * Created by ziyue on 2017/12/15
+ */
 public class AuthorMergeProcess {
 
     private static Logger logger = Logger.getLogger(AuthorMergeProcess.class);
 
     public void process(){
 
-        HashMap<String,AuthorData> eiAuthorMap  = getEiNameSet();
-        HashMap<String,AuthorData> sciAuthorMap  = getSciNameSet();
-        HashMap<String,AuthorData> cnkiAuthorMap = getCnkiNameSet();
+        HashMap<String,AuthorData> eiAuthorMap  = getEiNameMap();
+        HashMap<String,AuthorData> sciAuthorMap  = getSciNameMap();
+        HashMap<String,AuthorData> cnkiAuthorMap = getCnkiNameMap();
 
+        List<AuthorData> dbAuthorList = getDbAuthorList();
 
-        List<AuthorData> dbAuthor = getDbAuthorSet();
-
-//        for(String name:sciAuthorMap.keySet()){
-//            enAuthorProcess(sciAuthorMap.get(name));
-//            System.out.println((name));
-//            System.out.println(sciAuthorMap.get(name).getName());
-//        }
         Set<AuthorData> srcAuthorSet = new HashSet<AuthorData>();
         for(String name:eiAuthorMap.keySet()){
             enAuthorProcess(eiAuthorMap.get(name));
             srcAuthorSet.add(eiAuthorMap.get(name));
         }
+        logger.info("eiAuthor completed...");
         for(String name:sciAuthorMap.keySet()){
             enAuthorProcess(sciAuthorMap.get(name));
             srcAuthorSet.add(sciAuthorMap.get(name));
         }
+        logger.info("sciAuthor completed...");
         for(String name:cnkiAuthorMap.keySet()){
             zhAuthorProcess(cnkiAuthorMap.get(name));
             srcAuthorSet.add(cnkiAuthorMap.get(name));
         }
+        logger.info("cnkiAuthor completed...");
         Set<AuthorData> newAuthorSet = new HashSet<AuthorData>();
-        mergeAuthor(dbAuthor,newAuthorSet,srcAuthorSet);
-
+        mergeAuthor(dbAuthorList,newAuthorSet,srcAuthorSet);
+        logger.info("mergeAuthor completed...");
         for(AuthorData authorData:newAuthorSet){
             InquireInfoData inquireInfoData = new InquireInfoData();
             inquireInfoData.setTableName("author");
             inquireInfoData.setAuthorData(authorData);
-            logger.info(authorData.getName());
             Systemconfig.authorService.saveMerge(inquireInfoData);
-        }
+        }logger.info("save author size :"+newAuthorSet.size());
     }
+
+    /**
+     * merge author to newAuthorSet
+     * @param dbAuthor
+     * @param newAuthorSet
+     * @param srcAuthorSet
+     */
     public void mergeAuthor(List<AuthorData> dbAuthor,Set<AuthorData> newAuthorSet,Set<AuthorData> srcAuthorSet){
         for(AuthorData authorData:newAuthorSet){
             for(Iterator<AuthorData> it = srcAuthorSet.iterator(); it.hasNext(); ){
@@ -95,16 +102,21 @@ public class AuthorMergeProcess {
         return false;
     }
 
-    private List<AuthorData> getDbAuthorSet(){
+    /**
+     * get db author list
+     * @return
+     */
+    private List<AuthorData> getDbAuthorList(){
         InquireInfoData inquireInfoData = new InquireInfoData();
         inquireInfoData.setTableName("author");
         List<AuthorData> authorDataList = Systemconfig.authorService.getAllMergeDatas(inquireInfoData);
-
-
         return authorDataList;
     }
-
-    private HashMap<String,AuthorData> getEiNameSet(){
+    /**
+     * get ei author map
+     * @return HashMap<String,AuthorData>
+     */
+    private HashMap<String,AuthorData> getEiNameMap(){
         InquireInfoData inquireInfoData = new InquireInfoData();
         inquireInfoData.setTableName("ei_data");
         List<PaperData> eiPaperDataList = Systemconfig.paperService.getAllDatas(inquireInfoData);
@@ -113,7 +125,11 @@ public class AuthorMergeProcess {
         eiAuthorProcess.process(eiPaperDataList,";");
         return eiAuthorProcess.extract(eiPaperDataList);
     }
-    private HashMap<String,AuthorData> getSciNameSet(){
+    /**
+     * get sci author map
+     * @return HashMap<String,AuthorData>
+     */
+    private HashMap<String,AuthorData> getSciNameMap(){
         InquireInfoData inquireInfoData = new InquireInfoData();
         inquireInfoData.setTableName("sci_data");
         List<PaperData> sciPaperDataList = Systemconfig.paperService.getAllDatas(inquireInfoData);
@@ -122,7 +138,12 @@ public class AuthorMergeProcess {
         sciAuthorProcess.process(sciPaperDataList,";");
         return sciAuthorProcess.extract(sciPaperDataList);
     }
-    private HashMap<String,AuthorData> getCnkiNameSet(){
+
+    /**
+     * get cnki author map
+     * @return HashMap<String,AuthorData>
+     */
+    private HashMap<String,AuthorData> getCnkiNameMap(){
 
         InquireInfoData inquireInfoData = new InquireInfoData();
         inquireInfoData.setTableName("cnki_data");
@@ -134,21 +155,10 @@ public class AuthorMergeProcess {
 
     }
 
-    public AuthorData enNameStr2Author(String name){
-        AuthorData author = new AuthorData();
-
-        String firstName = name.split(",")[1].trim();
-        String lastName = name.split(",")[0].trim();
-
-
-        author.setEnFirstName(firstName);
-        author.setEnLastName(lastName);
-        author.setEnName(firstName+","+lastName);
-        author.setName(firstName+","+lastName);
-
-        return author;
-    }
-
+    /**
+     * chinese author name process to author
+     * @param author
+     */
     public void enAuthorProcess(AuthorData author){
         if(author==null)return ;
         String name = author.getName();
@@ -178,6 +188,10 @@ public class AuthorMergeProcess {
 
     }
 
+    /**
+     * chinese author name process to author
+     * @param author
+     */
     public void zhAuthorProcess(AuthorData author){
 
         String name = author.getName();
@@ -191,8 +205,6 @@ public class AuthorMergeProcess {
             abbFirstName+=StringProcess.toHanyuPinyin(
                     firstName.substring(i,i+1)).substring(0,1).toUpperCase();
         }
-
-
         author.setZhName(name);
         author.setZhFirstName(firstName);
         author.setZhLastName(lastName);

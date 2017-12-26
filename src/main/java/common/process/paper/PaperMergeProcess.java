@@ -64,13 +64,13 @@ public class PaperMergeProcess {
                 if(type.toLowerCase().contains("sci")) {
                     paperMergeData.setInSci(1);
                     paperMergeData.setSciDown(paperData.getDownNum());
-                    paperMergeData.setSciRefer(paperData.getReferNum());
+                    paperMergeData.setSciRefer(paperData.getCiteNum());
                     paperMergeData.setSciDataId(paperData.getId());
                 }
                 if(type.toLowerCase().contains("ei")) {
                     paperMergeData.setInEi(1);
                     paperMergeData.setEiDown(paperData.getDownNum());
-                    paperMergeData.setEiRefer(paperData.getReferNum());
+                    paperMergeData.setEiRefer(paperData.getCiteNum());
                     paperMergeData.setEiDataId(paperData.getId());
                 }
                 return;
@@ -105,20 +105,21 @@ public class PaperMergeProcess {
 
         if(type.toLowerCase().contains("sci")) {
             paperMergeData.setInSci(1);
-            paperMergeData.setSciDown(paperData.getDownNum());
-            paperMergeData.setSciRefer(paperData.getReferNum());
+
+            paperMergeData.setSciDown(paperData.getDownNum()<0?0:paperData.getDownNum());
+            paperMergeData.setSciRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setSciDataId(paperData.getId());
         }
         if(type.toLowerCase().contains("ei")) {
             paperMergeData.setInEi(1);
-            paperMergeData.setEiDown(paperData.getDownNum());
-            paperMergeData.setEiRefer(paperData.getReferNum());
+            paperMergeData.setEiDown(paperData.getDownNum()<0?0:paperData.getDownNum());
+            paperMergeData.setEiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setEiDataId(paperData.getId());
         }
         if(type.toLowerCase().contains("cnki")) {
             paperMergeData.setInCnki(1);
-            paperMergeData.setCnkiDown(paperData.getDownNum());
-            paperMergeData.setCnkiRefer(paperData.getReferNum());
+            paperMergeData.setCnkiDown(paperData.getDownNum()<0?0:paperData.getDownNum());
+            paperMergeData.setCnkiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setCnkiDataId(paperData.getId());
         }
         return paperMergeData;

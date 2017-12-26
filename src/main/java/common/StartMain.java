@@ -7,6 +7,10 @@ import common.process.relation.PaperAuthorProcess;
 import common.system.AppContext;
 import org.apache.log4j.Logger;
 
+
+/**
+ * Created by ziyue on 2017/12/15
+ */
 public class StartMain {
 
     private static Logger logger = Logger.getLogger(StartMain.class);
@@ -17,20 +21,18 @@ public class StartMain {
         AppContext.initial();
 
 
-        //InstitutionMergeProcess instiMergeProcess = new InstitutionMergeProcess();
-        //instiMergeProcess.process();
+//        InstitutionMergeProcess instiMergeProcess = new InstitutionMergeProcess();
+//        instiMergeProcess.process();
+//        AuthorMergeProcess authorMergeProcess = new AuthorMergeProcess();
+//        authorMergeProcess.process();
 
-
-
-        //AuthorMergeProcess authorMergeProcess = new AuthorMergeProcess();
-        //authorMergeProcess.process();
-
-//        PaperMergeProcess paperMergeProcess = new PaperMergeProcess();
-//        paperMergeProcess.process();
-
-
+        PaperMergeProcess paperMergeProcess = new PaperMergeProcess();
+        paperMergeProcess.process();
         PaperAuthorProcess paperAuthorProcess = new PaperAuthorProcess();
         paperAuthorProcess.process();
+
+
+        logger.info("Over...");
     }
 
 }
