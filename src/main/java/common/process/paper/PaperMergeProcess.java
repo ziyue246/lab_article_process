@@ -31,11 +31,14 @@ public class PaperMergeProcess {
 
         List<PaperMergeData> paperMergeDataList = Systemconfig.paperService.getAllMergeDatas();
         //List<PaperMergeData> paperMergeDataList = new ArrayList<PaperMergeData>();
-        for(PaperData paperData:eiPaperDataList){
-            paperMergeDataList.add(paperData2paperMergeData(paperData,"ei"));
-        }
+
+        // sci is main category
+        // when one paper both in sci and ei, save sci massage
         for(PaperData paperData:sciPaperDataList){
-            enPaperMerge(paperMergeDataList,paperData,"sci");
+            paperMergeDataList.add(paperData2paperMergeData(paperData,"sci"));
+        }
+        for(PaperData paperData:eiPaperDataList){
+            enPaperMerge(paperMergeDataList,paperData,"ei");
         }
         for(PaperData paperData:cnkiPaperDataList){
             paperMergeDataList.add(paperData2paperMergeData(paperData,"cnki"));
@@ -56,19 +59,12 @@ public class PaperMergeProcess {
 
 
             if(titleSimilarity>0.95){
-                if(paperMergeData.getAuthors()==null&&paperData.getAuthor()!=null){
-                    paperMergeData.setAuthors(paperData.getAuthor());
-                }
-                if(paperMergeData.getInstitutions()==null&&paperData.getAddress()!=null){
-                    paperMergeData.setInstitutions(paperData.getAddress());
-                }
+                paperMergeDataNullFieldFilling(paperMergeData,paperData);
                 if(type.toLowerCase().contains("sci")) {
                     paperMergeData.setInSci(1);
                     paperMergeData.setSciDown(paperData.getDownNum());
                     paperMergeData.setSciRefer(paperData.getCiteNum());
                     paperMergeData.setSciDataId(paperData.getId());
-
-
                 }
                 if(type.toLowerCase().contains("ei")) {
                     paperMergeData.setInEi(1);
@@ -87,6 +83,38 @@ public class PaperMergeProcess {
 
     }
 
+    /**
+     * paperMergeData field filling
+     * @param paperMergeData
+     * @param paperData
+     */
+    private void  paperMergeDataNullFieldFilling(PaperMergeData paperMergeData,PaperData paperData){
+
+        if(paperMergeData.getTitle()==null)paperMergeData.setTitle(paperData.getTitle());
+        if(paperMergeData.getAuthors()==null)paperMergeData.setAuthors(paperData.getAuthor());
+        if(paperMergeData.getInstitutions()==null)paperMergeData.setInstitutions(paperData.getAddress());
+        if(paperMergeData.getPubdate()==null)paperMergeData.setPubdate(paperData.getPubdate());
+        if(paperMergeData.getPublisher()==null)paperMergeData.setPublisher(paperData.getPublisher());
+        if(paperMergeData.getInsertTime()==null)paperMergeData.setInsertTime(paperData.getInsertTime());
+        if(paperMergeData.getBrief()==null)paperMergeData.setBrief(paperData.getBrief());
+        if(paperMergeData.getJournal()==null)paperMergeData.setJournal(paperData.getJournal());
+        if(paperMergeData.getKeywords()==null)paperMergeData.setKeywords(paperData.getKeywords());
+        if(paperMergeData.getFund()==null)paperMergeData.setFund(paperData.getFund());
+        if(paperMergeData.getVolume()==null)paperMergeData.setVolume(paperData.getVolume());
+        if(paperMergeData.getIssue()==null)paperMergeData.setIssue(paperData.getIssue());
+        if(paperMergeData.getPageCode()==null)paperMergeData.setPageCode(paperData.getPageCode());
+        if(paperMergeData.getDoi()==null)paperMergeData.setDoi(paperData.getDoi());
+        if(paperMergeData.getImpactFactor2year()<=0)paperMergeData.setImpactFactor2year(paperData.getImpactFactor2year());
+        if(paperMergeData.getImpactFactor5year()<=0)paperMergeData.setImpactFactor5year(paperData.getImpactFactor5year());
+        if(paperMergeData.getJcr()==null)paperMergeData.setJcr(paperData.getJcr());
+        if(paperMergeData.getSourceTitle()==null)paperMergeData.setSourceTitle(paperData.getSourceTitle());
+    }
+    /**
+     *
+     * @param paperData
+     * @param type
+     * @return
+     */
     private PaperMergeData  paperData2paperMergeData(PaperData paperData,String type){
         if(paperData==null)return null;
         PaperMergeData paperMergeData = new PaperMergeData();
@@ -112,7 +140,6 @@ public class PaperMergeProcess {
 
         if(type.toLowerCase().contains("sci")) {
             paperMergeData.setInSci(1);
-
             paperMergeData.setSciDown(paperData.getDownNum()<0?0:paperData.getDownNum());
             paperMergeData.setSciRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setSciDataId(paperData.getId());
