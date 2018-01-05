@@ -6,6 +6,8 @@ import java.util.List;
 public class PaperMergeData {
 
     private int id;
+
+
     private String title;
     private String authors;
     private String institutions;
@@ -25,7 +27,6 @@ public class PaperMergeData {
     private double impactFactor5year;
     private String jcr;
     private String sourceTitle;
-
     private String conferenceDate;
     private String conferenceLocation;
     private String categoryCode;

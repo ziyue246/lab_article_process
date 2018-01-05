@@ -108,6 +108,11 @@ public class PaperMergeProcess {
         if(paperMergeData.getImpactFactor5year()<=0)paperMergeData.setImpactFactor5year(paperData.getImpactFactor5year());
         if(paperMergeData.getJcr()==null)paperMergeData.setJcr(paperData.getJcr());
         if(paperMergeData.getSourceTitle()==null)paperMergeData.setSourceTitle(paperData.getSourceTitle());
+        if(paperMergeData.getConferenceDate()==null)paperMergeData.setConferenceDate(paperData.getConferenceDate());
+        if(paperMergeData.getConferenceLocation()==null)paperMergeData.setConferenceLocation(paperData.getConferenceLocation());
+        if(paperMergeData.getCategory()==null)paperMergeData.setCategory(paperData.getCategory());
+        if(paperMergeData.getCategoryCode()==null)paperMergeData.setCategoryCode(paperData.getCategoryCode());
+
     }
     /**
      *
@@ -118,24 +123,28 @@ public class PaperMergeProcess {
     private PaperMergeData  paperData2paperMergeData(PaperData paperData,String type){
         if(paperData==null)return null;
         PaperMergeData paperMergeData = new PaperMergeData();
-        paperMergeData.setTitle(paperData.getTitle());
-        paperMergeData.setAuthors(paperData.getAuthor());
-        paperMergeData.setInstitutions(paperData.getAddress());
-        paperMergeData.setPubdate(paperData.getPubdate());
-        paperMergeData.setPublisher(paperData.getPublisher());
-        paperMergeData.setInsertTime(paperData.getInsertTime());
-        paperMergeData.setBrief(paperData.getBrief());
-        paperMergeData.setJournal(paperData.getJournal());
-        paperMergeData.setKeywords(paperData.getKeywords());
-        paperMergeData.setFund(paperData.getFund());
-        paperMergeData.setVolume(paperData.getVolume());
-        paperMergeData.setIssue(paperData.getIssue());
-        paperMergeData.setPageCode(paperData.getPageCode());
-        paperMergeData.setDoi(paperData.getDoi());
-        paperMergeData.setImpactFactor2year(paperData.getImpactFactor2year());
-        paperMergeData.setImpactFactor5year(paperData.getImpactFactor5year());
-        paperMergeData.setJcr(paperData.getJcr());
-        paperMergeData.setSourceTitle(paperData.getSourceTitle());
+
+        paperMergeDataNullFieldFilling(paperMergeData,paperData);
+//        paperMergeData.setTitle(paperData.getTitle());
+//        paperMergeData.setAuthors(paperData.getAuthor());
+//        paperMergeData.setInstitutions(paperData.getAddress());
+//        paperMergeData.setPubdate(paperData.getPubdate());
+//        paperMergeData.setPublisher(paperData.getPublisher());
+//        paperMergeData.setInsertTime(paperData.getInsertTime());
+//        paperMergeData.setBrief(paperData.getBrief());
+//        paperMergeData.setJournal(paperData.getJournal());
+//        paperMergeData.setKeywords(paperData.getKeywords());
+//        paperMergeData.setFund(paperData.getFund());
+//        paperMergeData.setVolume(paperData.getVolume());
+//        paperMergeData.setIssue(paperData.getIssue());
+//        paperMergeData.setPageCode(paperData.getPageCode());
+//        paperMergeData.setDoi(paperData.getDoi());
+//        paperMergeData.setImpactFactor2year(paperData.getImpactFactor2year());
+//        paperMergeData.setImpactFactor5year(paperData.getImpactFactor5year());
+//        paperMergeData.setConferenceDate(paperData.getConferenceDate());
+//        paperMergeData.setConferenceLocation(paperData.getConferenceLocation());
+//        paperMergeData.setJcr(paperData.getJcr());
+//        paperMergeData.setSourceTitle(paperData.getSourceTitle());
 
 
         if(type.toLowerCase().contains("sci")) {
