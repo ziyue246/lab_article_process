@@ -36,10 +36,6 @@ public class PaperAuthorProcess {
         logger.info("get paperAuthorInstiDataList from paperMergeDataList");
         for(PaperMergeData paperMergeData:paperMergeDataList){
 
-
-
-
-
             //zh
             if(paperMergeData.getInCnki()==1){
                 //insti get dbid
@@ -130,14 +126,35 @@ public class PaperAuthorProcess {
             }else{//en
                 //insti get dbid
                 for(InstitutionData institutionData:paperMergeData.getInstitutionDataList()){
+                    double maxSimilar = 0.70;
+                    InstitutionData institutionDataRecord = null;
                     for(InstitutionData dbInstitutionData:dbInstitutionDataList){
                         if(dbInstitutionData.getNameEn()==null)continue;
-                        if(dbInstitutionData.getNameEn().equals(institutionData.getNameEn())||
-                            EnAnalysis.getSimilarity(dbInstitutionData.getNameEn(),
-                                    institutionData.getNameEn())>0.95  ) {//find name in insti db data
-                            institutionData.setOriginId(dbInstitutionData.getId());
+                        if(dbInstitutionData.getNameEn().equals(institutionData.getNameEn())) {
+                            institutionDataRecord = dbInstitutionData;
+                            maxSimilar=1;
                             break;
                         }
+                        else{
+                            double similarValue = EnAnalysis.getSimilarity(dbInstitutionData.getNameEn(),
+                                    institutionData.getNameEn());
+                            if(similarValue>maxSimilar){
+                                maxSimilar = similarValue;
+                                institutionDataRecord = dbInstitutionData;
+                            }
+                        }
+                    }
+                    if(institutionDataRecord!=null){
+                        logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbinsti:"
+                                + institutionDataRecord.getNameEn()
+                                + ",  eninsti:"+institutionData.getNameEn()
+                                + ",  maxSimilar:"+maxSimilar);
+                        institutionData.setOriginId(institutionDataRecord.getId());
+                    }else{
+                        logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbinsti:"
+                                + null
+                                + ",  eninsti:"+institutionData.getNameEn()
+                                + ",  maxSimilar:"+maxSimilar);
                     }
                 }
                 //author
@@ -148,15 +165,35 @@ public class PaperAuthorProcess {
                     paperAuthorInstiData.setAuthorRank(authorData.getRank());//paper rank;
                     //author
                     String enName = authorData.getEnName();
+
+                    double maxSimilar = 0.90;
+                    AuthorData authorDataRecord = null;
                     for(AuthorData dbAuthorData:dbAuthorList){
                         if(dbAuthorData.getEnLastName()==null||
                                 dbAuthorData.getEnFirstName()==null)continue;
 
-                        String dbenName = dbAuthorData.getEnLastName()+dbAuthorData.getEnFirstName();
-                        if(dbenName.equals(enName)||EnAnalysis.getSimilarity(dbenName,enName)>0.95){//find name in  author db data
-                            paperAuthorInstiData.setAuthorNameId(dbAuthorData.getId());//author id
+                        String dbenName = dbAuthorData.getEnLastName()+" "+dbAuthorData.getEnFirstName();
+                        if(dbenName.equals(enName)){//find name in  author db data
+                            authorDataRecord = dbAuthorData;//author id
+                            maxSimilar=1;
                             break;
+                        }else{
+                            double similarValue = EnAnalysis.getSimilarity(dbenName,enName);
+                            if(similarValue>maxSimilar){
+                                maxSimilar = similarValue;
+                                authorDataRecord = dbAuthorData;
+                            }
                         }
+                    }
+                    if(authorDataRecord!=null) {
+                        String dbenName = authorDataRecord.getEnLastName() + " "
+                                + authorDataRecord.getEnFirstName();
+                        logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbName:"
+                                + dbenName + ",  enName:"+enName+",  maxSimilar:"+maxSimilar);
+                        paperAuthorInstiData.setAuthorNameId(authorDataRecord.getId());
+                    }else{
+                        logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbName:"
+                                + null + ",  enName:"+enName+",  maxSimilar:"+maxSimilar);
                     }
 
                     //institution
@@ -215,8 +252,6 @@ public class PaperAuthorProcess {
                 }
             }
         }
-
-
         logger.info("savepaperAuthorInstiData");
         savepaperAuthorInstiData(paperAuthorInstiDataList);
 
@@ -325,8 +360,6 @@ public class PaperAuthorProcess {
 
     }
 
-
-
     /**
      *  extractAuthorInsti include chinese and englist
      * @param paperMergeDataList
@@ -336,9 +369,7 @@ public class PaperAuthorProcess {
     private List<AuthorData> extractAuthorInsti(List<PaperMergeData> paperMergeDataList){
         List<AuthorData> authorAllDataList = new ArrayList<AuthorData>();
         for(PaperMergeData paperMergeData:paperMergeDataList){
-            if(paperMergeData.getId()==10993){
-                logger.info("10993");
-            }
+
             //zh
             if(paperMergeData.getInCnki()==1){
                 zhAuthorInstiExtract(paperMergeData);
@@ -619,9 +650,11 @@ public class PaperAuthorProcess {
         if(institutionsStr==null){
             logger.info("institutionsStr is null");
         }
-        if(institutionsStr.contains("####")){
+        if(institutionsStr.contains("####")||
+                (paperMergeData.getInEi()==1&&paperMergeData.getInSci()==0)){
             splitMark="####";
         }
+
         String []institutionsStrs = institutionsStr.split(splitMark);
 
         for(int i=0;i<institutionsStrs.length;i++){
@@ -631,7 +664,7 @@ public class PaperAuthorProcess {
             institutionData.setNameEn(institutionsStr_tmp);
             institutionData.setRank(i+1);
             institutionDataList.add(institutionData);
-        }
+        }//Chinese Academy of Science  Chinese Academy of Sciences
 
         //process author
         String []authorsStrs = authorsStr.split(";");
@@ -697,14 +730,17 @@ public class PaperAuthorProcess {
         for(String ins:inss){
             if(ins.contains("University")||ins.contains("Univ ")||
                     ins.contains("College")||
-                    ins.contains("Academy")||ins.contains("Acad ")||//Chinese Acad Sci
+                    ins.contains("Academy")||ins.contains("Acad ")||//Chinese Acad Sci  Inst Automat
                     (ins.contains("Institute")&&!institution.contains("Academy"))){
                 result= ins.trim();
-            }//Chinese Academy of Sciences
+            }//Chinese Academy of Sciences  Chinese Academy of Sciences
 
-            if(ins.contains("Chinese Academy of Sciences")||ins.contains("Chinese Acad Sci")){
+            if(ins.contains("Chinese Academy of Science")||ins.contains("Chinese Acad Sci")){
                 result="Chinese Academy of Sciences";
             }
+
+//            [1] State Key Laboratory of Management and Control for Complex Systems,
+//            Institute of Automation, Chinese Academy of Sciences, Beijing; 100190, China
             if((institution.toLowerCase().contains("institute of automation")||
                     institution.toLowerCase().contains("casia")||
                     institution.toLowerCase().contains("inst automat"))&&
@@ -727,6 +763,7 @@ public class PaperAuthorProcess {
         if(result.contains(";")){
             result = result.split(";")[0].trim();
         }
+        logger.info("origin insti:"+institution+",extract insti:"+result);
         return result;
     }
 

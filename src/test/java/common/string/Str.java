@@ -101,6 +101,8 @@ public class Str {
                 "State Key Lab Management and Control Complex Syst, " +
                 "Beijing 100190, Peoples R China";
 
+
+        insti="[1] State Key Laboratory of Management and Control for Complex Systems, Institute of Automation, Chinese Academy of Sciences, Beijing; 100190, China";
         String result = "1";
         if((insti.toLowerCase().contains("institute of automation")||
                 insti.toLowerCase().contains("casia")||
