@@ -738,17 +738,26 @@ public class PaperAuthorProcess {
             if(ins.contains("Chinese Academy of Science")||ins.contains("Chinese Acad Sci")){
                 result="Chinese Academy of Sciences";
             }
-
 //            [1] State Key Laboratory of Management and Control for Complex Systems,
 //            Institute of Automation, Chinese Academy of Sciences, Beijing; 100190, China
-            if((institution.toLowerCase().contains("institute of automation")||
+            if(institution.toLowerCase().contains("institute of automation")||
                     institution.toLowerCase().contains("casia")||
-                    institution.toLowerCase().contains("inst automat"))&&
-                    institution.contains("State Key")&&
-                    institution.contains("Complex")&&institution.contains("Management")){
-                result="State Key Laboratory of Management and Control for Complex Systems";
+                    institution.toLowerCase().contains("inst automat")){
+                if(institution.contains("State Key")&&
+                        institution.contains("Complex")&&institution.contains("Management")) {
+                    result = "State Key Laboratory of Management and Control for Complex Systems";
+                }else if(institution.toLowerCase().contains("lab mol imaging")
+                        ||ins.toLowerCase().contains("laboratory of molecular imaging")) {
+                    //Beijing Key Laboratory of Molecular Imaging
+                    //Key Lab Mol Imaging,
+                    result = "Beijing Key Laboratory of Molecular Imaging";
+                }else{
+                    result = "Institute of Automation";
+                }
                 break;
-            }//Qingdao Academy of Intelligent Industries
+            }
+
+            //Qingdao Academy of Intelligent Industries
             if((institution.toLowerCase().contains("qingdao")&&
                     institution.toLowerCase().contains("academy")&&
                     institution.toLowerCase().contains("intelligent")&&
@@ -781,7 +790,6 @@ public class PaperAuthorProcess {
         }
         return null;
     }
-
 
 
     private List<AuthorData> getDbAuthorList(){

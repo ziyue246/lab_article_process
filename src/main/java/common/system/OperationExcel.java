@@ -30,8 +30,6 @@ public class OperationExcel {
     final private static int JCR = 7;
 
 
-
-
     private static String dealSciAuthor(String authors){
         authors =  authors.replace("By:","").
                 replaceAll("\\(.*?\\)","").
@@ -42,14 +40,17 @@ public class OperationExcel {
         StringBuffer resultSb= new StringBuffer();
         for(int i=0;i<ss.length;i++){
             String s = ss[i];
+            System.out.println(s);
             String first = s.split(",")[0];
-            char [] last = s.split(",")[1].toCharArray();;
 
             if(i==ss.length-1){
                 resultSb.append("and ");
             }
-            for(char ch:last){
-                resultSb.append(ch+". ");
+            if(s.contains(",")) {
+                char[] last = s.split(",")[1].toCharArray();
+                for (char ch : last) {
+                    resultSb.append(ch + ". ");
+                }
             }
             resultSb.append(first + ", ");
         }

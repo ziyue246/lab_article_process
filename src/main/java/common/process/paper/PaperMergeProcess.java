@@ -44,6 +44,7 @@ public class PaperMergeProcess {
             paperMergeDataList.add(paperData2paperMergeData(paperData,"cnki"));
         }
         for(PaperMergeData paperMergeData:paperMergeDataList){
+
             Systemconfig.paperService.saveMergeData(paperMergeData);
         }
         logger.info("save paper merge data size:"+ paperMergeDataList.size());
