@@ -1,6 +1,8 @@
 package common.process.paper;
 
 import common.analysis.EnAnalysis;
+import common.analysis.ZhAnalysis;
+import common.pojo.DbDataOpreration;
 import common.pojo.InquireInfoData;
 import common.pojo.PaperData;
 import common.pojo.PaperMergeData;
@@ -8,8 +10,6 @@ import common.system.OperationExcel;
 import common.system.Systemconfig;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class PaperMergeProcess {
@@ -35,17 +35,24 @@ public class PaperMergeProcess {
         // sci is main category
         // when one paper both in sci and ei, save sci massage
         for(PaperData paperData:sciPaperDataList){
-            paperMergeDataList.add(paperData2paperMergeData(paperData,"sci"));
+            //paperMergeDataList.add(paperData2paperMergeData(paperData,"sci"));
+            enPaperMerge(paperMergeDataList,paperData,"sci");
         }
         for(PaperData paperData:eiPaperDataList){
             enPaperMerge(paperMergeDataList,paperData,"ei");
         }
         for(PaperData paperData:cnkiPaperDataList){
-            paperMergeDataList.add(paperData2paperMergeData(paperData,"cnki"));
+            //paperMergeDataList.add(paperData2paperMergeData(paperData,"cnki"));
+            zhPaperMerge(paperMergeDataList,paperData,"cnki");
         }
         for(PaperMergeData paperMergeData:paperMergeDataList){
+            if(paperMergeData.getDbStatus().equals(DbDataOpreration.INSERT)) {
+                Systemconfig.paperService.saveMergeData(paperMergeData);
+            }else if(paperMergeData.getDbStatus().equals(DbDataOpreration.UPDATE)) {
+                Systemconfig.paperService.updateMergeData(paperMergeData);
+            }else{
 
-            Systemconfig.paperService.saveMergeData(paperMergeData);
+            }
         }
         logger.info("save paper merge data size:"+ paperMergeDataList.size());
     }
@@ -58,14 +65,18 @@ public class PaperMergeProcess {
             //double authorSimilarity         = EnAnalysis.getSimilarity(paperMergeData.getAuthors(),paperData.getAuthor());
             //double institutionSimilarity    = EnAnalysis.getSimilarity(paperMergeData.getInstitutions(),paperData.getAddress());
 
-
             if(titleSimilarity>0.95){
+                if(!paperMergeData.getDbStatus().equals(DbDataOpreration.INSERT)){
+                    paperMergeData.setDbStatus(DbDataOpreration.UPDATE);
+                }
                 paperMergeDataNullFieldFilling(paperMergeData,paperData);
                 if(type.toLowerCase().contains("sci")) {
                     paperMergeData.setInSci(1);
                     paperMergeData.setSciDown(paperData.getDownNum());
                     paperMergeData.setSciRefer(paperData.getCiteNum());
                     paperMergeData.setSciDataId(paperData.getId());
+                    String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
+                    paperMergeData.setFormatStr(formatStr);
                 }
                 if(type.toLowerCase().contains("ei")) {
                     paperMergeData.setInEi(1);
@@ -81,9 +92,36 @@ public class PaperMergeProcess {
             }
         }
         paperMergeDataList.add(paperData2paperMergeData(paperData,type));
-
     }
 
+
+    private void  zhPaperMerge(List<PaperMergeData> paperMergeDataList,PaperData paperData,String type){
+        for(PaperMergeData paperMergeData:paperMergeDataList){
+            if(paperMergeData.getInCnki()!=1){
+                continue;
+            }
+            double titleSimilarity    = ZhAnalysis.getSimilarity(paperMergeData.getTitle(),paperData.getTitle());
+            //double authorSimilarity         = EnAnalysis.getSimilarity(paperMergeData.getAuthors(),paperData.getAuthor());
+            //double institutionSimilarity    = EnAnalysis.getSimilarity(paperMergeData.getInstitutions(),paperData.getAddress());
+
+            if(titleSimilarity>0.95){
+                if(!paperMergeData.getDbStatus().equals(DbDataOpreration.INSERT)){
+                    paperMergeData.setDbStatus(DbDataOpreration.UPDATE);
+                }
+                paperMergeDataNullFieldFilling(paperMergeData,paperData);
+                if(type.toLowerCase().contains("cnki")) {
+                    paperMergeData.setInCnki(1);
+                    paperMergeData.setCnkiDown(paperData.getDownNum()<0?0:paperData.getDownNum());
+                    paperMergeData.setCnkiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
+                    paperMergeData.setCnkiDataId(paperData.getId());
+                    String formatStr = OperationExcel.dealCnkiArticle(paperData,null,null,null,null);
+                    paperMergeData.setFormatStr(formatStr);
+                }
+                return;
+            }
+        }
+        paperMergeDataList.add(paperData2paperMergeData(paperData,type));
+    }
     /**
      * paperMergeData field filling
      * @param paperMergeData
@@ -125,28 +163,9 @@ public class PaperMergeProcess {
         if(paperData==null)return null;
         PaperMergeData paperMergeData = new PaperMergeData();
 
-        paperMergeDataNullFieldFilling(paperMergeData,paperData);
-//        paperMergeData.setTitle(paperData.getTitle());
-//        paperMergeData.setAuthors(paperData.getAuthor());
-//        paperMergeData.setInstitutions(paperData.getAddress());
-//        paperMergeData.setPubdate(paperData.getPubdate());
-//        paperMergeData.setPublisher(paperData.getPublisher());
-//        paperMergeData.setInsertTime(paperData.getInsertTime());
-//        paperMergeData.setBrief(paperData.getBrief());
-//        paperMergeData.setJournal(paperData.getJournal());
-//        paperMergeData.setKeywords(paperData.getKeywords());
-//        paperMergeData.setFund(paperData.getFund());
-//        paperMergeData.setVolume(paperData.getVolume());
-//        paperMergeData.setIssue(paperData.getIssue());
-//        paperMergeData.setPageCode(paperData.getPageCode());
-//        paperMergeData.setDoi(paperData.getDoi());
-//        paperMergeData.setImpactFactor2year(paperData.getImpactFactor2year());
-//        paperMergeData.setImpactFactor5year(paperData.getImpactFactor5year());
-//        paperMergeData.setConferenceDate(paperData.getConferenceDate());
-//        paperMergeData.setConferenceLocation(paperData.getConferenceLocation());
-//        paperMergeData.setJcr(paperData.getJcr());
-//        paperMergeData.setSourceTitle(paperData.getSourceTitle());
 
+        paperMergeData.setDbStatus(DbDataOpreration.INSERT);
+        paperMergeDataNullFieldFilling(paperMergeData,paperData);
 
         if(type.toLowerCase().contains("sci")) {
             paperMergeData.setInSci(1);

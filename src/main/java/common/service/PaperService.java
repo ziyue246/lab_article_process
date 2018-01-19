@@ -58,7 +58,9 @@ public class PaperService {
     public void saveMergeData(PaperMergeData paperMergeData){
         paperMapper.insertMerge(paperMergeData);
     }
-
+    public void updateMergeData(PaperMergeData paperMergeData){
+        paperMapper.updateMerge(paperMergeData);
+    }
     public void savePaperAuthor(PaperAuthorInstiData paperAuthorInstiData){
         paperMapper.insertPaperAuthor(paperAuthorInstiData);
     }

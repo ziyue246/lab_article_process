@@ -3,7 +3,13 @@ package common.pojo;
 import java.util.Date;
 import java.util.List;
 
+
 public class PaperMergeData {
+
+
+
+
+
 
     private int id;
 
@@ -30,7 +36,7 @@ public class PaperMergeData {
     private String conferenceDate;
     private String conferenceLocation;
     private String categoryCode;
-
+    private DbDataOpreration dbStatus=DbDataOpreration.NULL;// 0:in db,1:need insert,2:nedd update
 
     private int inSci;
     private int sciDown;
@@ -359,5 +365,14 @@ public class PaperMergeData {
 
     public void setFormatStr(String formatStr) {
         this.formatStr = formatStr;
+    }
+
+
+    public DbDataOpreration getDbStatus() {
+        return dbStatus;
+    }
+
+    public void setDbStatus(DbDataOpreration dbStatus) {
+        this.dbStatus = dbStatus;
     }
 }

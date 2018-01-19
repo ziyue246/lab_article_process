@@ -213,6 +213,130 @@
 
 
 
+    <update id="insertMerge" parameterType="common.pojo.PaperMergeData" >
+
+        INSERT INTO paper
+        (  title,
+        authors,
+        institutions,
+        pubdate,
+        publisher,
+        insert_time,
+        brief,
+        journal,
+        keywords,
+        fund,
+        category,
+        volume,
+        issue,
+        page_code,
+        doi,
+        impact_factor_2year,
+        impact_factor_5year,
+        jcr,
+        source_title,
+        conference_date,
+        conference_location,
+        category_code,
+        in_sci,
+        sci_down,
+        sci_refer,
+        sci_data_id,
+        in_ei,
+        ei_down,
+        ei_refer,
+        ei_data_id,
+        in_cnki,
+        cnki_down,
+        cnki_refer,
+        cnki_data_id,
+        format_str
+        )
+
+        VALUES
+        (
+
+        #{title,jdbcType=VARCHAR},
+        #{authors,jdbcType=VARCHAR},
+        #{institutions,jdbcType=VARCHAR},
+        #{pubdate,jdbcType=DATE},
+        #{publisher,jdbcType=VARCHAR},
+        now(),
+        #{brief,jdbcType=VARCHAR},
+        #{journal,jdbcType=VARCHAR},
+        #{keywords,jdbcType=VARCHAR},
+        #{fund,jdbcType=VARCHAR},
+        #{category,jdbcType=VARCHAR},
+        #{volume,jdbcType=VARCHAR},
+        #{issue,jdbcType=VARCHAR},
+        #{pageCode,jdbcType=VARCHAR},
+        #{doi,jdbcType=VARCHAR},
+        #{impactFactor2year,jdbcType=FLOAT},
+        #{impactFactor5year,jdbcType=FLOAT},
+        #{jcr,jdbcType=VARCHAR},
+        #{sourceTitle,jdbcType=VARCHAR},
+        #{conferenceDate,jdbcType=VARCHAR},
+        #{conferenceLocation,jdbcType=VARCHAR},
+        #{categoryCode,jdbcType=VARCHAR},
+        #{inSci,jdbcType=NUMERIC},
+        #{sciDown,jdbcType=NUMERIC},
+        #{sciRefer,jdbcType=NUMERIC},
+        #{sciDataId,jdbcType=NUMERIC},
+        #{inEi,jdbcType=NUMERIC},
+        #{eiDown,jdbcType=NUMERIC},
+        #{eiRefer,jdbcType=NUMERIC},
+        #{eiDataId,jdbcType=NUMERIC},
+        #{inCnki,jdbcType=NUMERIC},
+        #{CnkiDown,jdbcType=NUMERIC},
+        #{CnkiRefer,jdbcType=NUMERIC},
+        #{CnkiDataId,jdbcType=NUMERIC},
+        #{formatStr,jdbcType=VARCHAR},
+        update_time=now()
+        )
+
+    </update>
+
+    <update id="updateMerge"  parameterType="common.pojo.PaperMergeData">
+        update paper SET
+        title=#{title,jdbcType=VARCHAR},
+        authors=#{authors,jdbcType=VARCHAR},
+        institutions=#{institutions,jdbcType=VARCHAR},
+        pubdate=#{pubdate,jdbcType=DATE},
+        publisher=#{publisher,jdbcType=VARCHAR},
+        brief=#{brief,jdbcType=VARCHAR},
+        journal=#{journal,jdbcType=VARCHAR},
+        keywords=#{keywords,jdbcType=VARCHAR},
+        fund=#{fund,jdbcType=VARCHAR},
+        category=#{category,jdbcType=VARCHAR},
+        volume=#{volume,jdbcType=VARCHAR},
+        issue=#{issue,jdbcType=VARCHAR},
+        page_code=#{pageCode,jdbcType=VARCHAR},
+        doi=#{doi,jdbcType=VARCHAR},
+        impact_factor_2year=#{impactFactor2year,jdbcType=FLOAT},
+        impact_factor_5year=#{impactFactor5year,jdbcType=FLOAT},
+        jcr=#{jcr,jdbcType=VARCHAR},
+        source_title=#{sourceTitle,jdbcType=VARCHAR},
+        conference_date=#{conferenceDate,jdbcType=VARCHAR},
+        conference_location=#{conferenceLocation,jdbcType=VARCHAR},
+        category_code=#{categoryCode,jdbcType=VARCHAR},
+        in_sci=#{inSci,jdbcType=NUMERIC},
+        sci_down=#{sciDown,jdbcType=NUMERIC},
+        sci_refer=#{sciRefer,jdbcType=NUMERIC},
+        sci_data_id=#{sciDataId,jdbcType=NUMERIC},
+        in_ei=#{inEi,jdbcType=NUMERIC},
+        ei_down=#{eiDown,jdbcType=NUMERIC},
+        ei_refer=#{eiRefer,jdbcType=NUMERIC},
+        ei_data_id=#{eiDataId,jdbcType=NUMERIC},
+        in_cnki=#{inCnki,jdbcType=NUMERIC},
+        cnki_down=#{CnkiDown,jdbcType=NUMERIC},
+        cnki_refer=#{CnkiRefer,jdbcType=NUMERIC},
+        cnki_data_id=#{CnkiDataId,jdbcType=NUMERIC},
+        format_str=#{formatStr,jdbcType=VARCHAR}
+        where id=#{id}
+    </update>
+
+
+
     <insert id="insertPaperAuthor" parameterType="common.pojo.PaperAuthorInstiData" >
 
         INSERT INTO paper_author

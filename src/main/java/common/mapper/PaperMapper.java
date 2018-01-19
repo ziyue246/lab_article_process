@@ -25,6 +25,7 @@ public interface PaperMapper {
 
     public List<PaperMergeData> findAllMergeDatas();
     public void insertMerge(PaperMergeData paperMergeData);
+    public void updateMerge(PaperMergeData paperMergeData);
 
 
     public void insertPaperAuthor(PaperAuthorInstiData paperAuthorInstiData);

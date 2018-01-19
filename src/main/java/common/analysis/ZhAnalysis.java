@@ -51,6 +51,9 @@ public class ZhAnalysis {
      */
     public static double getSimilarity(String str1,String str2) {
 
+        if(str1.equals(str2)||str1==str2){
+            return 1.0;
+        }
         Vector<String> T1=participle(str1);
         Vector<String> T2=participle(str2);
 
