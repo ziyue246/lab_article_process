@@ -151,6 +151,9 @@ public class PaperAuthorProcess {
                                 + ",  maxSimilar:"+maxSimilar);
                         institutionData.setOriginId(institutionDataRecord.getId());
                     }else{
+
+
+
                         logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbinsti:"
                                 + null
                                 + ",  eninsti:"+institutionData.getNameEn()
