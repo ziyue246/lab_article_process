@@ -22,7 +22,7 @@ public class AuthorData {
 
     private Map<String,Integer> instiCountMap = new HashMap<String, Integer>();
 
-    private String avatar;
+    private String avatar="imgs/avatar.jpg";//default
     private String zhLastName;
     private String zhFirstName;
     private String enLastName;

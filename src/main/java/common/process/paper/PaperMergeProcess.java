@@ -45,16 +45,22 @@ public class PaperMergeProcess {
             //paperMergeDataList.add(paperData2paperMergeData(paperData,"cnki"));
             zhPaperMerge(paperMergeDataList,paperData,"cnki");
         }
+
+        int updateCount=0,insertCount=0;
         for(PaperMergeData paperMergeData:paperMergeDataList){
             if(paperMergeData.getDbStatus().equals(DbDataOpreration.INSERT)) {
                 Systemconfig.paperService.saveMergeData(paperMergeData);
+                ++insertCount;
             }else if(paperMergeData.getDbStatus().equals(DbDataOpreration.UPDATE)) {
                 Systemconfig.paperService.updateMergeData(paperMergeData);
+                ++updateCount;
             }else{
 
             }
         }
-        logger.info("save paper merge data size:"+ paperMergeDataList.size());
+        logger.info("all paper merge data size:"+ paperMergeDataList.size());
+        logger.info("insert paper merge data size:"+ insertCount);
+        logger.info("update paper merge data size:"+ updateCount);
     }
     private void  enPaperMerge(List<PaperMergeData> paperMergeDataList,PaperData paperData,String type){
         for(PaperMergeData paperMergeData:paperMergeDataList){

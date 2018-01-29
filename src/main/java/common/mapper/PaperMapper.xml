@@ -128,91 +128,6 @@
         select * from paper
     </select>
 
-
-    <insert id="insertMerge" parameterType="common.pojo.PaperMergeData" >
-
-        INSERT INTO paper
-        (  title,
-            authors,
-            institutions,
-            pubdate,
-            publisher,
-            insert_time,
-            brief,
-            journal,
-            keywords,
-            fund,
-            category,
-            volume,
-            issue,
-            page_code,
-            doi,
-            impact_factor_2year,
-            impact_factor_5year,
-            jcr,
-            source_title,
-            conference_date,
-            conference_location,
-            category_code,
-            in_sci,
-            sci_down,
-            sci_refer,
-            sci_data_id,
-            in_ei,
-            ei_down,
-            ei_refer,
-            ei_data_id,
-            in_cnki,
-            cnki_down,
-            cnki_refer,
-            cnki_data_id,
-            format_str
-        )
-
-        VALUES
-        (
-
-            #{title,jdbcType=VARCHAR},
-            #{authors,jdbcType=VARCHAR},
-            #{institutions,jdbcType=VARCHAR},
-            #{pubdate,jdbcType=DATE},
-            #{publisher,jdbcType=VARCHAR},
-            now(),
-            #{brief,jdbcType=VARCHAR},
-            #{journal,jdbcType=VARCHAR},
-            #{keywords,jdbcType=VARCHAR},
-            #{fund,jdbcType=VARCHAR},
-            #{category,jdbcType=VARCHAR},
-            #{volume,jdbcType=VARCHAR},
-            #{issue,jdbcType=VARCHAR},
-            #{pageCode,jdbcType=VARCHAR},
-            #{doi,jdbcType=VARCHAR},
-            #{impactFactor2year,jdbcType=FLOAT},
-            #{impactFactor5year,jdbcType=FLOAT},
-            #{jcr,jdbcType=VARCHAR},
-            #{sourceTitle,jdbcType=VARCHAR},
-            #{conferenceDate,jdbcType=VARCHAR},
-            #{conferenceLocation,jdbcType=VARCHAR},
-            #{categoryCode,jdbcType=VARCHAR},
-            #{inSci,jdbcType=NUMERIC},
-            #{sciDown,jdbcType=NUMERIC},
-            #{sciRefer,jdbcType=NUMERIC},
-            #{sciDataId,jdbcType=NUMERIC},
-            #{inEi,jdbcType=NUMERIC},
-            #{eiDown,jdbcType=NUMERIC},
-            #{eiRefer,jdbcType=NUMERIC},
-            #{eiDataId,jdbcType=NUMERIC},
-            #{inCnki,jdbcType=NUMERIC},
-            #{CnkiDown,jdbcType=NUMERIC},
-            #{CnkiRefer,jdbcType=NUMERIC},
-            #{CnkiDataId,jdbcType=NUMERIC},
-            #{formatStr,jdbcType=VARCHAR}
-        )
-
-    </insert>
-
-
-
     <update id="insertMerge" parameterType="common.pojo.PaperMergeData" >
 
         INSERT INTO paper
@@ -250,7 +165,8 @@
         cnki_down,
         cnki_refer,
         cnki_data_id,
-        format_str
+        format_str,
+        update_time
         )
 
         VALUES
@@ -291,7 +207,7 @@
         #{CnkiRefer,jdbcType=NUMERIC},
         #{CnkiDataId,jdbcType=NUMERIC},
         #{formatStr,jdbcType=VARCHAR},
-        update_time=now()
+        now()
         )
 
     </update>
@@ -331,8 +247,9 @@
         cnki_down=#{CnkiDown,jdbcType=NUMERIC},
         cnki_refer=#{CnkiRefer,jdbcType=NUMERIC},
         cnki_data_id=#{CnkiDataId,jdbcType=NUMERIC},
-        format_str=#{formatStr,jdbcType=VARCHAR}
-        where id=#{id}
+        format_str=#{formatStr,jdbcType=VARCHAR},
+        update_time=now()
+        where id=#{id,jdbcType=NUMERIC}
     </update>
 
 

@@ -6,6 +6,7 @@ import common.system.FileOperation;
 import common.system.MD5Util;
 import common.system.StringProcess;
 import common.system.Systemconfig;
+import common.util.PaperInfoProcess;
 import org.apache.log4j.Logger;
 import sun.plugin.javascript.navig.Array;
 
@@ -615,6 +616,7 @@ public class PaperAuthorProcess {
                 String author_tmp=authorStrs[i].trim();
                 AuthorData authorData = new AuthorData();
                 authorData.setZhName(author_tmp);
+                PaperInfoProcess.zhAuthorProcess(authorData);
                 authorData.setRank(i+1);
                 authorData.setInstiIds(null);
                 authorDataList.add(authorData);
@@ -624,6 +626,7 @@ public class PaperAuthorProcess {
             AuthorData authorData = new AuthorData();
             authorDataList.add(authorData);
             authorData.setZhName(authorsStr);
+            PaperInfoProcess.zhAuthorProcess(authorData);
             authorData.setRank(1);
             List<Integer> instiIdsList = new ArrayList<Integer>();
             authorData.setInstiIds(instiIdsList);
@@ -682,11 +685,13 @@ public class PaperAuthorProcess {
                 String abbname = name.replaceAll("\\(.*?\\)","");
                 name = name.replaceFirst(abbname,"").replaceAll("[\\(|\\)]","");
                 authorData.setEnName(name);
+                PaperInfoProcess.enAuthorProcess(authorData);
                 authorData.setAbbName(abbname);
                 authorData.setInstiIds(authorInstiList);
 
             }else{
                 authorData.setEnName(authorName_tmp);
+                PaperInfoProcess.enAuthorProcess(authorData);
                 authorData.setInstiIds(authorInstiList);
             }
             authorData.setRank(i+1);
