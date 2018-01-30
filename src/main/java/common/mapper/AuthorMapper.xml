@@ -70,7 +70,7 @@
         select * from ${tableName}
     </select>
 
-    <insert id="insertMerge" parameterType="common.pojo.InquireInfoData" >
+    <insert id="insertMerge" useGeneratedKeys="true" keyProperty="authorData.id" parameterType="common.pojo.InquireInfoData" >
 
         INSERT INTO ${tableName}
         (

@@ -58,7 +58,7 @@
     </select>
 
 
-    <insert id="insertMerge" parameterType="common.pojo.InquireInfoData" >
+    <insert id="insertMerge" useGeneratedKeys="true" keyProperty="institutionData.id" parameterType="common.pojo.InquireInfoData" >
 
         INSERT INTO ${tableName}
         ( name_zh,
