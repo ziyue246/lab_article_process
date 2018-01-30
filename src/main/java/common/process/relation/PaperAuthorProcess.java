@@ -26,8 +26,6 @@ public class PaperAuthorProcess {
         List<AuthorData> dbAuthorList = getDbAuthorList();
         List<InstitutionData> dbInstitutionDataList = getMergeInstituionData();
 
-
-
         List<AuthorData> authorAllDataList = extractAuthorInsti(paperMergeDataList);
 
         logger.info("get authorInstiCountMap");
@@ -91,7 +89,6 @@ public class PaperAuthorProcess {
                                 }
                             }
                             paperAuthorInstiDataList.add(paperAuthorInstiData_tmp);
-
                         }
                     }else{//Hypothesis
                         paperAuthorInstiData.setHypoInsti(true);
@@ -145,20 +142,25 @@ public class PaperAuthorProcess {
                             }
                         }
                     }
+                    if(institutionDataRecord==null){
+                        logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbinsti:"
+                                + null
+                                + ",  eninsti:"+institutionData.getNameEn()
+                                + ",  maxSimilar:"+maxSimilar);
+                        //insert
+                        InquireInfoData inquireInfoData = new InquireInfoData();
+                        inquireInfoData.setTableName("institution");
+                        inquireInfoData.setInstitutionData(institutionData);
+                        Systemconfig.institutionService.saveMerge(inquireInfoData);
+                        institutionDataRecord=institutionData;
+                    }
+
                     if(institutionDataRecord!=null){
                         logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbinsti:"
                                 + institutionDataRecord.getNameEn()
                                 + ",  eninsti:"+institutionData.getNameEn()
                                 + ",  maxSimilar:"+maxSimilar);
                         institutionData.setOriginId(institutionDataRecord.getId());
-                    }else{
-
-
-
-                        logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbinsti:"
-                                + null
-                                + ",  eninsti:"+institutionData.getNameEn()
-                                + ",  maxSimilar:"+maxSimilar);
                     }
                 }
                 //author
@@ -189,16 +191,26 @@ public class PaperAuthorProcess {
                             }
                         }
                     }
+
+                    if(authorDataRecord==null){
+
+                        //if current authorData not exit db , just insert
+                        logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbName:"
+                                + null + ",  enName:"+enName+",  maxSimilar:"+maxSimilar);
+                        InquireInfoData inquireInfoData = new InquireInfoData();
+                        inquireInfoData.setTableName("author");
+                        inquireInfoData.setAuthorData(authorData);
+                        Systemconfig.authorService.saveMerge(inquireInfoData);
+                        authorDataRecord=authorData;
+                    }
                     if(authorDataRecord!=null) {
                         String dbenName = authorDataRecord.getEnLastName() + " "
                                 + authorDataRecord.getEnFirstName();
                         logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbName:"
                                 + dbenName + ",  enName:"+enName+",  maxSimilar:"+maxSimilar);
                         paperAuthorInstiData.setAuthorNameId(authorDataRecord.getId());
-                    }else{
-                        logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbName:"
-                                + null + ",  enName:"+enName+",  maxSimilar:"+maxSimilar);
                     }
+
 
                     //institution
                     if(authorData.getInstiIds()!=null){
