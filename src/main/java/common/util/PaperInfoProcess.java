@@ -2,6 +2,7 @@ package common.util;
 
 import common.pojo.AuthorData;
 import common.system.StringProcess;
+import org.apache.log4j.Logger;
 
 /**
  * Created by ziyue on 2018/1/29.
@@ -9,6 +10,16 @@ import common.system.StringProcess;
 public class PaperInfoProcess {
 
 
+    private static Logger logger = Logger.getLogger(PaperInfoProcess.class);
+
+
+    public static void authorProcess(AuthorData author){
+        if(StringProcess.isChinese(author.getName())){
+            zhAuthorProcess(author);
+        }else{
+            enAuthorProcess(author);
+        }
+    }
     /**
      * chinese author name process to author
      * @param author
@@ -23,8 +34,9 @@ public class PaperInfoProcess {
         int firstNamelen= firstName.length();
         String abbFirstName="";
         for(int i=0;i<firstNamelen;++i){
-            abbFirstName+= StringProcess.toHanyuPinyin(
-                    firstName.substring(i,i+1)).substring(0,1).toUpperCase();
+            abbFirstName += StringProcess.toHanyuPinyin(
+                    firstName.substring(i, i + 1)).substring(0, 1).toUpperCase();
+
         }
         author.setZhName(name);
         author.setZhFirstName(firstName);
@@ -43,6 +55,20 @@ public class PaperInfoProcess {
         author.setName(firstName+","+lastName);
         author.setEnFirstNameShort(abbFirstName);
 
+    }
+
+
+    /**
+     * chinese name process to author
+     * @param name
+     * @return AuthorData author
+     */
+    public static AuthorData zhAuthorProcess(String name){
+        AuthorData author = new AuthorData();
+        author.setZhName(name);
+        author.setName(name);
+        zhAuthorProcess(author);
+        return author;
     }
 
 
@@ -79,7 +105,90 @@ public class PaperInfoProcess {
 
     }
 
+    public  static String getZhAbbInstitution(String institution,String splitMark){
+
+        institution = institution.replace("&","and");
+        String []inss= institution.split(splitMark);
 
 
+        String result=inss[0];
+        for(String ins:inss){
+            if(ins.contains("大学")){
+                result= ins.substring(0,ins.indexOf("大学")+2);
+            }else if(ins.contains("中国科学院")){
+                result="中国科学院";
+            }else if(ins.contains("研究院")){
+                result= ins.substring(0,ins.indexOf("研究院")+3);
+            }
+            if((institution.contains("自动化研究所"))&&
+                    institution.contains("复杂")&&
+                    institution.contains("控制")&&institution.contains("国家重点")){
+                result="复杂系统管理与控制国家重点实验室";
+                break;
+            }//青岛智能产业技术研究院
+            if((institution.contains("青岛智能产业技术研究院"))){
+                result="青岛智能产业技术研究院";
+                break;
+            }
+        }
+        return result;
+    }
+
+    public  static String getEnAbbInstitution(String institution,String splitMark){
+
+        institution = institution.replace("&","and");
+        String []inss= institution.split(splitMark);
+
+
+        //截取机构部分；
+        String result=inss[0];
+        for(String ins:inss){
+            if(ins.contains("University")||ins.contains("Univ ")||
+                    ins.contains("College")||
+                    ins.contains("Academy")||ins.contains("Acad ")||//Chinese Acad Sci  Inst Automat
+                    (ins.contains("Institute")&&!institution.contains("Academy"))){
+                result= ins.trim();
+            }//Chinese Academy of Sciences  Chinese Academy of Sciences
+
+            if(ins.contains("Chinese Academy of Science")||ins.contains("Chinese Acad Sci")){
+                result="Chinese Academy of Sciences";
+            }
+//            [1] State Key Laboratory of Management and Control for Complex Systems,
+//            Institute of Automation, Chinese Academy of Sciences, Beijing; 100190, China
+            if(institution.toLowerCase().contains("institute of automation")||
+                    institution.toLowerCase().contains("casia")||
+                    institution.toLowerCase().contains("inst automat")){
+                if(institution.contains("State Key")&&
+                        institution.contains("Complex")&&institution.contains("Management")) {
+                    result = "State Key Laboratory of Management and Control for Complex Systems";
+                }else if(institution.toLowerCase().contains("lab mol imaging")
+                        ||ins.toLowerCase().contains("laboratory of molecular imaging")) {
+                    //Beijing Key Laboratory of Molecular Imaging
+                    //Key Lab Mol Imaging,
+                    result = "Beijing Key Laboratory of Molecular Imaging";
+                }else{
+                    result = "Institute of Automation";
+                }
+                break;
+            }
+
+            //Qingdao Academy of Intelligent Industries
+            if((institution.toLowerCase().contains("qingdao")&&
+                    institution.toLowerCase().contains("academy")&&
+                    institution.toLowerCase().contains("intelligent")&&
+                    institution.toLowerCase().contains("industries"))){
+                result="Qingdao Academy of Intelligent Industries";
+                break;
+            }
+        }
+        //对机构部分进行整理
+        result = result.replaceAll("\\(.*?\\)","");
+        result = result.replaceAll("\\[.*?\\]","");
+        if(result.contains(";")){
+            result = result.split(";")[0].trim();
+        }
+        logger.info("origin insti:"+institution+",extract insti:"+result);
+        return result;
+    }
 
 }

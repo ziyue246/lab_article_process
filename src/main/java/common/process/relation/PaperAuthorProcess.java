@@ -507,7 +507,7 @@ public class PaperAuthorProcess {
         for(String name:names){
             if(name.startsWith("#"))continue;
             name = name.trim();
-            AuthorData author =zhNameStr2Author(name);
+            AuthorData author = PaperInfoProcess.zhAuthorProcess(name);
             fzNameSet.add(name);
             fzNameSet.add(author.getEnName());
             fzNameSet.add(author.getAbbName());
@@ -518,44 +518,13 @@ public class PaperAuthorProcess {
         for(String name:names){
             if(name.startsWith("#"))continue;
             name = name.trim();
-            AuthorData author =zhNameStr2Author(name);
+            AuthorData author = PaperInfoProcess.zhAuthorProcess(name);
             qdNameSet.add(name);
             qdNameSet.add(author.getEnName());
             qdNameSet.add(author.getAbbName());
         }
     }
 
-    private AuthorData zhNameStr2Author(String name){
-        AuthorData author = new AuthorData();
-
-        String firstName = name.substring(1);
-        String lastName = name.substring(0,1);
-
-        int firstNamelen= firstName.length();
-        String abbFirstName="";
-        for(int i=0;i<firstNamelen;++i){
-            abbFirstName+=StringProcess.toHanyuPinyin(
-                    firstName.substring(i,i+1)).substring(0,1).toUpperCase();
-        }
-        author.setZhName(name);
-        author.setZhFirstName(firstName);
-        author.setZhLastName(lastName);
-
-
-        firstName = StringProcess.toHanyuPinyin(firstName);
-        lastName = StringProcess.toHanyuPinyin(lastName);
-
-        firstName = StringProcess.upCaseFirstLetter(firstName);
-        lastName = StringProcess.upCaseFirstLetter(lastName);
-        author.setEnFirstName(firstName);
-        author.setEnLastName(lastName);
-        author.setAbbName(abbFirstName+","+lastName);
-        author.setEnName(firstName+","+lastName);
-        author.setName(firstName+","+lastName);
-        author.setEnFirstNameShort(abbFirstName);
-
-        return author;
-    }
     /**
      * //get institution merge data from db
      * @return
@@ -610,7 +579,7 @@ public class PaperAuthorProcess {
 
             for(int i=0;i<institutionsStrs.length;i++){
                 String institution_tmp=institutionsStrs[i].trim();
-                institution_tmp = getZhAbbInstitution(institution_tmp,"、");
+                institution_tmp = PaperInfoProcess.getZhAbbInstitution(institution_tmp,"、");
                 InstitutionData institutionData = new InstitutionData();
                 institutionData.setNameZh(institution_tmp);
                 institutionData.setRank(1+i);
@@ -628,7 +597,8 @@ public class PaperAuthorProcess {
                 String author_tmp=authorStrs[i].trim();
                 AuthorData authorData = new AuthorData();
                 authorData.setZhName(author_tmp);
-                PaperInfoProcess.zhAuthorProcess(authorData);
+                authorData.setZhName(author_tmp);
+                PaperInfoProcess.authorProcess(authorData);
                 authorData.setRank(i+1);
                 authorData.setInstiIds(null);
                 authorDataList.add(authorData);
@@ -638,7 +608,8 @@ public class PaperAuthorProcess {
             AuthorData authorData = new AuthorData();
             authorDataList.add(authorData);
             authorData.setZhName(authorsStr);
-            PaperInfoProcess.zhAuthorProcess(authorData);
+            authorData.setName(authorsStr);
+            PaperInfoProcess.authorProcess(authorData);
             authorData.setRank(1);
             List<Integer> instiIdsList = new ArrayList<Integer>();
             authorData.setInstiIds(instiIdsList);
@@ -677,7 +648,7 @@ public class PaperAuthorProcess {
 
         for(int i=0;i<institutionsStrs.length;i++){
             String institutionsStr_tmp = institutionsStrs[i];
-            institutionsStr_tmp = getEnAbbInstitution(institutionsStr_tmp,",");
+            institutionsStr_tmp = PaperInfoProcess.getEnAbbInstitution(institutionsStr_tmp,",");
             InstitutionData institutionData = new InstitutionData();
             institutionData.setNameEn(institutionsStr_tmp);
             institutionData.setRank(i+1);
@@ -697,12 +668,14 @@ public class PaperAuthorProcess {
                 String abbname = name.replaceAll("\\(.*?\\)","");
                 name = name.replaceFirst(abbname,"").replaceAll("[\\(|\\)]","");
                 authorData.setEnName(name);
+                authorData.setName(name);
                 PaperInfoProcess.enAuthorProcess(authorData);
                 authorData.setAbbName(abbname);
                 authorData.setInstiIds(authorInstiList);
 
             }else{
                 authorData.setEnName(authorName_tmp);
+                authorData.setName(authorName_tmp);
                 PaperInfoProcess.enAuthorProcess(authorData);
                 authorData.setInstiIds(authorInstiList);
             }
@@ -710,91 +683,8 @@ public class PaperAuthorProcess {
             authorDataList.add(authorData);
         }
     }
-    protected String getZhAbbInstitution(String institution,String splitMark){
-
-        institution = institution.replace("&","and");
-        String []inss= institution.split(splitMark);
 
 
-        String result=inss[0];
-        for(String ins:inss){
-            if(ins.contains("大学")){
-                result= ins.substring(0,ins.indexOf("大学")+2);
-            }else if(ins.contains("中国科学院")){
-                result="中国科学院";
-            }else if(ins.contains("研究院")){
-                result= ins.substring(0,ins.indexOf("研究院")+3);
-            }
-            if((institution.contains("自动化研究所"))&&
-                    institution.contains("复杂")&&
-                    institution.contains("控制")&&institution.contains("国家重点")){
-                result="复杂系统管理与控制国家重点实验室";
-                break;
-            }//青岛智能产业技术研究院
-            if((institution.contains("青岛智能产业技术研究院"))){
-                result="青岛智能产业技术研究院";
-                break;
-            }
-        }
-        return result;
-    }
-
-    protected String getEnAbbInstitution(String institution,String splitMark){
-
-        institution = institution.replace("&","and");
-        String []inss= institution.split(splitMark);
-
-
-        //截取机构部分；
-        String result=inss[0];
-        for(String ins:inss){
-            if(ins.contains("University")||ins.contains("Univ ")||
-                    ins.contains("College")||
-                    ins.contains("Academy")||ins.contains("Acad ")||//Chinese Acad Sci  Inst Automat
-                    (ins.contains("Institute")&&!institution.contains("Academy"))){
-                result= ins.trim();
-            }//Chinese Academy of Sciences  Chinese Academy of Sciences
-
-            if(ins.contains("Chinese Academy of Science")||ins.contains("Chinese Acad Sci")){
-                result="Chinese Academy of Sciences";
-            }
-//            [1] State Key Laboratory of Management and Control for Complex Systems,
-//            Institute of Automation, Chinese Academy of Sciences, Beijing; 100190, China
-            if(institution.toLowerCase().contains("institute of automation")||
-                    institution.toLowerCase().contains("casia")||
-                    institution.toLowerCase().contains("inst automat")){
-                if(institution.contains("State Key")&&
-                        institution.contains("Complex")&&institution.contains("Management")) {
-                    result = "State Key Laboratory of Management and Control for Complex Systems";
-                }else if(institution.toLowerCase().contains("lab mol imaging")
-                        ||ins.toLowerCase().contains("laboratory of molecular imaging")) {
-                    //Beijing Key Laboratory of Molecular Imaging
-                    //Key Lab Mol Imaging,
-                    result = "Beijing Key Laboratory of Molecular Imaging";
-                }else{
-                    result = "Institute of Automation";
-                }
-                break;
-            }
-
-            //Qingdao Academy of Intelligent Industries
-            if((institution.toLowerCase().contains("qingdao")&&
-                    institution.toLowerCase().contains("academy")&&
-                    institution.toLowerCase().contains("intelligent")&&
-                    institution.toLowerCase().contains("industries"))){
-                result="Qingdao Academy of Intelligent Industries";
-                break;
-            }
-        }
-        //对机构部分进行整理
-        result = result.replaceAll("\\(.*?\\)","");
-        result = result.replaceAll("\\[.*?\\]","");
-        if(result.contains(";")){
-            result = result.split(";")[0].trim();
-        }
-        logger.info("origin insti:"+institution+",extract insti:"+result);
-        return result;
-    }
 
     public List<Integer> getBracketNums(String str){
         if(str.contains("[")&&str.contains("]")){

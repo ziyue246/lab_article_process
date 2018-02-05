@@ -40,4 +40,14 @@ public class Author {
         System.out.println(StringProcess.regex2StrSplitByMark(
                 str,"\\[.*\\]","").replaceAll(",","]["));
     }
+
+
+
+    @Test
+    public void test0111(){
+
+        String str ="Timo R.Nyberg";
+        str = "ÀèÃ÷";
+        System.out.println(StringProcess.isChinese(str));
+    }
 }
