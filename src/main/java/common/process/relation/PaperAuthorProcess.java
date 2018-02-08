@@ -597,7 +597,7 @@ public class PaperAuthorProcess {
                 String author_tmp=authorStrs[i].trim();
                 AuthorData authorData = new AuthorData();
                 authorData.setZhName(author_tmp);
-                authorData.setZhName(author_tmp);
+                authorData.setName(author_tmp);
                 PaperInfoProcess.authorProcess(authorData);
                 authorData.setRank(i+1);
                 authorData.setInstiIds(null);
