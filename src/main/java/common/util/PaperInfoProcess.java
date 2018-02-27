@@ -155,9 +155,14 @@ public class PaperInfoProcess {
             }
 //            [1] State Key Laboratory of Management and Control for Complex Systems,
 //            Institute of Automation, Chinese Academy of Sciences, Beijing; 100190, China
-            if(institution.toLowerCase().contains("institute of automation")||
+
+            //
+            //Univ Duisburg Essen, Inst Automat Control & Complex Syst, D-47057 Duisburg, Germany
+            if((institution.toLowerCase().contains("institute of automation")||
                     institution.toLowerCase().contains("casia")||
-                    institution.toLowerCase().contains("inst automat")){
+                    institution.toLowerCase().contains("inst automat"))
+                    && (!institution.toLowerCase().contains("univ"))
+                    &&(!institution.toLowerCase().contains("shenyang"))){
                 if(institution.contains("State Key")&&
                         institution.contains("Complex")&&institution.contains("Management")) {
                     result = "State Key Laboratory of Management and Control for Complex Systems";
@@ -182,6 +187,7 @@ public class PaperInfoProcess {
             }
         }
         //对机构部分进行整理
+        result=result.trim();
         result = result.replaceAll("\\(.*?\\)","");
         result = result.replaceAll("\\[.*?\\]","");
         if(result.contains(";")){
