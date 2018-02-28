@@ -1,6 +1,9 @@
 package common.string;
 
+import common.analysis.EnAnalysis;
+import common.system.AppContext;
 import common.system.StringProcess;
+import common.system.Systemconfig;
 import org.junit.Test;
 
 import java.util.*;
@@ -107,8 +110,6 @@ public class Str {
         if((insti.toLowerCase().contains("institute of automation")||
                 insti.toLowerCase().contains("casia")||
                 insti.toLowerCase().contains("inst automat"))
-
-
                 &&
                 insti.contains("State Key")&&
                 insti.contains("Complex")&&insti.contains("Management")) {
@@ -117,5 +118,27 @@ public class Str {
         }
 
         System.out.println(result);
+    }
+
+
+
+
+
+
+    @Test
+    public void test3515(){
+
+        AppContext.initial();
+
+
+        String astr="Improving the Critic Learning for Event-Based Nonlinear H¡ÞControl Design";
+        String bstr="Improving the critic learning for event-based nonlinear h-infinity control design";
+
+
+        double simi = EnAnalysis.getSimilarity(astr,bstr);
+
+
+        System.out.println(simi);
+
     }
 }

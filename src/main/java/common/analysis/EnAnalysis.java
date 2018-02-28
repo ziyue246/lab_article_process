@@ -1,9 +1,41 @@
 package common.analysis;
 
+import common.system.FileOperation;
+import common.system.Systemconfig;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class EnAnalysis {
 
 
+
     public static double getSimilarity(String aStr,String bStr){
+
+
+        double maxSimilarity = getOneSimilarity(aStr,bStr);
+        Set<String> keySet = Systemconfig.escapeCharacterMap.keySet();
+        for(String key:keySet){
+            if(aStr.contains(key)||bStr.contains(key)){
+
+                List<String> values = Systemconfig.escapeCharacterMap.get(key);
+                for(String value:values){
+
+                    String aStr_tmp = aStr.replace(key,value);
+                    String bStr_tmp = bStr.replace(key,value);
+                    double maxSimilarity_tmp =  getOneSimilarity(aStr_tmp,bStr_tmp);
+                    if(maxSimilarity_tmp>maxSimilarity){
+                        maxSimilarity=maxSimilarity_tmp;
+                    }
+                }
+
+            }
+        }
+        return maxSimilarity;
+    }
+
+    public static double getOneSimilarity(String aStr,String bStr){
 
         int[]aStati = statisticsLetters(aStr);
         int[]bStati = statisticsLetters(bStr);
