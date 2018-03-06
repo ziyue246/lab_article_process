@@ -124,9 +124,27 @@ public class OperationExcel {
         return lastResultSb.toString();
     }
 
+
+    private static String dealEnTitle(String title){
+        int count=0;
+
+        for(char ch:title.toCharArray()){
+            if(ch<='z'&&ch>='a'){
+                ++count;
+            }
+            if(count>=1)break;
+        }
+        if(count==0){
+            return title;
+        }else{
+            return  title.substring(0,1).toUpperCase()+title.substring(1).toLowerCase();
+        }
+    }
+
+
     public static String dealSciArticle(PaperData d , HSSFCell cell, HSSFWorkbook wb,
                                         HSSFFont fo, HSSFCellStyle style){
-        String s = dealSciAuthor(d.getAuthor()) + ", \"" + d.getTitle() + ",\" ";
+        String s = dealSciAuthor(d.getAuthor()) + ", \"" + dealEnTitle(d.getTitle()) + ",\" ";
         List<Pos> poslist = new ArrayList<Pos>();
         int startxt=0;
         int endxt=0;
@@ -275,7 +293,7 @@ public class OperationExcel {
     }
 
     public static String dealEiArticle(PaperData d ,HSSFCell cell,HSSFWorkbook wb,HSSFFont fo,HSSFCellStyle style){
-        String s = dealEiAuthor(d.getAuthor()) + ", \"" + d.getTitle() + ",\" ";
+        String s = dealEiAuthor(d.getAuthor()) + ", \"" + dealEnTitle(d.getTitle()) + ",\" ";
         List<Pos> poslist = new ArrayList<Pos>();
 
         int startxt=0;

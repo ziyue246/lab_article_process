@@ -2,6 +2,7 @@ package common.string;
 
 import common.analysis.EnAnalysis;
 import common.system.AppContext;
+import common.system.OperationExcel;
 import common.system.StringProcess;
 import common.system.Systemconfig;
 import org.junit.Test;
@@ -141,4 +142,24 @@ public class Str {
         System.out.println(simi);
 
     }
+
+
+
+    @Test
+    public void test35151(){
+
+
+        String astr="AN ACCURATE PATH PLANNING ALGORITHM BASED ON TRIANGULAR MESHES IN ROBOTIC FIBRE PLACEMENT";
+        String bstr="Local Discriminant Canonical Correlation Analysis for Supervised PolSAR Image Classification";
+
+
+        //String simi = OperationExcel.dealEnTitle(bstr);
+
+
+        //System.out.println(simi);
+
+    }
+
+
+
 }

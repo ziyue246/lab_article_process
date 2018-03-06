@@ -33,13 +33,14 @@
         <result column="issue"				        property="issue"			jdbcType="VARCHAR" />
         <result column="page_code"				    property="pageCode"			jdbcType="VARCHAR" />
         <result column="doi"				        property="doi"			    jdbcType="VARCHAR" />
-        <result column="impact_factor_2year"		property="impactFactor2year"			jdbcType="FLOAT" />
-        <result column="impact_factor_5year"		property="impactFactor5year"			jdbcType="FLOAT" />
-        <result column="jcr"				        property="jcr"			    jdbcType="VARCHAR" />
-        <result column="source_title"				property="sourceTitle"		jdbcType="VARCHAR" />
-        <result column="conference_date"			property="conferenceDate"			jdbcType="VARCHAR" />
-        <result column="conference_location"		property="conferenceLocation"		jdbcType="VARCHAR" />
+        <result column="impact_factor_2year"		property="impactFactor2year"	jdbcType="FLOAT" />
+        <result column="impact_factor_5year"		property="impactFactor5year"	jdbcType="FLOAT" />
+        <result column="jcr"				        property="jcr"			        jdbcType="VARCHAR" />
+        <result column="source_title"				property="sourceTitle"		    jdbcType="VARCHAR" />
+        <result column="conference_date"			property="conferenceDate"		jdbcType="VARCHAR" />
+        <result column="conference_location"		property="conferenceLocation"	jdbcType="VARCHAR" />
         <result column="category_code"				property="categoryCode"			jdbcType="VARCHAR" />
+        <result column="document_type"				property="documentType"			jdbcType="INTEGER" />
 
 
     </resultMap>
@@ -67,14 +68,6 @@
     <select id="findMaxId" parameterType="common.pojo.InquireInfoData" resultType="int">
         SELECT  max(id) FROM  ${tableName}
     </select>
-
-
-
-
-
-
-
-
 
     <resultMap id="BaseMergeResultMap" type="common.pojo.PaperMergeData" >
         <id column="id" 				            property="id" 			    jdbcType="INTEGER" />
@@ -119,6 +112,7 @@
         <result column="cnki_refer"				property="cnkiRefer"		jdbcType="INTEGER" />
         <result column="cnki_data_id"			property="cnkiDataId"		jdbcType="INTEGER" />
         <result column="format_str"				property="formatStr"		jdbcType="VARCHAR" />
+        <result column="document_type"			property="documentType"		jdbcType="INTEGER" />
     </resultMap>
 
 
@@ -166,7 +160,9 @@
         cnki_refer,
         cnki_data_id,
         format_str,
+        document_type,
         update_time
+
         )
 
         VALUES
@@ -207,6 +203,7 @@
         #{CnkiRefer,jdbcType=NUMERIC},
         #{CnkiDataId,jdbcType=NUMERIC},
         #{formatStr,jdbcType=VARCHAR},
+        #{documentType,jdbcType=NUMERIC},
         now()
         )
 
@@ -248,6 +245,7 @@
         cnki_refer=#{CnkiRefer,jdbcType=NUMERIC},
         cnki_data_id=#{CnkiDataId,jdbcType=NUMERIC},
         format_str=#{formatStr,jdbcType=VARCHAR},
+        document_type=#{documentType,jdbcType=NUMERIC},
         update_time=now()
         where id=#{id,jdbcType=NUMERIC}
     </update>

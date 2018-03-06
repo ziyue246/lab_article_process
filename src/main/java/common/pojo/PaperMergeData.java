@@ -54,7 +54,15 @@ public class PaperMergeData {
     private int CnkiDataId;
     private String formatStr;
 
+    private int documentType;
 
+    public int getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(int documentType) {
+        this.documentType = documentType;
+    }
 
     private List<AuthorData> authorDataList;
 

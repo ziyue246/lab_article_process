@@ -158,6 +158,36 @@ public class PaperMergeProcess {
         if(paperMergeData.getCategory()==null)paperMergeData.setCategory(paperData.getCategory());
         if(paperMergeData.getCategoryCode()==null)paperMergeData.setCategoryCode(paperData.getCategoryCode());
 
+        //        -1:null(ei中该字段为空)
+        //        0:other(未定义)
+        //        1:Conference article (CA)
+        //        2:Journal article (JA)
+        //        3:Article in Press
+        //        4:Book chapter (CH)
+        //        5:Editorial (ED)
+        //        6:Book (BK)
+        if(paperData.getDocumentType()==null){
+            paperMergeData.setDocumentType(-1);
+        }else if(paperData.getDocumentType().contains("CA")){
+            paperMergeData.setDocumentType(1);
+        }
+        else if(paperData.getDocumentType().contains("JA")){
+            paperMergeData.setDocumentType(2);
+        }
+        else if(paperData.getDocumentType().contains("Article in Press")){
+            paperMergeData.setDocumentType(3);
+        }
+        else if(paperData.getDocumentType().contains("CH")){
+            paperMergeData.setDocumentType(4);
+        }
+        else if(paperData.getDocumentType().contains("ED")){
+            paperMergeData.setDocumentType(5);
+        }
+        else if(paperData.getDocumentType().contains("BK")){
+            paperMergeData.setDocumentType(6);
+        }else {
+            paperMergeData.setDocumentType(0);
+        }
     }
     /**
      *

@@ -39,6 +39,16 @@ public class PaperData {
     private String conferenceLocation;
     private String categoryCode;
 
+    private String documentType;
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
+    }
+
     private List<AuthorData> authorDataList;
 
     private List<InstitutionData> institutionDataList;
