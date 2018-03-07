@@ -125,20 +125,29 @@ public class OperationExcel {
     }
 
 
-    private static String dealEnTitle(String title){
-        int count=0;
+    public  static String dealEnTitle(String title){
 
-        for(char ch:title.toCharArray()){
-            if(ch<='z'&&ch>='a'){
-                ++count;
+        String [] title_strs = title.split(" ");
+
+
+        String title_tmp="";
+        for(String titlestr:title_strs) {
+            int count=0;
+            for (char ch : titlestr.toCharArray()) {
+                if (ch <= 'z' && ch >= 'a') {
+                    ++count;
+                }
+                if (count >= 1) break;
             }
-            if(count>=1)break;
+            if(count==0){
+                title_tmp = title_tmp + titlestr+" ";
+            }else{
+                title_tmp = title_tmp + titlestr.toLowerCase()+" ";
+            }
         }
-        if(count==0){
-            return title;
-        }else{
-            return  title.substring(0,1).toUpperCase()+title.substring(1).toLowerCase();
-        }
+        title_tmp = title_tmp.trim();
+        return  title_tmp.substring(0,1).toUpperCase()+title_tmp.substring(1);
+
     }
 
 

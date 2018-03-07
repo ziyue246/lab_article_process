@@ -30,7 +30,6 @@ public class StartMain {
         PaperAuthorProcess paperAuthorProcess = new PaperAuthorProcess();
         paperAuthorProcess.process();
 
-
         logger.info("Over...");
     }
 

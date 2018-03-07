@@ -152,11 +152,14 @@ public class Str {
         String astr="AN ACCURATE PATH PLANNING ALGORITHM BASED ON TRIANGULAR MESHES IN ROBOTIC FIBRE PLACEMENT";
         String bstr="Local Discriminant Canonical Correlation Analysis for Supervised PolSAR Image Classification";
 
+        String cstr="Local ABC Discriminant Canonical Correlation Analysis for Supervised PolSAR Image Classification";
 
-        //String simi = OperationExcel.dealEnTitle(bstr);
 
 
-        //System.out.println(simi);
+
+        System.out.println(OperationExcel.dealEnTitle(astr));
+        System.out.println(OperationExcel.dealEnTitle(bstr));
+        System.out.println(OperationExcel.dealEnTitle(cstr));
 
     }
 
