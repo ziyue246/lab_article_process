@@ -33,4 +33,10 @@ public interface PaperMapper {
     public void insertPaperInsti(PaperAuthorInstiData paperAuthorInstiData);
     public void insertAuthorInstiGroup(PaperAuthorInstiData paperAuthorInstiData);
 
+
+    public List<PaperAuthorInstiData> findPaperAuthorDatas();
+    public List<PaperAuthorInstiData> findPaperAuthorInstiDatas();
+    public List<PaperAuthorInstiData> findPaperInstiDatas();
+    public List<PaperAuthorInstiData> findAuthorInstiGroupDatas();
+
 }

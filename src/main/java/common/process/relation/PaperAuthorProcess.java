@@ -281,7 +281,8 @@ public class PaperAuthorProcess {
             if(paperAuthorInstiData.getAuthorNameId()!=0) {
                 try {
                     String md5  = MD5Util.MD5(""+paperAuthorInstiData.getPaperId()
-                            +paperAuthorInstiData.getAuthorNameId());
+                            +"#"+paperAuthorInstiData.getAuthorNameId()
+                            +"#"+paperAuthorInstiData.getAuthorType());
                     if(md5Set.contains(md5))continue;
                     Systemconfig.paperService.savePaperAuthor(paperAuthorInstiData);
                     md5Set.add(md5);
@@ -295,16 +296,16 @@ public class PaperAuthorProcess {
 
     private void save2PaperAuthorInstiDb(List<PaperAuthorInstiData> paperAuthorInstiDataList){
 
-        Set<String> md5Set = new HashSet<String>();
         for (PaperAuthorInstiData paperAuthorInstiData: paperAuthorInstiDataList){
             if(paperAuthorInstiData.getAuthorNameId()!=0) {
                 try {
-                    String md5  = MD5Util.MD5(""+paperAuthorInstiData.getPaperId()
-                            +paperAuthorInstiData.getAuthorNameId()
-                            +paperAuthorInstiData.getInstitutionId()+"");
-                    if(md5Set.contains(md5))continue;
-                    Systemconfig.paperService.savePaperAuthorInsti(paperAuthorInstiData);
-                    md5Set.add(md5);
+                    String md5  = MD5Util.MD5(paperAuthorInstiData.getPaperId()
+                            +"#"+paperAuthorInstiData.getAuthorNameId()
+                            +"#"+paperAuthorInstiData.getInstitutionId()
+                            +"#"+paperAuthorInstiData.getAuthorType());
+                    if(Systemconfig.urm.checkNoRepeat(md5)) {
+                        Systemconfig.paperService.savePaperAuthorInsti(paperAuthorInstiData);
+                    }
                 }catch (Exception e){
                     logger.warn(e.getMessage()+"\n"+paperAuthorInstiData);
                 }
@@ -313,34 +314,30 @@ public class PaperAuthorProcess {
         }
     }
     private void save2PaperInstiDb(List<PaperAuthorInstiData> paperAuthorInstiDataList){
-
-        Set<String> md5Set = new HashSet<String>();
         for (PaperAuthorInstiData paperAuthorInstiData: paperAuthorInstiDataList){
             if(paperAuthorInstiData.getAuthorNameId()!=0) {
                 try {
-                    String md5  = MD5Util.MD5(""+paperAuthorInstiData.getPaperId()
-                            +paperAuthorInstiData.getInstitutionId()+"");
-                    if(md5Set.contains(md5))continue;
-                    Systemconfig.paperService.savePaperInsti(paperAuthorInstiData);
-                    md5Set.add(md5);
+                    String md5  = MD5Util.MD5(paperAuthorInstiData.getPaperId()
+                            +"#"+paperAuthorInstiData.getInstitutionId()
+                            +"#"+paperAuthorInstiData.getAuthorType());
+                    if(Systemconfig.urm.checkNoRepeat(md5)) {
+                        Systemconfig.paperService.savePaperInsti(paperAuthorInstiData);
+                    }
                 }catch (Exception e){
                     logger.warn(e.getMessage()+"\n"+paperAuthorInstiData);
                 }
             }
-
         }
     }
     private void save2AuthorInstiGroupDb(List<PaperAuthorInstiData> paperAuthorInstiDataList){
-
-        Set<String> md5Set = new HashSet<String>();
         for (PaperAuthorInstiData paperAuthorInstiData: paperAuthorInstiDataList){
             if(paperAuthorInstiData.getAuthorNameId()!=0) {
                 try {
-                    String md5  = MD5Util.MD5(""+paperAuthorInstiData.getAuthorNameId()
-                            +paperAuthorInstiData.getInstitutionId()+"");
-                    if(md5Set.contains(md5))continue;
-                    Systemconfig.paperService.saveAuthorInstiGroup(paperAuthorInstiData);
-                    md5Set.add(md5);
+                    String md5  = MD5Util.MD5(paperAuthorInstiData.getAuthorNameId()
+                            +"#"+paperAuthorInstiData.getInstitutionId());
+                    if(Systemconfig.urm.checkNoRepeat(md5)) {
+                        Systemconfig.paperService.saveAuthorInstiGroup(paperAuthorInstiData);
+                    }
                 }catch (Exception e){
                     logger.warn(e.getMessage()+"\n"+paperAuthorInstiData);
                 }
@@ -353,7 +350,6 @@ public class PaperAuthorProcess {
      * save data to paperAuthorDb ,paperAuthorInstiDb,  paperInstiDb
      * @param paperAuthorInstiDataList
      */
-
     private void savepaperAuthorInstiData(List<PaperAuthorInstiData> paperAuthorInstiDataList){
         logger.info("save to paperAuthorDb");
         save2PaperAuthorDb(paperAuthorInstiDataList);

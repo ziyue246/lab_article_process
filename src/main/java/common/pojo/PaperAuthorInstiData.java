@@ -9,6 +9,7 @@ public class PaperAuthorInstiData {
     private int authorRank;
     private int institutionRank;
     private int institutionId;
+    private int authorType;
     private boolean hypoInsti=false;
 
     private int groupId;
@@ -79,5 +80,14 @@ public class PaperAuthorInstiData {
 
     public void setInstitutionId(int institutionId) {
         this.institutionId = institutionId;
+    }
+
+
+    public int getAuthorType() {
+        return authorType;
+    }
+
+    public void setAuthorType(int authorType) {
+        this.authorType = authorType;
     }
 }

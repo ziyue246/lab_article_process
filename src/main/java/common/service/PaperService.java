@@ -74,4 +74,23 @@ public class PaperService {
     public void saveAuthorInstiGroup(PaperAuthorInstiData paperAuthorInstiData){
         paperMapper.insertAuthorInstiGroup(paperAuthorInstiData);
     }
+
+//    public List<PaperAuthorInstiData> findPaperAuthorDatas();
+//    public List<PaperAuthorInstiData> findPaperAuthorInstiDatas();
+//    public List<PaperAuthorInstiData> findPaperInstiDatas();
+//    public List<PaperAuthorInstiData> findAuthorInstiGroupDatas();
+
+    public List<PaperAuthorInstiData> getPaperAuthorDatas(){
+        return paperMapper.findPaperAuthorDatas();
+    }
+    public List<PaperAuthorInstiData> getPaperAuthorInstiDatas(){
+        return paperMapper.findPaperAuthorInstiDatas();
+
+    }
+    public List<PaperAuthorInstiData> getPaperInstiDatas(){
+        return paperMapper.findPaperInstiDatas();
+    }
+    public List<PaperAuthorInstiData> getAuthorInstiGroupDatas(){
+        return paperMapper.findAuthorInstiGroupDatas();
+    }
 }

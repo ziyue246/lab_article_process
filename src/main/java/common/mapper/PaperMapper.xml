@@ -250,7 +250,19 @@
         where id=#{id,jdbcType=NUMERIC}
     </update>
 
+    <!--md5 =paper_id+author_id -->
+    <resultMap id="BasePaperAuthorMap" type="common.pojo.PaperAuthorInstiData" >
 
+        <result column="paper_id"	    property="paperId"		jdbcType="INTEGER" />
+        <result column="author_id"      property="authorNameId"	jdbcType="INTEGER" />
+        <result column="order"		    property="authorRank"	jdbcType="INTEGER" />
+        <result column="author_type"    property="authorType"		jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="findPaperAuthorDatas"   resultType="BasePaperAuthorMap">
+        SELECT  * FROM  paper_author
+        WHERE 1=1
+    </select>
 
     <insert id="insertPaperAuthor" parameterType="common.pojo.PaperAuthorInstiData" >
 
@@ -258,16 +270,35 @@
         (
             paper_id,
             author_id,
-            `order`
+            `order`,
+            author_type
         )
         VALUES
         (
             #{paperId,jdbcType=NUMERIC},
             #{authorNameId,jdbcType=NUMERIC},
-            #{authorRank,jdbcType=NUMERIC}
+            #{authorRank,jdbcType=NUMERIC},
+            #{authorType,jdbcType=NUMERIC}
         )
 
     </insert>
+
+
+
+    <!--md5 =paper_id+author_id+institution_id -->
+    <resultMap id="BasePaperAuthorInstiMap" type="common.pojo.PaperAuthorInstiData" >
+
+        <result column="paper_id"			property="paperId"		    jdbcType="INTEGER" />
+        <result column="author_id"		    property="authorNameId"	    jdbcType="INTEGER" />
+        <result column="institution_id"		property="institutionId"	jdbcType="INTEGER" />
+        <result column="author_type"		property="authorType"		jdbcType="INTEGER" />
+
+    </resultMap>
+
+    <select id="findPaperInstiDatas"   resultType="BasePaperAuthorInstiMap">
+        SELECT  * FROM  paper_author_institution
+        WHERE 1=1
+    </select>
 
     <insert id="insertPaperAuthorInsti" parameterType="common.pojo.PaperAuthorInstiData" >
 
@@ -275,16 +306,34 @@
         (
         paper_id,
         author_id,
-        institution_id
+        institution_id,
+        author_type
         )
         VALUES
         (
         #{paperId,jdbcType=NUMERIC},
         #{authorNameId,jdbcType=NUMERIC},
-        #{institutionId,jdbcType=NUMERIC}
+        #{institutionId,jdbcType=NUMERIC},
+        #{authorType,jdbcType=NUMERIC}
         )
 
     </insert>
+
+
+    <!--md5 =paper_id+institution_id -->
+    <resultMap id="BasePaperInstiMap" type="common.pojo.PaperAuthorInstiData" >
+
+        <result column="paper_id"			property="paperId"		    jdbcType="INTEGER" />
+        <result column="institution_id"		property="institutionId"	jdbcType="INTEGER" />
+        <result column="order"				property="institutionRank"	jdbcType="INTEGER" />
+        <result column="author_type"				property="authorType"		jdbcType="INTEGER" />
+
+    </resultMap>
+
+    <select id="findPaperInstiDatas"   resultType="BasePaperInstiMap">
+        SELECT  * FROM  paper_institution
+        WHERE 1=1
+    </select>
 
     <insert id="insertPaperInsti" parameterType="common.pojo.PaperAuthorInstiData" >
 
@@ -292,13 +341,15 @@
         (
         paper_id,
         institution_id,
-        `order`
+        `order`,
+        author_type
         )
         VALUES
         (
         #{paperId,jdbcType=NUMERIC},
         #{institutionId,jdbcType=NUMERIC},
-        #{institutionRank,jdbcType=NUMERIC}
+        #{institutionRank,jdbcType=NUMERIC},
+         #{authorType,jdbcType=NUMERIC}
         )
 
     </insert>
@@ -307,6 +358,21 @@
     <!--author_id-->
     <!--institution_id-->
     <!--group_id-->
+    <!--md5 =author_id+institution_id -->
+    <resultMap id="BaseAuthorInstiGroupMap" type="common.pojo.PaperAuthorInstiData" >
+
+        <result column="author_id"				    property="authorNameId"		jdbcType="INTEGER" />
+        <result column="institution_id"				property="institutionId"	jdbcType="INTEGER" />
+        <result column="group_id"				    property="groupId"			jdbcType="INTEGER" />
+
+    </resultMap>
+
+
+
+    <select id="findAuthorInstiGroupDatas"   resultType="BaseAuthorInstiGroupMap">
+        SELECT  * FROM  author_institution
+        WHERE 1=1
+    </select>
 
 
 
