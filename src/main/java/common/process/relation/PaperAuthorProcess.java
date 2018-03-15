@@ -247,11 +247,14 @@ public class PaperAuthorProcess {
                 paperAuthorInstiData.setHypoInsti(true);
                 //authorInstiCountMap
                 int maxCount=0;
-                InstitutionData corrInstitutionData = institutionDataList.get(0);
+                InstitutionData corrInstitutionData = null;
+                if(institutionDataList!=null&&institutionDataList.size()>0){
+                    corrInstitutionData = institutionDataList.get(0);
+                }
                 Map<String,Integer> instiCount=authorInstiCountMap.get(enName);
                 if(instiCount==null){
                     logger.warn("enName:["+enName+"] authorInstiCountMap is null");
-                }else{
+                }else if(corrInstitutionData!=null){
                     for(InstitutionData institutionData:institutionDataList){
                         if(instiCount.get(institutionData.getNameEn())!=null&&
                                 instiCount.get(institutionData.getNameEn())>maxCount){
@@ -266,9 +269,12 @@ public class PaperAuthorProcess {
                         paperOnlyInstiData.setHypoInsti(false);
                         paperAuthorInstiDataList.add(paperOnlyInstiData);
                     }
+                    paperAuthorInstiData.setInstitutionId(corrInstitutionData.getOriginId());
+                    paperAuthorInstiData.setInstitutionRank(corrInstitutionData.getRank());
                 }
-                paperAuthorInstiData.setInstitutionId(corrInstitutionData.getOriginId());
-                paperAuthorInstiData.setInstitutionRank(corrInstitutionData.getRank());
+                else{
+                    logger.warn("institutionDataList is null , author type is "+authorType.name());
+                }
                 paperAuthorInstiData.setAuthorType(authorType.getIndex());  // mark reprint author
                 paperAuthorInstiDataList.add(paperAuthorInstiData);
             }

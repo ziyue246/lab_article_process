@@ -138,6 +138,8 @@ public class PaperMergeProcess {
         if(paperMergeData.getTitle()==null)paperMergeData.setTitle(paperData.getTitle());
         if(paperMergeData.getAuthors()==null)paperMergeData.setAuthors(paperData.getAuthor());
         if(paperMergeData.getInstitutions()==null)paperMergeData.setInstitutions(paperData.getAddress());
+        if(paperMergeData.getReprintAuthor()==null)paperMergeData.setReprintAuthor(paperData.getReprintAuthor());
+        if(paperMergeData.getReprintInstitution()==null)paperMergeData.setReprintInstitution(paperData.getReprintInstitution());
         if(paperMergeData.getPubdate()==null)paperMergeData.setPubdate(paperData.getPubdate());
         if(paperMergeData.getPublisher()==null)paperMergeData.setPublisher(paperData.getPublisher());
         if(paperMergeData.getInsertTime()==null)paperMergeData.setInsertTime(paperData.getInsertTime());
