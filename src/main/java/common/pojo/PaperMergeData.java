@@ -7,16 +7,13 @@ import java.util.List;
 public class PaperMergeData {
 
 
-
-
-
-
     private int id;
-
 
     private String title;
     private String authors;
     private String institutions;
+    private String reprintAuthor;
+    private String reprintInstitution;
     private Date pubdate;
     private String publisher;
     private Date insertTime;
@@ -56,6 +53,19 @@ public class PaperMergeData {
 
     private int documentType;
 
+
+    private List<AuthorData> authorDataList;
+
+    private List<InstitutionData> institutionDataList;
+
+    private List<AuthorData> reprintAuthorDataList;
+
+    private List<InstitutionData> reprintInstitutionDataList;
+
+
+
+
+
     public int getDocumentType() {
         return documentType;
     }
@@ -63,11 +73,6 @@ public class PaperMergeData {
     public void setDocumentType(int documentType) {
         this.documentType = documentType;
     }
-
-    private List<AuthorData> authorDataList;
-
-    private List<InstitutionData> institutionDataList;
-
 
     public int getId() {
         return id;
@@ -382,5 +387,38 @@ public class PaperMergeData {
 
     public void setDbStatus(DbDataOpreration dbStatus) {
         this.dbStatus = dbStatus;
+    }
+
+
+    public List<AuthorData> getReprintAuthorDataList() {
+        return reprintAuthorDataList;
+    }
+
+    public void setReprintAuthorDataList(List<AuthorData> reprintAuthorDataList) {
+        this.reprintAuthorDataList = reprintAuthorDataList;
+    }
+
+    public List<InstitutionData> getReprintInstitutionDataList() {
+        return reprintInstitutionDataList;
+    }
+
+    public void setReprintInstitutionDataList(List<InstitutionData> reprintInstitutionDataList) {
+        this.reprintInstitutionDataList = reprintInstitutionDataList;
+    }
+
+    public String getReprintAuthor() {
+        return reprintAuthor;
+    }
+
+    public void setReprintAuthor(String reprintAuthor) {
+        this.reprintAuthor = reprintAuthor;
+    }
+
+    public String getReprintInstitution() {
+        return reprintInstitution;
+    }
+
+    public void setReprintInstitution(String reprintInstitution) {
+        this.reprintInstitution = reprintInstitution;
     }
 }

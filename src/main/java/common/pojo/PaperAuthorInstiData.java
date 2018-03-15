@@ -9,7 +9,7 @@ public class PaperAuthorInstiData {
     private int authorRank;
     private int institutionRank;
     private int institutionId;
-    private int authorType;
+    private int authorType=0;//EnumType.AuthorType.ORDINARY.getIndex();//普通作者：0  通讯作者：1
     private boolean hypoInsti=false;
 
     private int groupId;
@@ -21,6 +21,7 @@ public class PaperAuthorInstiData {
                 ",\n authorRank=" + authorRank +
                 ",\n institutionRank=" + institutionRank +
                 ",\n institutionId=" + institutionId +
+                ",\n authorType=" + authorType +
                 ",\n hypoInsti=" + hypoInsti +
                 '}';
     }

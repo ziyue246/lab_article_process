@@ -12,6 +12,8 @@
         <result column="title"				        property="title"			jdbcType="VARCHAR" />
         <result column="author"				        property="author"			jdbcType="VARCHAR" />
         <result column="address"				    property="address"			jdbcType="VARCHAR" />
+        <result column="reprint_author"				property="reprintAuthor"			jdbcType="VARCHAR" />
+        <result column="reprint_institution"		property="reprintInstitution"		jdbcType="VARCHAR" />
         <result column="pubtime"				    property="pubtime"			jdbcType="VARCHAR" />
         <result column="pubdate"				    property="pubdate"			jdbcType="VARCHAR" />
         <result column="publisher"				    property="publisher"		jdbcType="VARCHAR" />
@@ -76,6 +78,10 @@
         <result column="title"				        property="title"			jdbcType="VARCHAR" />
         <result column="authors"				    property="authors"			jdbcType="VARCHAR" />
         <result column="institutions"				property="institutions"		jdbcType="VARCHAR" />
+
+        <result column="reprint_author"				property="reprintAuthor"			jdbcType="VARCHAR" />
+        <result column="reprint_institution"		property="reprintInstitution"		jdbcType="VARCHAR" />
+
         <result column="pubdate"				    property="pubdate"			jdbcType="VARCHAR" />
         <result column="publisher"				    property="publisher"		jdbcType="VARCHAR" />
         <result column="insert_time"				property="insertTime"		jdbcType="TIMESTAMP" />
@@ -128,6 +134,8 @@
         (  title,
         authors,
         institutions,
+        reprint_author,
+        reprint_institution,
         pubdate,
         publisher,
         insert_time,
@@ -171,6 +179,8 @@
         #{title,jdbcType=VARCHAR},
         #{authors,jdbcType=VARCHAR},
         #{institutions,jdbcType=VARCHAR},
+        #{reprintAuthor,jdbcType=VARCHAR},
+        #{reprintInstitution,jdbcType=VARCHAR},
         #{pubdate,jdbcType=DATE},
         #{publisher,jdbcType=VARCHAR},
         now(),
@@ -214,6 +224,8 @@
         title=#{title,jdbcType=VARCHAR},
         authors=#{authors,jdbcType=VARCHAR},
         institutions=#{institutions,jdbcType=VARCHAR},
+        reprint_author=#{reprintAuthor,jdbcType=VARCHAR},
+        reprint_institution=#{reprintInstitution,jdbcType=VARCHAR},
         pubdate=#{pubdate,jdbcType=DATE},
         publisher=#{publisher,jdbcType=VARCHAR},
         brief=#{brief,jdbcType=VARCHAR},
@@ -259,7 +271,7 @@
         <result column="author_type"    property="authorType"		jdbcType="INTEGER" />
     </resultMap>
 
-    <select id="findPaperAuthorDatas"   resultType="BasePaperAuthorMap">
+    <select id="findPaperAuthorDatas"   resultMap="BasePaperAuthorMap">
         SELECT  * FROM  paper_author
         WHERE 1=1
     </select>
@@ -295,7 +307,7 @@
 
     </resultMap>
 
-    <select id="findPaperInstiDatas"   resultType="BasePaperAuthorInstiMap">
+    <select id="findPaperAuthorInstiDatas"   resultMap="BasePaperAuthorInstiMap">
         SELECT  * FROM  paper_author_institution
         WHERE 1=1
     </select>
@@ -330,7 +342,7 @@
 
     </resultMap>
 
-    <select id="findPaperInstiDatas"   resultType="BasePaperInstiMap">
+    <select id="findPaperInstiDatas"   resultMap="BasePaperInstiMap">
         SELECT  * FROM  paper_institution
         WHERE 1=1
     </select>
@@ -369,7 +381,7 @@
 
 
 
-    <select id="findAuthorInstiGroupDatas"   resultType="BaseAuthorInstiGroupMap">
+    <select id="findAuthorInstiGroupDatas"   resultMap="BaseAuthorInstiGroupMap">
         SELECT  * FROM  author_institution
         WHERE 1=1
     </select>

@@ -1,6 +1,7 @@
 package common.string;
 
 import common.analysis.EnAnalysis;
+import common.pojo.EnumType;
 import common.system.AppContext;
 import common.system.OperationExcel;
 import common.system.StringProcess;
@@ -164,5 +165,40 @@ public class Str {
     }
 
 
+    @Test
+    public void test351511(){
+
+
+        String astr="Qiao, H (reprint author);Qiao, H (reprint author);Qiao, H (reprint author)";
+
+
+
+        System.out.println(astr.split("\\(")[0].trim());
+
+        System.out.println(astr.replace(("(reprint author)"),("")));
+
+
+        System.out.println(astr.replace(("(reprint author)"),(""))
+                .replaceAll(("\\s+"),("")).trim());
+
+        System.out.println(astr.contains("reprint author"));
+
+        System.out.println(astr.contains("(reprint author)"));
+
+
+        System.out.println(EnumType.AuthorType.REPRINT.equals(test351511(EnumType.AuthorType.REPRINT)));
+
+
+        System.out.println(EnumType.AuthorType.REPRINT.name());
+        System.out.println(EnumType.AuthorType.REPRINT.getName());
+        System.out.println(EnumType.AuthorType.REPRINT.getIndex());
+
+        (new Systemconfig()).initial();
+
+    }
+
+    public EnumType.AuthorType test351511(EnumType.AuthorType authorType){
+        return authorType;
+    }
 
 }

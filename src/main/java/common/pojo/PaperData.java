@@ -10,6 +10,8 @@ public class PaperData {
     private String title;
     private String author;
     private String address;
+    private String reprintAuthor;
+    private String reprintInstitution;
     private String pubtime;
     private Date pubdate;
     private String publisher;
@@ -334,6 +336,22 @@ public class PaperData {
         return categoryCode;
     }
 
+
+    public String getReprintAuthor() {
+        return reprintAuthor;
+    }
+
+    public void setReprintAuthor(String reprintAuthor) {
+        this.reprintAuthor = reprintAuthor;
+    }
+
+    public String getReprintInstitution() {
+        return reprintInstitution;
+    }
+
+    public void setReprintInstitution(String reprintInstitution) {
+        this.reprintInstitution = reprintInstitution;
+    }
 
     @Override
     public String toString() {

@@ -27,15 +27,20 @@ public class Systemconfig {
 
     public void initial(){
         getEscapeCharacterMap();
+        initBloomFilter();
         md5AddBloomFilter();
     }
 
-
+    private void  initBloomFilter(){
+       urm = new UrlReduplicationRemove();
+    }
     private void md5AddBloomFilter(){
 
         List<PaperAuthorInstiData> paperAuthorInstiDataList = paperService.getPaperAuthorDatas();
         for(PaperAuthorInstiData data:paperAuthorInstiDataList){
-            String md5 = MD5Util.MD5(data.getPaperId()+"#"+data.getAuthorNameId()+"#"+data.getAuthorType());
+
+            String md5 = MD5Util.MD5(data.getPaperId()+"#"+
+                    data.getAuthorNameId()+"#"+data.getAuthorType());
             urm.checkNoRepeat(md5);
         }
         paperAuthorInstiDataList = paperService.getPaperAuthorInstiDatas();

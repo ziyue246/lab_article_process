@@ -33,6 +33,15 @@ public class AuthorData {
     private String introduction;
     private String insertTime;
 
+    private EnumType.AuthorType authorType;
+
+    public EnumType.AuthorType getAuthorType() {
+        return authorType;
+    }
+
+    public void setAuthorType(EnumType.AuthorType authorType) {
+        this.authorType = authorType;
+    }
 
     public Map<String, Integer> getInstiCountMap() {
         return instiCountMap;
