@@ -81,6 +81,8 @@ public class PaperMergeProcess {
                     paperMergeData.setSciDown(paperData.getDownNum());
                     paperMergeData.setSciRefer(paperData.getCiteNum());
                     paperMergeData.setSciDataId(paperData.getId());
+                    paperMergeData.setImpactFactor2year(paperData.getImpactFactor2year());
+                    paperMergeData.setImpactFactor5year(paperData.getImpactFactor5year());
                     String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
                     paperMergeData.setFormatStr(formatStr);
                 }
@@ -210,6 +212,9 @@ public class PaperMergeProcess {
             paperMergeData.setSciDown(paperData.getDownNum()<0?0:paperData.getDownNum());
             paperMergeData.setSciRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setSciDataId(paperData.getId());
+
+            paperMergeData.setImpactFactor2year(paperData.getImpactFactor2year());
+            paperMergeData.setImpactFactor5year(paperData.getImpactFactor5year());
             //String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
             //paperMergeData.setFormatStr(formatStr);
         }
