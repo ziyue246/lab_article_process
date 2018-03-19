@@ -167,7 +167,7 @@
         cnki_down,
         cnki_refer,
         cnki_data_id,
-        format_str,
+
         document_type,
         update_time
 
@@ -212,12 +212,13 @@
         #{CnkiDown,jdbcType=NUMERIC},
         #{CnkiRefer,jdbcType=NUMERIC},
         #{CnkiDataId,jdbcType=NUMERIC},
-        #{formatStr,jdbcType=VARCHAR},
+
         #{documentType,jdbcType=NUMERIC},
         now()
         )
 
     </update>
+    <!--    format_str,   #{formatStr,jdbcType=VARCHAR},-->
 
     <update id="updateMerge"  parameterType="common.pojo.PaperMergeData">
         update paper SET
@@ -256,11 +257,13 @@
         cnki_down=#{CnkiDown,jdbcType=NUMERIC},
         cnki_refer=#{CnkiRefer,jdbcType=NUMERIC},
         cnki_data_id=#{CnkiDataId,jdbcType=NUMERIC},
-        format_str=#{formatStr,jdbcType=VARCHAR},
+
         document_type=#{documentType,jdbcType=NUMERIC},
         update_time=now()
         where id=#{id,jdbcType=NUMERIC}
     </update>
+    <!--format_str=#{formatStr,jdbcType=VARCHAR},-->
+
 
     <!--md5 =paper_id+author_id -->
     <resultMap id="BasePaperAuthorMap" type="common.pojo.PaperAuthorInstiData" >
@@ -392,16 +395,16 @@
 
     INSERT INTO author_institution
     (
-    author_id,
-    institution_id,
-    group_id
+        author_id,
+        institution_id,
+        group_id
     )
     VALUES
     (
-    #{authorNameId,jdbcType=NUMERIC},
-    #{institutionId,jdbcType=NUMERIC},
-    #{groupId,jdbcType=NUMERIC}
+        #{authorNameId,jdbcType=NUMERIC},
+        #{institutionId,jdbcType=NUMERIC},
+        #{groupId,jdbcType=NUMERIC}
     )
 
-</insert>
+    </insert>
 </mapper>

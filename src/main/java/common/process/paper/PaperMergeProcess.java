@@ -210,8 +210,8 @@ public class PaperMergeProcess {
             paperMergeData.setSciDown(paperData.getDownNum()<0?0:paperData.getDownNum());
             paperMergeData.setSciRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setSciDataId(paperData.getId());
-            String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
-            paperMergeData.setFormatStr(formatStr);
+            //String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
+            //paperMergeData.setFormatStr(formatStr);
         }
         if(type.toLowerCase().contains("ei")) {
             paperMergeData.setInEi(1);
@@ -219,8 +219,8 @@ public class PaperMergeProcess {
             paperMergeData.setEiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setEiDataId(paperData.getId());
             if(paperMergeData.getInSci()!=1){
-                String formatStr = OperationExcel.dealEiArticle(paperData,null,null,null,null);
-                paperMergeData.setFormatStr(formatStr);
+                //String formatStr = OperationExcel.dealEiArticle(paperData,null,null,null,null);
+                //paperMergeData.setFormatStr(formatStr);
             }
         }
         if(type.toLowerCase().contains("cnki")) {
@@ -228,8 +228,8 @@ public class PaperMergeProcess {
             paperMergeData.setCnkiDown(paperData.getDownNum()<0?0:paperData.getDownNum());
             paperMergeData.setCnkiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setCnkiDataId(paperData.getId());
-            String formatStr = OperationExcel.dealCnkiArticle(paperData,null,null,null,null);
-            paperMergeData.setFormatStr(formatStr);
+            //String formatStr = OperationExcel.dealCnkiArticle(paperData,null,null,null,null);
+            //paperMergeData.setFormatStr(formatStr);
         }
         return paperMergeData;
     }
