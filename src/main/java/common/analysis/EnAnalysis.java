@@ -9,11 +9,23 @@ import java.util.Set;
 
 public class EnAnalysis {
 
+    public static double getSimilarity(String aStr,String bStrs) {
+        double maxSimilarity = getOneSimilarity(aStr,bStrs);
+        if(bStrs.contains(";")){
+            String []strs = bStrs.split(";");
+            for(String str:strs){
+                double similarity_tmp = getOneStrSimilarity(aStr,str.trim());
+                if(similarity_tmp>maxSimilarity){
+                    maxSimilarity=similarity_tmp;
+                }
+            }
+        }
+        return maxSimilarity;
+    }
 
-
-    public static double getSimilarity(String aStr,String bStr){
-
-
+    public static double getOneStrSimilarity(String aStr,String bStr){
+        aStr=aStr.replace("ии","e");
+        bStr=bStr.replace("ии","e");
         double maxSimilarity = getOneSimilarity(aStr,bStr);
         Set<String> keySet = Systemconfig.escapeCharacterMap.keySet();
         for(String key:keySet){

@@ -98,6 +98,8 @@ public class PaperInfoProcess {
             }
             firstName.replace("-","");
         }
+        if(author.getEnFirstNameShort()!=null)
+            author.setEnFirstNameShort(author.getEnFirstNameShort().replace("null",""));
         author.setEnFirstName(firstName.replace(".","").replace("-",""));
         author.setEnLastName(lastName.replace(".","").replace("-",""));
         author.setEnName(author.getEnFirstName()+","+author.getEnLastName());

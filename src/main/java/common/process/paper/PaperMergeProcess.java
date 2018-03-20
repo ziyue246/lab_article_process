@@ -2,11 +2,8 @@ package common.process.paper;
 
 import common.analysis.EnAnalysis;
 import common.analysis.ZhAnalysis;
-import common.pojo.DbDataOpreration;
-import common.pojo.InquireInfoData;
-import common.pojo.PaperData;
-import common.pojo.PaperMergeData;
-import common.system.OperationExcel;
+import common.pojo.*;
+//import common.system.OperationExcel;
 import common.system.Systemconfig;
 import org.apache.log4j.Logger;
 
@@ -75,26 +72,26 @@ public class PaperMergeProcess {
                 if(!paperMergeData.getDbStatus().equals(DbDataOpreration.INSERT)){
                     paperMergeData.setDbStatus(DbDataOpreration.UPDATE);
                 }
-                paperMergeDataNullFieldFilling(paperMergeData,paperData);
+
                 if(type.toLowerCase().contains("sci")) {
                     paperMergeData.setInSci(1);
                     paperMergeData.setSciDown(paperData.getDownNum());
                     paperMergeData.setSciRefer(paperData.getCiteNum());
                     paperMergeData.setSciDataId(paperData.getId());
-                    paperMergeData.setImpactFactor2year(paperData.getImpactFactor2year());
-                    paperMergeData.setImpactFactor5year(paperData.getImpactFactor5year());
-                    String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
-                    paperMergeData.setFormatStr(formatStr);
+                    paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.SCI);
+                    //String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
+                    //paperMergeData.setFormatStr(formatStr);
                 }
                 if(type.toLowerCase().contains("ei")) {
                     paperMergeData.setInEi(1);
                     paperMergeData.setEiDown(paperData.getDownNum());
                     paperMergeData.setEiRefer(paperData.getCiteNum());
                     paperMergeData.setEiDataId(paperData.getId());
-                    if(paperMergeData.getInSci()!=1){
-                        String formatStr = OperationExcel.dealEiArticle(paperData,null,null,null,null);
-                        paperMergeData.setFormatStr(formatStr);
-                    }
+                    paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.EI);
+//                    if(paperMergeData.getInSci()!=1){
+//                        String formatStr = OperationExcel.dealEiArticle(paperData,null,null,null,null);
+//                        paperMergeData.setFormatStr(formatStr);
+//                    }
                 }
                 return;
             }
@@ -116,14 +113,15 @@ public class PaperMergeProcess {
                 if(!paperMergeData.getDbStatus().equals(DbDataOpreration.INSERT)){
                     paperMergeData.setDbStatus(DbDataOpreration.UPDATE);
                 }
-                paperMergeDataNullFieldFilling(paperMergeData,paperData);
+
                 if(type.toLowerCase().contains("cnki")) {
                     paperMergeData.setInCnki(1);
                     paperMergeData.setCnkiDown(paperData.getDownNum()<0?0:paperData.getDownNum());
                     paperMergeData.setCnkiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
                     paperMergeData.setCnkiDataId(paperData.getId());
-                    String formatStr = OperationExcel.dealCnkiArticle(paperData,null,null,null,null);
-                    paperMergeData.setFormatStr(formatStr);
+                    paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.CNKI);
+                    //String formatStr = OperationExcel.dealCnkiArticle(paperData,null,null,null,null);
+                    //paperMergeData.setFormatStr(formatStr);
                 }
                 return;
             }
@@ -135,32 +133,32 @@ public class PaperMergeProcess {
      * @param paperMergeData
      * @param paperData
      */
-    private void  paperMergeDataNullFieldFilling(PaperMergeData paperMergeData,PaperData paperData){
+    private void  paperMergeDataUpdate(PaperMergeData paperMergeData,PaperData paperData,EnumType.DBData dbData){
 
-        if(paperMergeData.getTitle()==null)paperMergeData.setTitle(paperData.getTitle());
-        if(paperMergeData.getAuthors()==null)paperMergeData.setAuthors(paperData.getAuthor());
-        if(paperMergeData.getInstitutions()==null)paperMergeData.setInstitutions(paperData.getAddress());
-        if(paperMergeData.getReprintAuthor()==null)paperMergeData.setReprintAuthor(paperData.getReprintAuthor());
-        if(paperMergeData.getReprintInstitution()==null)paperMergeData.setReprintInstitution(paperData.getReprintInstitution());
-        if(paperMergeData.getPubdate()==null)paperMergeData.setPubdate(paperData.getPubdate());
-        if(paperMergeData.getPublisher()==null)paperMergeData.setPublisher(paperData.getPublisher());
-        if(paperMergeData.getInsertTime()==null)paperMergeData.setInsertTime(paperData.getInsertTime());
-        if(paperMergeData.getBrief()==null)paperMergeData.setBrief(paperData.getBrief());
-        if(paperMergeData.getJournal()==null)paperMergeData.setJournal(paperData.getJournal());
-        if(paperMergeData.getKeywords()==null)paperMergeData.setKeywords(paperData.getKeywords());
-        if(paperMergeData.getFund()==null)paperMergeData.setFund(paperData.getFund());
-        if(paperMergeData.getVolume()==null)paperMergeData.setVolume(paperData.getVolume());
-        if(paperMergeData.getIssue()==null)paperMergeData.setIssue(paperData.getIssue());
-        if(paperMergeData.getPageCode()==null)paperMergeData.setPageCode(paperData.getPageCode());
-        if(paperMergeData.getDoi()==null)paperMergeData.setDoi(paperData.getDoi());
-        if(paperMergeData.getImpactFactor2year()<=0)paperMergeData.setImpactFactor2year(paperData.getImpactFactor2year());
-        if(paperMergeData.getImpactFactor5year()<=0)paperMergeData.setImpactFactor5year(paperData.getImpactFactor5year());
-        if(paperMergeData.getJcr()==null)paperMergeData.setJcr(paperData.getJcr());
-        if(paperMergeData.getSourceTitle()==null)paperMergeData.setSourceTitle(paperData.getSourceTitle());
-        if(paperMergeData.getConferenceDate()==null)paperMergeData.setConferenceDate(paperData.getConferenceDate());
-        if(paperMergeData.getConferenceLocation()==null)paperMergeData.setConferenceLocation(paperData.getConferenceLocation());
-        if(paperMergeData.getCategory()==null)paperMergeData.setCategory(paperData.getCategory());
-        if(paperMergeData.getCategoryCode()==null)paperMergeData.setCategoryCode(paperData.getCategoryCode());
+        if(paperMergeData.getTitle()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setTitle(paperData.getTitle());
+        if(paperMergeData.getAuthors()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setAuthors(paperData.getAuthor());
+        if(paperMergeData.getInstitutions()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setInstitutions(paperData.getAddress());
+        if(paperMergeData.getReprintAuthor()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setReprintAuthor(paperData.getReprintAuthor());
+        if(paperMergeData.getReprintInstitution()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setReprintInstitution(paperData.getReprintInstitution());
+        if(paperMergeData.getPubdate()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setPubdate(paperData.getPubdate());
+        if(paperMergeData.getPublisher()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setPublisher(paperData.getPublisher());
+        if(paperMergeData.getInsertTime()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setInsertTime(paperData.getInsertTime());
+        if(paperMergeData.getBrief()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setBrief(paperData.getBrief());
+        if(paperMergeData.getJournal()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setJournal(paperData.getJournal());
+        if(paperMergeData.getKeywords()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setKeywords(paperData.getKeywords());
+        if(paperMergeData.getFund()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setFund(paperData.getFund());
+        if(paperMergeData.getVolume()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setVolume(paperData.getVolume());
+        if(paperMergeData.getIssue()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setIssue(paperData.getIssue());
+        if(paperMergeData.getPageCode()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setPageCode(paperData.getPageCode());
+        if(paperMergeData.getDoi()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setDoi(paperData.getDoi());
+        if(paperMergeData.getImpactFactor2year()<=0||dbData.equals(EnumType.DBData.SCI))paperMergeData.setImpactFactor2year(paperData.getImpactFactor2year());
+        if(paperMergeData.getImpactFactor5year()<=0||dbData.equals(EnumType.DBData.SCI))paperMergeData.setImpactFactor5year(paperData.getImpactFactor5year());
+        if(paperMergeData.getJcr()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setJcr(paperData.getJcr());
+        if(paperMergeData.getSourceTitle()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setSourceTitle(paperData.getSourceTitle());
+        if(paperMergeData.getConferenceDate()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setConferenceDate(paperData.getConferenceDate());
+        if(paperMergeData.getConferenceLocation()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setConferenceLocation(paperData.getConferenceLocation());
+        if(paperMergeData.getCategory()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setCategory(paperData.getCategory());
+        if(paperMergeData.getCategoryCode()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setCategoryCode(paperData.getCategoryCode());
 
         //        -1:null(ei中该字段为空)
         //        0:other(未定义)
@@ -170,27 +168,24 @@ public class PaperMergeProcess {
         //        4:Book chapter (CH)
         //        5:Editorial (ED)
         //        6:Book (BK)
-        if(paperData.getDocumentType()==null){
-            paperMergeData.setDocumentType(-1);
-        }else if(paperData.getDocumentType().contains("CA")){
-            paperMergeData.setDocumentType(1);
-        }
-        else if(paperData.getDocumentType().contains("JA")){
-            paperMergeData.setDocumentType(2);
-        }
-        else if(paperData.getDocumentType().contains("Article in Press")){
-            paperMergeData.setDocumentType(3);
-        }
-        else if(paperData.getDocumentType().contains("CH")){
-            paperMergeData.setDocumentType(4);
-        }
-        else if(paperData.getDocumentType().contains("ED")){
-            paperMergeData.setDocumentType(5);
-        }
-        else if(paperData.getDocumentType().contains("BK")){
-            paperMergeData.setDocumentType(6);
-        }else {
-            paperMergeData.setDocumentType(0);
+        if(dbData.equals(EnumType.DBData.EI)) {
+            if (paperData.getDocumentType() == null) {
+                paperMergeData.setDocumentType(-1);
+            } else if (paperData.getDocumentType().contains("CA")) {
+                paperMergeData.setDocumentType(1);
+            } else if (paperData.getDocumentType().contains("JA")) {
+                paperMergeData.setDocumentType(2);
+            } else if (paperData.getDocumentType().contains("Article in Press")) {
+                paperMergeData.setDocumentType(3);
+            } else if (paperData.getDocumentType().contains("CH")) {
+                paperMergeData.setDocumentType(4);
+            } else if (paperData.getDocumentType().contains("ED")) {
+                paperMergeData.setDocumentType(5);
+            } else if (paperData.getDocumentType().contains("BK")) {
+                paperMergeData.setDocumentType(6);
+            } else {
+                paperMergeData.setDocumentType(0);
+            }
         }
     }
     /**
@@ -205,7 +200,7 @@ public class PaperMergeProcess {
 
 
         paperMergeData.setDbStatus(DbDataOpreration.INSERT);
-        paperMergeDataNullFieldFilling(paperMergeData,paperData);
+
 
         if(type.toLowerCase().contains("sci")) {
             paperMergeData.setInSci(1);
@@ -213,8 +208,7 @@ public class PaperMergeProcess {
             paperMergeData.setSciRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setSciDataId(paperData.getId());
 
-            paperMergeData.setImpactFactor2year(paperData.getImpactFactor2year());
-            paperMergeData.setImpactFactor5year(paperData.getImpactFactor5year());
+            paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.SCI);
             //String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
             //paperMergeData.setFormatStr(formatStr);
         }
@@ -223,16 +217,18 @@ public class PaperMergeProcess {
             paperMergeData.setEiDown(paperData.getDownNum()<0?0:paperData.getDownNum());
             paperMergeData.setEiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setEiDataId(paperData.getId());
-            if(paperMergeData.getInSci()!=1){
+            paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.EI);
+            //if(paperMergeData.getInSci()!=1){
                 //String formatStr = OperationExcel.dealEiArticle(paperData,null,null,null,null);
                 //paperMergeData.setFormatStr(formatStr);
-            }
+            //}
         }
         if(type.toLowerCase().contains("cnki")) {
             paperMergeData.setInCnki(1);
             paperMergeData.setCnkiDown(paperData.getDownNum()<0?0:paperData.getDownNum());
             paperMergeData.setCnkiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setCnkiDataId(paperData.getId());
+            paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.CNKI);
             //String formatStr = OperationExcel.dealCnkiArticle(paperData,null,null,null,null);
             //paperMergeData.setFormatStr(formatStr);
         }

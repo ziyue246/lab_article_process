@@ -166,6 +166,7 @@ public class PaperAuthorProcess {
         }
 
         //author
+        if(authorDataList==null)return ;
         for(AuthorData authorData:authorDataList){
 
             PaperAuthorInstiData paperAuthorInstiData = new PaperAuthorInstiData();
@@ -175,13 +176,13 @@ public class PaperAuthorProcess {
             //author
             String enName = authorData.getEnName();
 
-            double maxSimilar = 0.90;
+            double maxSimilar = 0.88;
             AuthorData authorDataRecord = null;
-            for(AuthorData dbAuthorData:dbAuthorList){
-                if(dbAuthorData.getEnLastName()==null||
-                        dbAuthorData.getEnFirstName()==null)continue;
 
-                String dbenName = dbAuthorData.getEnLastName()+" "+dbAuthorData.getEnFirstName();
+            for(AuthorData dbAuthorData:dbAuthorList){
+
+                String dbenName = dbAuthorData.getName();//.getEnLastName()+" "+dbAuthorData.getEnFirstName();
+
                 if(dbenName.equals(enName)){//find name in  author db data
                     authorDataRecord = dbAuthorData;//author id
                     maxSimilar=1;
@@ -205,10 +206,11 @@ public class PaperAuthorProcess {
                 inquireInfoData.setAuthorData(authorData);
                 Systemconfig.authorService.saveMerge(inquireInfoData);
                 authorDataRecord=authorData;
+                dbAuthorList.add(authorData);
             }
             if(authorDataRecord!=null) {
-                String dbenName = authorDataRecord.getEnLastName() + " "
-                        + authorDataRecord.getEnFirstName();
+                String dbenName = authorDataRecord.getEnName();//authorDataRecord.getEnLastName() + " "
+                        //+ authorDataRecord.getEnFirstName();
                 logger.info("paperid:"+paperMergeData.getId()+",name find in author table dbName:"
                         + dbenName + ",  enName:"+enName+",  maxSimilar:"+maxSimilar);
                 paperAuthorInstiData.setAuthorNameId(authorDataRecord.getId());
@@ -293,8 +295,10 @@ public class PaperAuthorProcess {
         List<InstitutionData> institutionDataList = null;
         if(authorType.equals(EnumType.AuthorType.REPRINT)){
             institutionDataList = paperMergeData.getReprintInstitutionDataList();
-        }else if(authorType.equals(EnumType.AuthorType.REPRINT)){
+        }else if(authorType.equals(EnumType.AuthorType.ORDINARY)){
             institutionDataList = paperMergeData.getInstitutionDataList();
+        }else {
+            logger.warn("error  AuthorType"+authorType.name());
         }
         if(institutionDataList==null){
             logger.warn("institutionDataList is null,authortype is "+authorType.name());
@@ -329,6 +333,7 @@ public class PaperAuthorProcess {
                 inquireInfoData.setTableName("institution");
                 inquireInfoData.setInstitutionData(institutionData);
                 Systemconfig.institutionService.saveMerge(inquireInfoData);
+                dbInstitutionDataList.add(institutionData);
                 institutionDataRecord=institutionData;
             }
             if(institutionDataRecord!=null){
@@ -471,7 +476,9 @@ public class PaperAuthorProcess {
                 enAuthorInstiExtract(paperMergeData, EnumType.AuthorType.ORDINARY);
                 enAuthorInstiExtract(paperMergeData, EnumType.AuthorType.REPRINT);
                 List<AuthorData> authorDataList = paperMergeData.getAuthorDataList();
-                authorDataList.addAll(paperMergeData.getReprintAuthorDataList());
+                if(paperMergeData.getReprintAuthorDataList()!=null) {
+                    authorDataList.addAll(paperMergeData.getReprintAuthorDataList());
+                }
 
                 for (AuthorData authorData : authorDataList) {
                     authorAllDataList.add(authorData);
@@ -624,7 +631,7 @@ public class PaperAuthorProcess {
             }
         }else if(type.equals("en")){
             for(AuthorData authorData:dbAuthorList){
-                String dbZhName= authorData.getEnLastName()+authorData.getEnFirstName();
+                String dbZhName= authorData.getName();//.getEnLastName()+authorData.getEnFirstName();
                 if(dbZhName.equals(authorInstiData.getAuthorEnName())||
                         EnAnalysis.getSimilarity(dbZhName,authorInstiData.getAuthorEnName())>0.95){
                     return authorData.getId();
@@ -713,11 +720,16 @@ public class PaperAuthorProcess {
         if(authorType.equals(EnumType.AuthorType.REPRINT)) {
             authorsStr = paperMergeData.getReprintAuthor();
             institutionsStr = paperMergeData.getReprintInstitution();
+            if(authorsStr==null||institutionsStr==null||authorsStr.length()<3){
+                paperMergeData.setReprintAuthorDataList(null);
+                paperMergeData.setReprintInstitutionDataList(null);
+                return ;
+            }
             paperMergeData.setReprintAuthorDataList(authorDataList);
             paperMergeData.setReprintInstitutionDataList(institutionDataList);
         }else if(authorType.equals(EnumType.AuthorType.ORDINARY)) {
-            authorsStr = paperMergeData.getReprintAuthor();
-            institutionsStr = paperMergeData.getReprintInstitution();
+            authorsStr = paperMergeData.getAuthors();
+            institutionsStr = paperMergeData.getInstitutions();
             paperMergeData.setAuthorDataList(authorDataList);
             paperMergeData.setInstitutionDataList(institutionDataList);
         }
@@ -760,8 +772,9 @@ public class PaperAuthorProcess {
             authorName_tmp=authorName_tmp.replaceAll("\\s+","").trim();
 
             //extract reprint author institution
-            if(authorName_tmp.contains("(reprint author)")&&authorType.equals(EnumType.AuthorType.REPRINT)) {
-                authorName_tmp = authorName_tmp.replace(("(reprint author)"), ("")).trim();
+            if(authorName_tmp.contains("reprint")&&authorType.equals(EnumType.AuthorType.REPRINT)) {
+                authorName_tmp = authorName_tmp.replaceAll(("\\(.*?\\)"), ("")).trim();
+                if(authorName_tmp.equals("")||authorName_tmp.length()==0)continue;
                 if(authorRecordMap.get(authorName_tmp)!=null){
                     AuthorData authorData=authorRecordMap.get(authorName_tmp);
                     authorData.getInstiIds().add(i+1);
@@ -772,8 +785,16 @@ public class PaperAuthorProcess {
                     authorData.setName(authorName_tmp);
                     authorData.setRank(i+1);
                     authorData.setAuthorType(authorType);
+                    authorData.setInstiIds(new ArrayList<Integer>());
+                    authorData.getInstiIds().add(i+1);
+                    PaperInfoProcess.enAuthorProcess(authorData);
+
+                    if(authorData.getEnName()==null){
+                        logger.error(authorData);
+                    }
                     authorDataList.add(authorData);
                 }
+
                 continue;
             }
             //extract ordinary author institution

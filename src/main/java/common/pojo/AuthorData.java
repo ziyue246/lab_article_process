@@ -226,4 +226,35 @@ public class AuthorData {
     public void setAbbName(String abbName) {
         this.abbName = abbName;
     }
+
+
+    @Override
+    public String toString() {
+        return "AuthorData{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", rank=" + rank +
+                ", zhName='" + zhName + '\'' +
+                ", enName='" + enName + '\'' +
+                ", abbName='" + abbName + '\'' +
+                ", institution='" + institution + '\'' +
+                ", weight=" + weight +
+                ", titles='" + titles + '\'' +
+                ", status=" + status +
+                ", originIds='" + originIds + '\'' +
+                ", instiIds=" + instiIds +
+                ", instiCountMap=" + instiCountMap +
+                ", avatar='" + avatar + '\'' +
+                ", zhLastName='" + zhLastName + '\'' +
+                ", zhFirstName='" + zhFirstName + '\'' +
+                ", enLastName='" + enLastName + '\'' +
+                ", enFirstName='" + enFirstName + '\'' +
+                ", enFirstNameShort='" + enFirstNameShort + '\'' +
+                ", aliasName='" + aliasName + '\'' +
+                ", email='" + email + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", insertTime='" + insertTime + '\'' +
+                ", authorType=" + authorType +
+                '}';
+    }
 }

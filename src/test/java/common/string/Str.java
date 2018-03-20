@@ -183,7 +183,7 @@ public class Str {
 
         System.out.println(astr.contains("reprint author"));
 
-        System.out.println(astr.contains("(reprint author)"));
+        System.out.println("tttt"+astr.contains("(reprint author)"));
 
 
         System.out.println(EnumType.AuthorType.REPRINT.equals(test351511(EnumType.AuthorType.REPRINT)));
@@ -193,12 +193,37 @@ public class Str {
         System.out.println(EnumType.AuthorType.REPRINT.getName());
         System.out.println(EnumType.AuthorType.REPRINT.getIndex());
 
-        (new Systemconfig()).initial();
+
+        System.out.println("***"+astr.replaceAll(("\\(.*?\\)"),(""))
+                .replaceAll(("\\s+"),("")).trim());
+
+
+
+        System.out.println("***"+astr.replaceAll(("\\(.*?\\)"),(""))
+                .replaceAll(("\\s+"),("")).trim());
 
     }
 
     public EnumType.AuthorType test351511(EnumType.AuthorType authorType){
         return authorType;
     }
+
+
+
+
+    @Test
+    public void test3515111(){
+
+
+
+        String stra="PH,Courn¨¨de";
+
+        String strb="PH,Cournede";
+
+
+        System.out.println(strb.replace("¨¨","e"));
+
+    }
+
 
 }

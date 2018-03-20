@@ -16,6 +16,20 @@ public class InquireInfoData {
     private int lenth;//search start id + lenth
 
 
+    @Override
+    public String toString() {
+        return "InquireInfoData{" +
+                "\ntableName='" + tableName + '\'' +
+                ",\n searchId='" + searchId + '\'' +
+                ",\n searchStart=" + searchStart +
+                ",\n searchEnd=" + searchEnd +
+                ",\n startId=" + startId +
+                ",\n lenth=" + lenth +
+                ",\n institutionData=" + institutionData +
+                ",\n authorData=" + authorData +
+                '}';
+    }
+
     public String getTableName() {
         return tableName;
     }
