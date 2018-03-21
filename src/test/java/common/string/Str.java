@@ -43,8 +43,8 @@ public class Str {
 
     @Test
     public void test5(){
-        String str= "Äã²ÂÎÒÊÇË­Ë­Ë­";
-        String str2= "Íõ·ÉÔ¾";
+        String str= "ä½ çŒœæˆ‘æ˜¯è°è°è°";
+        String str2= "ç‹é£è·ƒ";
 
         System.out.println(StringProcess.toHanyuPinyin(str2));
     }
@@ -133,7 +133,7 @@ public class Str {
         AppContext.initial();
 
 
-        String astr="Improving the Critic Learning for Event-Based Nonlinear H¡ŞControl Design";
+        String astr="Improving the Critic Learning for Event-Based Nonlinear HâˆControl Design";
         String bstr="Improving the critic learning for event-based nonlinear h-infinity control design";
 
 
@@ -216,14 +216,33 @@ public class Str {
 
 
 
-        String stra="PH,Courn¨¨de";
+        String stra="PH,CournÃ¨de";
 
         String strb="PH,Cournede";
 
 
-        System.out.println(strb.replace("¨¨","e"));
+        System.out.println(strb.replace("Ã¨","e"));
 
     }
+
+
+
+
+    @Test
+    public void test35122111(){
+
+
+
+        String stra="å±‚ï¼Œæ›¾å­™";
+
+        String strb="PH,Cournede";
+
+        System.out.println(StringProcess.toHanyuPinyin(stra));
+        System.out.println(strb.replace("Ã¨","e"));
+
+    }
+
+
 
 
 }
