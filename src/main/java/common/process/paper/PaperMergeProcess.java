@@ -3,7 +3,7 @@ package common.process.paper;
 import common.analysis.EnAnalysis;
 import common.analysis.ZhAnalysis;
 import common.pojo.*;
-//import common.system.OperationExcel;
+import common.system.OperationExcel;
 import common.system.Systemconfig;
 import org.apache.log4j.Logger;
 
@@ -79,8 +79,8 @@ public class PaperMergeProcess {
                     paperMergeData.setSciRefer(paperData.getCiteNum());
                     paperMergeData.setSciDataId(paperData.getId());
                     paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.SCI);
-                    //String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
-                    //paperMergeData.setFormatStr(formatStr);
+                    String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
+                    paperMergeData.setFormatStr(formatStr);
                 }
                 if(type.toLowerCase().contains("ei")) {
                     paperMergeData.setInEi(1);
@@ -88,10 +88,10 @@ public class PaperMergeProcess {
                     paperMergeData.setEiRefer(paperData.getCiteNum());
                     paperMergeData.setEiDataId(paperData.getId());
                     paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.EI);
-//                    if(paperMergeData.getInSci()!=1){
-//                        String formatStr = OperationExcel.dealEiArticle(paperData,null,null,null,null);
-//                        paperMergeData.setFormatStr(formatStr);
-//                    }
+                    if(paperMergeData.getInSci()!=1){
+                        String formatStr = OperationExcel.dealEiArticle(paperData,null,null,null,null);
+                        paperMergeData.setFormatStr(formatStr);
+                    }
                 }
                 return;
             }
@@ -120,8 +120,8 @@ public class PaperMergeProcess {
                     paperMergeData.setCnkiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
                     paperMergeData.setCnkiDataId(paperData.getId());
                     paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.CNKI);
-                    //String formatStr = OperationExcel.dealCnkiArticle(paperData,null,null,null,null);
-                    //paperMergeData.setFormatStr(formatStr);
+                    String formatStr = OperationExcel.dealCnkiArticle(paperData,null,null,null,null);
+                    paperMergeData.setFormatStr(formatStr);
                 }
                 return;
             }
@@ -209,8 +209,8 @@ public class PaperMergeProcess {
             paperMergeData.setSciDataId(paperData.getId());
 
             paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.SCI);
-            //String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
-            //paperMergeData.setFormatStr(formatStr);
+            String formatStr = OperationExcel.dealSciArticle(paperData,null,null,null,null);
+            paperMergeData.setFormatStr(formatStr);
         }
         if(type.toLowerCase().contains("ei")) {
             paperMergeData.setInEi(1);
@@ -218,10 +218,10 @@ public class PaperMergeProcess {
             paperMergeData.setEiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setEiDataId(paperData.getId());
             paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.EI);
-            //if(paperMergeData.getInSci()!=1){
-                //String formatStr = OperationExcel.dealEiArticle(paperData,null,null,null,null);
-                //paperMergeData.setFormatStr(formatStr);
-            //}
+            if(paperMergeData.getInSci()!=1){
+                String formatStr = OperationExcel.dealEiArticle(paperData,null,null,null,null);
+                paperMergeData.setFormatStr(formatStr);
+            }
         }
         if(type.toLowerCase().contains("cnki")) {
             paperMergeData.setInCnki(1);
@@ -229,8 +229,8 @@ public class PaperMergeProcess {
             paperMergeData.setCnkiRefer(paperData.getCiteNum()<0?0:paperData.getCiteNum());
             paperMergeData.setCnkiDataId(paperData.getId());
             paperMergeDataUpdate(paperMergeData,paperData, EnumType.DBData.CNKI);
-            //String formatStr = OperationExcel.dealCnkiArticle(paperData,null,null,null,null);
-            //paperMergeData.setFormatStr(formatStr);
+            String formatStr = OperationExcel.dealCnkiArticle(paperData,null,null,null,null);
+            paperMergeData.setFormatStr(formatStr);
         }
         return paperMergeData;
     }

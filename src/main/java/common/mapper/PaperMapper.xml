@@ -167,7 +167,7 @@
         cnki_down,
         cnki_refer,
         cnki_data_id,
-
+        format_str,
         document_type,
         update_time
 
@@ -212,7 +212,7 @@
         #{CnkiDown,jdbcType=NUMERIC},
         #{CnkiRefer,jdbcType=NUMERIC},
         #{CnkiDataId,jdbcType=NUMERIC},
-
+        #{formatStr,jdbcType=VARCHAR},
         #{documentType,jdbcType=NUMERIC},
         now()
         )
@@ -257,7 +257,7 @@
         cnki_down=#{CnkiDown,jdbcType=NUMERIC},
         cnki_refer=#{CnkiRefer,jdbcType=NUMERIC},
         cnki_data_id=#{CnkiDataId,jdbcType=NUMERIC},
-
+        format_str=#{formatStr,jdbcType=VARCHAR},
         document_type=#{documentType,jdbcType=NUMERIC},
         update_time=now()
         where id=#{id,jdbcType=NUMERIC}
