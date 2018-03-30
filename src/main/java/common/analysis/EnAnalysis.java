@@ -14,13 +14,6 @@ public class EnAnalysis {
 
     public static double getSimilarity(String aStr,String bStrs) {
 
-        if((aStr.contains("infinity")||bStrs.contains("infinity"))
-
-        &&(aStr.contains("Improving the Critic Learning")&&
-                (bStrs.contains("Improving the Critic Learning")   ))){
-            logger.info(aStr);
-        }
-
 
         double maxSimilarity = getOneStrSimilarity(aStr,bStrs);
         if(bStrs.contains(";")){
@@ -43,11 +36,15 @@ public class EnAnalysis {
         for(String key:keySet){
             if(aStr.contains(key)||bStr.contains(key)){
 
+                logger.info("before escapeCharacter: aStr"+aStr+"\tbStr:"+bStr);
+
                 List<String> values = Systemconfig.escapeCharacterMap.get(key);
                 for(String value:values){
 
                     String aStr_tmp = aStr.replace(key,value);
                     String bStr_tmp = bStr.replace(key,value);
+                    logger.info("after escapeCharacter: aStr"+aStr_tmp+"\tbStr:"+bStr_tmp);
+
                     double maxSimilarity_tmp =  getOneSimilarity(aStr_tmp,bStr_tmp);
                     if(maxSimilarity_tmp>maxSimilarity){
                         maxSimilarity=maxSimilarity_tmp;
