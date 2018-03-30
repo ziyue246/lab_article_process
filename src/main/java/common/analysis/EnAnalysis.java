@@ -2,6 +2,7 @@ package common.analysis;
 
 import common.system.FileOperation;
 import common.system.Systemconfig;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
@@ -9,8 +10,19 @@ import java.util.Set;
 
 public class EnAnalysis {
 
+    private static Logger logger = Logger.getLogger(EnAnalysis.class);
+
     public static double getSimilarity(String aStr,String bStrs) {
-        double maxSimilarity = getOneSimilarity(aStr,bStrs);
+
+        if((aStr.contains("infinity")||bStrs.contains("infinity"))
+
+        &&(aStr.contains("Improving the Critic Learning")&&
+                (bStrs.contains("Improving the Critic Learning")   ))){
+            logger.info(aStr);
+        }
+
+
+        double maxSimilarity = getOneStrSimilarity(aStr,bStrs);
         if(bStrs.contains(";")){
             String []strs = bStrs.split(";");
             for(String str:strs){

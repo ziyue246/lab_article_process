@@ -25,10 +25,10 @@ public class StartMain {
 //        instiMergeProcess.process();
 //        AuthorMergeProcess authorMergeProcess = new AuthorMergeProcess();
 //        authorMergeProcess.process();
-        PaperMergeProcess paperMergeProcess = new PaperMergeProcess();
-        paperMergeProcess.process();
-//        PaperAuthorProcess paperAuthorProcess = new PaperAuthorProcess();
-//        paperAuthorProcess.process();
+//        PaperMergeProcess paperMergeProcess = new PaperMergeProcess();
+//        paperMergeProcess.process();
+        PaperAuthorProcess paperAuthorProcess = new PaperAuthorProcess();
+        paperAuthorProcess.process();
 
         logger.info("Over...");
     }
