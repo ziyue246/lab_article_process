@@ -108,4 +108,22 @@ public class StringProcess {
             return false;
 
     }
+
+    public static String Str2Utf8(String srcStr){
+        try{
+            String descStr = new String(srcStr.getBytes("gbk"),"utf-8");
+            if(descStr.equals(srcStr)){
+                return descStr;
+            }
+            descStr = new String(srcStr.getBytes("gb2312"),"utf-8");
+
+            if(descStr.equals(srcStr)){
+                return descStr;
+            }
+            return  srcStr;
+        }catch (Exception e){
+            logger.info(e.getMessage());
+        }
+        return srcStr;
+    }
 }

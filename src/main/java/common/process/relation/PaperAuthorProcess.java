@@ -547,7 +547,7 @@ public class PaperAuthorProcess {
         for(String authorName : authorNameSet){
 
             if(fzNameSet.contains(authorName)){
-                String fzZhStr = "¸´ÔÓÏµÍ³¹ÜÀíÓë¿ØÖÆ¹ú¼ÒÖØµãÊµÑéÊÒ";
+                String fzZhStr = "å¤æ‚ç³»ç»Ÿç®¡ç†ä¸æ§åˆ¶å›½å®¶é‡ç‚¹å®éªŒå®¤";
                 String fzEnStr = "State Key Laboratory of Management and Control for Complex Systems";
                 if(StringProcess.isChinese(authorName)){
                     if(authorInstiCountMap.get(authorName).get(fzZhStr)==null){
@@ -562,7 +562,7 @@ public class PaperAuthorProcess {
             }
             if(qdNameSet.contains(authorName)){
 
-                String qdZhStr = "ÇàµºÖÇÄÜ²úÒµ¼¼ÊõÑĞ¾¿Ôº";
+                String qdZhStr = "é’å²›æ™ºèƒ½äº§ä¸šæŠ€æœ¯ç ”ç©¶é™¢";
                 String qdEnStr = "Qingdao Academy of Intelligent Industries";
                 if(StringProcess.isChinese(authorName)){
                     if(authorInstiCountMap.get(authorName).get(qdZhStr)==null){
@@ -644,7 +644,7 @@ public class PaperAuthorProcess {
 
 
     /**
-     * ³éÈ¡ÖĞÎÄ×÷Õß»ú¹¹¹ØÏµÁĞ±í
+     * æŠ½å–ä¸­æ–‡ä½œè€…æœºæ„å…³ç³»åˆ—è¡¨
      * @param paperMergeData
      * @return
      */
@@ -662,7 +662,7 @@ public class PaperAuthorProcess {
 
             for(int i=0;i<institutionsStrs.length;i++){
                 String institution_tmp=institutionsStrs[i].trim();
-                institution_tmp = PaperInfoProcess.getZhAbbInstitution(institution_tmp,"¡¢");
+                institution_tmp = PaperInfoProcess.getZhAbbInstitution(institution_tmp,"ã€");
                 InstitutionData institutionData = new InstitutionData();
                 institutionData.setNameZh(institution_tmp);
                 institutionData.setRank(1+i);
@@ -705,7 +705,7 @@ public class PaperAuthorProcess {
     }
 
     /**
-     *³éÈ¡Ó¢ÎÄ×÷Õß»ú¹¹¹ØÏµÁĞ±í
+     *æŠ½å–è‹±æ–‡ä½œè€…æœºæ„å…³ç³»åˆ—è¡¨
      * @param paperMergeData
      * @return
      */

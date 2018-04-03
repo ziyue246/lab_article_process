@@ -244,5 +244,35 @@ public class Str {
 
 
 
+    @Test
+    public void test35122111234() throws Exception{
+
+
+
+        String institution="中国科学院自动化研究所复杂系统管理与控制国家重点实验室";
+
+        if((institution.contains("自动化研究所"))&&
+                institution.contains("复杂")&&
+                institution.contains("控制")&&institution.contains("国家重点")){
+            String result="复杂系统管理与控制国家重点实验室";
+            System.out.println(result);
+        }
+
+        String str = "string转为utf-8";
+
+        //str = new String(str.getBytes("ISO-8859-1"),"utf-8");
+
+        System.out.println(str);
+
+        String str1=  new String(str.getBytes("utf-8"),"utf-8");
+        System.out.println(str1);
+
+        if(str1.equals(str)){
+            System.out.println("UTF-8");
+        }else{
+            System.out.println("GBK");
+        }
+    }
+
 
 }

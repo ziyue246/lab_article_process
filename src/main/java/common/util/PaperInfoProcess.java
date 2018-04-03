@@ -109,28 +109,39 @@ public class PaperInfoProcess {
 
     public  static String getZhAbbInstitution(String institution,String splitMark){
 
+        splitMark = StringProcess.Str2Utf8(splitMark);
+
         institution = institution.replace("&","and");
         String []inss= institution.split(splitMark);
 
 
         String result=inss[0];
         for(String ins:inss){
-            if(ins.contains("´óÑ§")){
-                result= ins.substring(0,ins.indexOf("´óÑ§")+2);
-            }else if(ins.contains("ÖĞ¹ú¿ÆÑ§Ôº")){
-                result="ÖĞ¹ú¿ÆÑ§Ôº";
-            }else if(ins.contains("ÑĞ¾¿Ôº")){
-                result= ins.substring(0,ins.indexOf("ÑĞ¾¿Ôº")+3);
-            }
-            if((institution.contains("×Ô¶¯»¯ÑĞ¾¿Ëù"))&&
-                    institution.contains("¸´ÔÓ")&&
-                    institution.contains("¿ØÖÆ")&&institution.contains("¹ú¼ÒÖØµã")){
-                result="¸´ÔÓÏµÍ³¹ÜÀíÓë¿ØÖÆ¹ú¼ÒÖØµãÊµÑéÊÒ";
-                break;
-            }//ÇàµºÖÇÄÜ²úÒµ¼¼ÊõÑĞ¾¿Ôº
-            if((institution.contains("ÇàµºÖÇÄÜ²úÒµ¼¼ÊõÑĞ¾¿Ôº"))){
-                result="ÇàµºÖÇÄÜ²úÒµ¼¼ÊõÑĞ¾¿Ôº";
-                break;
+
+            try{
+                if(ins.contains("å¤§å­¦")){
+                    result= ins.substring(0,ins.indexOf("å¤§å­¦")+2);
+                }else if(ins.contains("ä¸­å›½ç§‘å­¦é™¢")){
+                    result="ä¸­å›½ç§‘å­¦é™¢";
+                }else if(ins.contains("ç ”ç©¶é™¢")){
+                    result= ins.substring(0,ins.indexOf("ç ”ç©¶é™¢")+3);
+                }//ä¸­å›½ç§‘å­¦é™¢è‡ªåŠ¨åŒ–ç ”ç©¶æ‰€å¤æ‚ç³»ç»Ÿç®¡ç†ä¸æ§åˆ¶å›½å®¶é‡ç‚¹å®éªŒå®¤;é’å²›æ™ºèƒ½äº§ä¸šæŠ€æœ¯ç ”ç©¶é™¢æ™ºæ…§æ•™è‚²ç ”ç©¶æ‰€;ä¸­å›½ç§‘å­¦é™¢å¤§å­¦;åŒ—æ–¹è‡ªåŠ¨æ§åˆ¶æŠ€æœ¯ç ”ç©¶æ‰€;ä¸­å›½æŒ‡æŒ¥ä¸æ§åˆ¶å­¦ä¼š
+                institution = StringProcess.Str2Utf8(institution);
+
+
+                if(institution.contains( StringProcess.Str2Utf8("è‡ªåŠ¨åŒ–ç ”ç©¶æ‰€"))&&
+                        institution.contains(StringProcess.Str2Utf8("å¤æ‚"))&&
+                        institution.contains(StringProcess.Str2Utf8("æ§åˆ¶"))&&
+                        institution.contains(StringProcess.Str2Utf8("å›½å®¶é‡ç‚¹"))){
+                    result =  StringProcess.Str2Utf8("å¤æ‚ç³»ç»Ÿç®¡ç†ä¸æ§åˆ¶å›½å®¶é‡ç‚¹å®éªŒå®¤");
+                    break;
+                }//é’å²›æ™ºèƒ½äº§ä¸šæŠ€æœ¯ç ”ç©¶é™¢
+                if((institution.contains("é’å²›æ™ºèƒ½äº§ä¸šæŠ€æœ¯ç ”ç©¶é™¢"))){
+                    result="é’å²›æ™ºèƒ½äº§ä¸šæŠ€æœ¯ç ”ç©¶é™¢";
+                    break;
+                }
+            }catch (Exception e){
+
             }
         }
         return result;
@@ -142,7 +153,7 @@ public class PaperInfoProcess {
         String []inss= institution.split(splitMark);
 
 
-        //½ØÈ¡»ú¹¹²¿·Ö£»
+        //æˆªå–æœºæ„éƒ¨åˆ†ï¼›
         String result=inss[0];
         for(String ins:inss){
             if(ins.contains("University")||ins.contains("Univ ")||
@@ -188,7 +199,7 @@ public class PaperInfoProcess {
                 break;
             }
         }
-        //¶Ô»ú¹¹²¿·Ö½øĞĞÕûÀí
+        //å¯¹æœºæ„éƒ¨åˆ†è¿›è¡Œæ•´ç†
         result=result.trim();
         result = result.replaceAll("\\(.*?\\)","");
         result = result.replaceAll("\\[.*?\\]","");
