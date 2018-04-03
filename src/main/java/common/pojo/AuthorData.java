@@ -16,8 +16,8 @@ public class AuthorData {
     private String institution;
     private int weight;
     private String titles;
-    private int status;//1:正常未修改，-1：不存入数据库
-    private String originIds;//在原始表中的ids
+    private int status;
+    private String originIds;
     private List<Integer> instiIds;
 
     private Map<String,Integer> instiCountMap = new HashMap<String, Integer>();

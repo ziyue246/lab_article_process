@@ -20,12 +20,12 @@ public class ZhAnalysis {
 
     private static Vector<String> participle( String str ) {
 
-        Vector<String> vector = new Vector<String>();//¶ÔÊäÈë½øÐÐ·Ö´Ê
+        Vector<String> vector = new Vector<String>();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð·Ö´ï¿½
 
         try {
 
             StringReader reader = new StringReader(str);
-            IKSegmenter ik = new IKSegmenter(reader, true);//µ±ÎªtrueÊ±£¬·Ö´ÊÆ÷½øÐÐ×î´ó´Ê³¤ÇÐ·Ö
+            IKSegmenter ik = new IKSegmenter(reader, true);//ï¿½ï¿½ÎªtrueÊ±ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê³ï¿½ï¿½Ð·ï¿½
             Lexeme lexeme = null;
 
             while ((lexeme = ik.next()) != null) {
@@ -44,7 +44,7 @@ public class ZhAnalysis {
 
 
     /**
-     * ²ÉÓÃÓàÏÒ¶¨Àí¼ÆËãÏàËÆ¶È
+     *  calculate chinese similarity
      * @param str1
      * @param str2
      * @return
@@ -62,15 +62,15 @@ public class ZhAnalysis {
 
             Map<String, double[]> T = new HashMap<String, double[]>();
 
-            //T1ºÍT2µÄ²¢¼¯T
+
             String index = null ;
             for ( int i = 0 ; i < size ; i++ ) {
                 index = T1.get(i) ;
                 if( index != null){
                     double[] c = T.get(index);
                     c = new double[2];
-                    c[0] = 1;	//T1µÄÓïÒå·ÖÊýCi
-                    c[1] = YUZHI;//T2µÄÓïÒå·ÖÊýCi
+                    c[0] = 1;
+                    c[1] = YUZHI;
                     T.put( index, c );
                 }
             }
@@ -80,28 +80,28 @@ public class ZhAnalysis {
                 if( index != null ){
                     double[] c = T.get( index );
                     if( c != null && c.length == 2 ){
-                        c[1] = 1; //T2ÖÐÒ²´æÔÚ£¬T2µÄÓïÒå·ÖÊý=1
+                        c[1] = 1;
                     }else {
                         c = new double[2];
-                        c[0] = YUZHI; //T1µÄÓïÒå·ÖÊýCi
-                        c[1] = 1; //T2µÄÓïÒå·ÖÊýCi
+                        c[0] = YUZHI;
+                        c[1] = 1;
                         T.put( index , c );
                     }
                 }
             }
-            //¿ªÊ¼¼ÆËã£¬°Ù·Ö±È
+
             Iterator<String> it = T.keySet().iterator();
-            double s1 = 0 , s2 = 0, Ssum = 0;  //S1¡¢S2
+            double s1 = 0 , s2 = 0, Ssum = 0;  //S1ï¿½ï¿½S2
             while( it.hasNext() ){
                 double[] c = T.get( it.next() );
                 Ssum += c[0]*c[1];
                 s1 += c[0]*c[0];
                 s2 += c[1]*c[1];
             }
-            //°Ù·Ö±È
+            //ï¿½Ù·Ö±ï¿½
             return Ssum / Math.sqrt( s1*s2 );
         } else {
-            logger.error("´«Èë²ÎÊýÓÐÎÊÌâ£¡");
+            logger.error("src is error");
         }
         return 0;
     }

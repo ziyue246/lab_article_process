@@ -44,7 +44,7 @@ public class AuthorProcess {
 
     public HashMap<String,AuthorData> extract(List<PaperData> paperDataList) {
 
-        //粗合并，名称相同即合并
+
         HashMap<String,AuthorData> authorDataHashMap = new HashMap<String, AuthorData>();
         for(PaperData paperData:paperDataList){
             List<AuthorData> authorDataList = paperData.getAuthorDataList();
@@ -62,7 +62,7 @@ public class AuthorProcess {
             }
 
         }
-        //细合并，计算相似度合并
+
         List<String> authorNameKeyList = new ArrayList<String>(authorDataHashMap.keySet());
         for(int i=0;i<authorNameKeyList.size();i++){
             String authorNamei = authorNameKeyList.get(i);
@@ -97,7 +97,7 @@ public class AuthorProcess {
         }
 
         return authorDataHashMap;
-//        //保存数据库
+//
 //        Set<String> authorNameKeySet=authorDataHashMap.keySet();
 //        logger.info("tatol author datas size:"+authorNameKeySet.size());
 //        for(String authorName:authorNameKeySet){

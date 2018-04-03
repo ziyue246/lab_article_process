@@ -29,8 +29,8 @@ public class EnAnalysis {
     }
 
     public static double getOneStrSimilarity(String aStr,String bStr){
-        aStr=aStr.replace("ии","e");
-        bStr=bStr.replace("ии","e");
+        aStr=aStr.replace("├й","e");
+        bStr=bStr.replace("├й","e");
         double maxSimilarity = getOneSimilarity(aStr,bStr);
         Set<String> keySet = Systemconfig.escapeCharacterMap.keySet();
         for(String key:keySet){

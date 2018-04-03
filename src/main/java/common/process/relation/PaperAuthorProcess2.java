@@ -136,7 +136,7 @@ public class PaperAuthorProcess2 {
 
 
     /**
-     * 抽取中文作者机构关系列表
+     *
      * @param paperMergeData
      * @return
      */
@@ -179,7 +179,7 @@ public class PaperAuthorProcess2 {
     }
 
     /**
-     *抽取英文作者机构关系列表
+     *
      * @param paperMergeData
      * @return
      */
@@ -230,7 +230,7 @@ public class PaperAuthorProcess2 {
             }
             List<String> institutionListInAuthor = new ArrayList<String>();
             if(authorInstiList==null){
-                logger.info("paper:"+paperMergeData.getTitle()+" author:"+authorName_tmp+" 有可能是通信作者");
+                logger.info("paper:"+paperMergeData.getTitle()+" author:"+authorName_tmp+" ");
             }else {
                 for (int index : authorInstiList) {
 
@@ -254,7 +254,7 @@ public class PaperAuthorProcess2 {
         String []inss= institution.split(splitMark);
 
 
-        //截取机构部分；
+
         String result=inss[0];
         for(String ins:inss){
             if(ins.contains("University")||ins.contains("Univ ")||
@@ -283,7 +283,7 @@ public class PaperAuthorProcess2 {
                 break;
             }
         }
-        //对机构部分进行整理
+
         result = result.replaceAll("\\(.*?\\)","");
         result = result.replaceAll("\\[.*?\\]","");
         if(result.contains(";")){

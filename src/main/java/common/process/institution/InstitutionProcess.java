@@ -37,7 +37,7 @@ public class InstitutionProcess {
             if(paperData.getAddress()==null)continue;
             String []addresss = paperData.getAddress().split(splitMain);
             List<InstitutionData> institutionDataList =new ArrayList<InstitutionData>();
-            paperData.setInstitutionDataList(institutionDataList);//当前文章机构列表
+            paperData.setInstitutionDataList(institutionDataList);//锟斤拷前锟斤拷锟铰伙拷锟斤拷锟叫憋拷
             for(String address:addresss){
                 //address = address.replaceAll("\\s*","").trim();
                 if(address.contains("]")){
@@ -66,7 +66,7 @@ public class InstitutionProcess {
         String []inss= institution.split(splitMark);
 
 
-        //截取机构部分；
+
         String result=inss[0];
         for(String ins:inss){
             if(ins.contains("University")||ins.contains("Univ ")||
@@ -98,7 +98,7 @@ public class InstitutionProcess {
                 break;
             }
         }
-        //对机构部分进行整理
+
         result = result.replaceAll("\\(.+\\)","");
         if(result.contains(";")){
             result = result.split(";")[0].trim();
@@ -136,7 +136,7 @@ public class InstitutionProcess {
     public HashMap<String,InstitutionData>  extractMerge(List<PaperData> paperDataList){
 
 
-        //粗合并，名称相同即合并
+
         HashMap<String,InstitutionData>  institutionDataHashMap = new HashMap<String, InstitutionData>();
         for(PaperData paperData:paperDataList){
             List<InstitutionData> institutionDataList = paperData.getInstitutionDataList();
@@ -154,7 +154,7 @@ public class InstitutionProcess {
 
         }
 
-        //细合并，计算相似度合并
+
         List<String> instiNameKeyList = new ArrayList<String>(institutionDataHashMap.keySet());
         for(int i=0;i<instiNameKeyList.size();i++){
             String instiNamei = instiNameKeyList.get(i);
@@ -193,7 +193,7 @@ public class InstitutionProcess {
 
 
     /**
-     * 修正文章列表中采用similarity方法后的机构名称
+     * similarity
      * @param paperDataList
      * @param institutionDataHashMap
      */

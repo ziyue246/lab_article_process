@@ -160,8 +160,8 @@ public class PaperMergeProcess {
         if(paperMergeData.getCategory()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setCategory(paperData.getCategory());
         if(paperMergeData.getCategoryCode()==null||dbData.equals(EnumType.DBData.SCI))paperMergeData.setCategoryCode(paperData.getCategoryCode());
 
-        //        -1:null(ei中该字段为空)
-        //        0:other(未定义)
+        //        -1:null()
+        //        0:other()
         //        1:Conference article (CA)
         //        2:Journal article (JA)
         //        3:Article in Press
